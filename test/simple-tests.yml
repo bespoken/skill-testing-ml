@@ -1,0 +1,19 @@
+# A simple example of skill test suite
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - response.outputSpeech.ssml == "Here's your fact:*" # A comment
+  - repsonse.reprompt == undefined
+  - repsonse.card.content =~ /.*/ # =~ means a regular expression match
+
+---
+- test: "Gets a new fact intent"
+- "Get New Facts":
+  - response.outputSpeech.ssml == "Here's your fact:*" # Wildcard matches anything
+  - response.card.title == "Space Facts" # == means exact match
+  - response.card.content != undefined # Checks that content is specified
+

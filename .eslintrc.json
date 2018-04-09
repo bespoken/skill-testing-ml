@@ -1,0 +1,53 @@
+{
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true,
+        "jest/globals": true,
+        "node": true
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "plugins": [
+        "jest", "sort-class-members", "sort-requires", "spellcheck"
+    ],
+    "rules": {
+        "quotes": ["error", "double"],
+        "sort-class-members/sort-class-members": [2, {
+            "order": [
+                "[static-properties]",
+                "[static-methods]",
+                "[properties]",
+                "[conventional-private-properties]",
+                "constructor",
+                "[methods]",
+                "[conventional-private-methods]"
+            ],
+            "accessorPairPositioning": "getThenSet"
+        }],
+        "sort-keys": ["error", "asc", {"caseSensitive": true, "natural": false}],
+        "sort-requires/sort-requires": 2,
+        "spellcheck/spell-checker": [2,
+            {
+                "comments": true,
+                "strings": true,
+                "identifiers": true,
+                "lang": "en_US",
+                "skipWords": [
+                    "fs",
+                    "js",
+                    "lodash",
+                    "metadata",
+                    "utf8",
+                    "yaml"
+                ],
+                "skipIfMatch": [
+                    "http://[^s]*",
+                    "https://[^s]*",
+                    "^[-\\w]+\/[-\\w\\.]+$" //For MIME Types
+                ]
+            }
+        ]
+
+    }
+}
