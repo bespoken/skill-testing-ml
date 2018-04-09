@@ -38,6 +38,7 @@
                     "js",
                     "lodash",
                     "metadata",
+                    "ssml",
                     "utf8",
                     "yaml"
                 ],

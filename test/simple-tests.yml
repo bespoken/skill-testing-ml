@@ -17,3 +17,10 @@ configuration:
   - response.card.title == "Space Facts" # == means exact match
   - response.card.content != undefined # Checks that content is specified
 
+#---
+#- test: "Gets a new fact intent with lots of extra spaces"
+#- "Get New Facts":
+#  - response.outputSpeech.ssml  ==    "Here's  your fact:*" # Wildcard matches anything
+#  - response.card.title == "Space Facts" # == means exact match
+#  - response.card.content != undefined # Checks that content is specified
+
