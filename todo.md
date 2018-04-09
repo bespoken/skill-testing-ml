@@ -1,0 +1,4 @@
+- [ ] Add assertion validator
+- [ ] Hook up to first skill to test
+- [ ] Add request expressions
+- [ ] Add explicit intent execution
