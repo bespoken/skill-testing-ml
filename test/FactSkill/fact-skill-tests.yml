@@ -16,5 +16,3 @@ configuration:
   - response.outputSpeech.ssml == "Here's your fact:*"
   -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
-
-

@@ -32,4 +32,16 @@ describe("test parser", () => {
         expect(secondAssertion.operator).toEqual("==");
         expect(secondAssertion.valueAsString()).toEqual("Space Facts");
     });
+
+    test("parses simple test file with bad assertion", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - response === "Here's your fact:*"    
+        `)
+        expect(() => {
+            parser.parse();
+        }).toThrowError("Invalid operator: ===");
+    });
 });

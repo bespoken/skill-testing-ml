@@ -1,0 +1,19 @@
+{
+  "coverageDirectory": "./coverage/",
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "**/*.js",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "yml"
+  ],
+  "silent": false,
+  "testRegex": "yml",
+  "testRunner": "../../lib/JestTestRunner.js",
+  "verbose": true
+}
