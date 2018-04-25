@@ -6,13 +6,13 @@ configuration:
 --- # The --- indicates the start of a new test, which is a self-contained YAML document
 - test: "Launches successfully" # Optional info about the test
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
-  - 5 == "Here's your fact:*" # A comment
-  - repsonse.reprompt == undefined
+  - response.outputSpeech == "Here's your fact:*" # A comment
+  - response.reprompt == undefined
   - repsonse.card.content =~ /.*/ # =~ means a regular expression match
 
 ---
 - test: "Gets a new fact intent"
 - "Get New Facts":
   - response.outputSpeech.ssml == "Here's your fact:*"
-  -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
+  - response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
