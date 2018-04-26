@@ -12,7 +12,7 @@ configuration:
 ---
 - test: "Gets a new fact intent"
 - "Help":
-  - response.outputSpeech.ssml == "Help"
+  - response.outputSpeech.ssml =~ .*You can say.*
 - "Get New Facts":
   - response.outputSpeech.ssml =~ "Here's your fact:.*"
   - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly
