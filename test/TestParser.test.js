@@ -24,13 +24,12 @@ describe("test parser", () => {
         const firstAssertion = secondTest.interactions[0].assertions[0];
         expect(firstAssertion.path).toEqual("response.outputSpeech.ssml");
         expect(firstAssertion.operator).toEqual("==");
-        expect(firstAssertion.value).toEqual("\"Here's your fact:*\"");
-        expect(firstAssertion.valueAsString()).toEqual("Here's your fact:*");
+        expect(firstAssertion.value).toEqual("Here's your fact:*");
 
         const secondAssertion = secondTest.interactions[0].assertions[1];
         expect(secondAssertion.path).toEqual("response.card.title");
         expect(secondAssertion.operator).toEqual("==");
-        expect(secondAssertion.valueAsString()).toEqual("Space Facts");
+        expect(secondAssertion.value).toEqual("Space Facts");
     });
 
     test("parses simple test file with bad assertion", () => {
