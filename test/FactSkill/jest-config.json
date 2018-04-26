@@ -12,7 +12,7 @@
     "js",
     "yml"
   ],
-  "silent": false,
+  "silent": true,
   "testRegex": "yml",
   "testRunner": "../../lib/JestTestRunner.js",
   "verbose": true

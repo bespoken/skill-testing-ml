@@ -18,8 +18,7 @@
       "yml"
     ],
     "silent": false,
-    "testRegex": "yml",
-    "testRunner": "./lib/JestTestRunner.js",
+    "testMatch": ["**/test/*.test.js"],
     "verbose": true
   },
   "scripts": {
