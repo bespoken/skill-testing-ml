@@ -14,6 +14,6 @@ configuration:
 - "Help":
   - response.outputSpeech.ssml =~ .*You can say.*
 - "Get New Facts":
-  - response.outputSpeech.ssml =~ "Here's your fact:.*"
+  - response.outputSpeech.ssml == "Here's your fact:"
   - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
