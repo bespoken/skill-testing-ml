@@ -48,7 +48,8 @@
                     "runtime",
                     "ssml",
                     "utf8",
-                    "yaml"
+                    "yaml",
+                    "yml"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
