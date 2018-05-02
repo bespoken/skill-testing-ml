@@ -17,3 +17,10 @@ configuration:
   - response.outputSpeech.ssml == "Here's your fact:"
   - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
+
+---
+- test: "Test session ended request handled"
+- "Help":
+  - response.outputSpeech.ssml =~ .*You can say.*
+- SessionEndedRequest:
+  - response == undefined

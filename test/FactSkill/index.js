@@ -83,5 +83,8 @@ const handlers = {
     "LaunchRequest": function () {
         this.emit("GetNewFactIntent");
     },
+    "SessionEndedRequest": function () {
+        console.log("Do Nothing");
+    }
 
 };

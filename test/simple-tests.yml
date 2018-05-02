@@ -1,4 +1,4 @@
-# A simple example of skill test suite
+# Test created by Bespoken - to use this test, go to https://bespoken.io/testing
 --- # Configuration YAML document
 configuration:
   locale: en-US

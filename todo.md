@@ -1,5 +1,9 @@
 - [X] Add assertion validator
-- [ ] Hook up to first skill to test
-- [ ] Add request expressions
-- [ ] Add explicit intent execution
+- [X] Hook up to first skill to test
+- [X] Add request expressions
+- [ ] Add explicit intent and slot execution
+- [ ] Add entity resolution and dialog manager
+- [ ] Add wildcard support?
+- [ ] Add request property setting
 - [ ] Add goto support
+- [ ] Add builtin mocks for dynamo and location
