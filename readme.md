@@ -1,5 +1,12 @@
 # The Skill Tester
 
+## Install
+### Prerequisites
+* Node.js >= 8.x.x
+
+### Setup
+`npm install skill-testing-ml -g`
+
 ## How It Works
 Here is a simple example, to test the Get Facts skill:
 ```
