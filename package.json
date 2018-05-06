@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "description": "Skill Testing Markup Language",
   "main": "index.js",
+  "bin" : {
+    "skill-tester" : "./bin/SkillTester.js"
+  },
+  "engines" : {
+    "node" : ">=8"
+  },
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
@@ -22,6 +28,7 @@
     "verbose": true
   },
   "scripts": {
+    "lint": "eslint --config .eslintrc.json lib/**.js",
     "test": "jest",
     "test.watch": "jest --watchAll"
   },

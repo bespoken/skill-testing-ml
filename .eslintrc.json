@@ -47,6 +47,8 @@
                     "rc",
                     "runtime",
                     "ssml",
+                    "unhandled",
+                    "usr",
                     "utf8",
                     "yaml",
                     "yml"

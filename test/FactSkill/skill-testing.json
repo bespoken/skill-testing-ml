@@ -1,3 +1,9 @@
 {
-  "handler": "FactSkill/index.handler"
+  "jest": {
+    "silent": false
+  },
+  "skillTesting": {
+    "handler": "index.handler",
+    "jestPath": "../../node_modules/.bin/jest"
+  }
 }

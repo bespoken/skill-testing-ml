@@ -1,9 +1,18 @@
 - [X] Add assertion validator
 - [X] Hook up to first skill to test
 - [X] Add request expressions
+- [X] Add entity resolution and dialog manager
+- [ ] Make sure sessionendedrequest works
+- [ ] Single config file
+- [ ] NPM distribution
 - [ ] Add explicit intent and slot execution
-- [ ] Add entity resolution and dialog manager
+- [ ] Add builtin mocks for dynamo and location
 - [ ] Add wildcard support?
 - [ ] Add request property setting
 - [ ] Add goto support
-- [ ] Add builtin mocks for dynamo and location
+- [ ] Add filtering capability
+- [ ] Updated bst command
+- [ ] Move logless to its own repo
+- [ ] Add babel to support older nodejs versions
+- [ ] Add support for Jest cli options?
+- [ ] Add tuneable logging
