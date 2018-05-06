@@ -1,7 +1,25 @@
 # Configuring
 
-## Jest Configuration
-Jest defaults:  
+## Configuration
+### Example 
+```json
+{
+  "jest": {
+    "silent": false
+  },
+  "skillTesting": {
+    "handler": "index.handler",
+    "jestPath": "../../node_modules/.bin/jest"
+  }
+}
+```
+
+### Skill Testing Configuration
+#### 
+### Jest Configuration
+Jest overrides can be set under the jest key.
+
+By default, Jest is configured as follows:
 ```json
 {
     "coverageDirectory": "./coverage/",
@@ -16,8 +34,9 @@ Jest defaults:
         "js",
         "yml"
     ],
-    "silent": true,
+    "silent": false,
     "testRegex": "yml",
-    "testRunner": JestAdapter.js   "verbose": true
+    "testRunner": "../lib/JestAdapter.js",
+    "verbose": true
 }
 ```

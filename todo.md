@@ -2,9 +2,12 @@
 - [X] Hook up to first skill to test
 - [X] Add request expressions
 - [X] Add entity resolution and dialog manager
+- [X] Single config file
+- [X] NPM distribution
+- [ ] Add jenkins and codecov
+- [ ] Organize test hierarchy - test and interaction
+- [ ] Add tuneable logging
 - [ ] Make sure sessionendedrequest works
-- [ ] Single config file
-- [ ] NPM distribution
 - [ ] Add explicit intent and slot execution
 - [ ] Add builtin mocks for dynamo and location
 - [ ] Add wildcard support?
@@ -15,4 +18,3 @@
 - [ ] Move logless to its own repo
 - [ ] Add babel to support older nodejs versions
 - [ ] Add support for Jest cli options?
-- [ ] Add tuneable logging

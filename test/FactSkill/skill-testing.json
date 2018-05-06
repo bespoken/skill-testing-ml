@@ -1,6 +1,6 @@
 {
   "jest": {
-    "silent": false
+    "silent": true
   },
   "skillTesting": {
     "handler": "index.handler",
