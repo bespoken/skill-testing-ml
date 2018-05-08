@@ -2,8 +2,6 @@
   "jest": {
     "silent": true
   },
-  "skillTesting": {
-    "handler": "index.handler",
-    "jestPath": "../../node_modules/.bin/jest"
-  }
+  "handler": "index.handler",
+  "jestPath": "../../node_modules/.bin/jest"
 }

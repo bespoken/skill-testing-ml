@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "description": "Skill Testing Markup Language",
   "main": "index.js",
-  "bin" : {
-    "skill-tester" : "./bin/SkillTester.js"
+  "bin": {
+    "skill-tester": "./bin/SkillTester.js"
   },
-  "engines" : {
-    "node" : ">=8"
+  "engines": {
+    "node": ">=8"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
@@ -24,7 +24,9 @@
       "yml"
     ],
     "silent": true,
-    "testMatch": ["**/test/*.test.js"],
+    "testMatch": [
+      "**/test/*.test.js"
+    ],
     "verbose": true
   },
   "scripts": {
@@ -40,7 +42,7 @@
     "js-yaml": "^3.11.0",
     "jsonpath": "^1.0.0",
     "lodash": "^4.17.5",
-    "virtual-alexa": "^0.5.1"
+    "virtual-alexa": "beta"
   },
   "devDependencies": {
     "alexa-sdk": "^1.0.25",

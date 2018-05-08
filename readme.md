@@ -1,11 +1,23 @@
 # The Skill Tester
 
-## Install
+## Setup
 ### Prerequisites
 * Node.js >= 8.x.x
 
-### Setup
+### Install
 `npm install skill-testing-ml -g`
+
+### Configure
+Create a file called skill-testing.json at the root level of your project. It should look like this:
+```json
+{
+  "handler": "index.handler", // Filename and function for the handler
+  "locale": "en-US", // Locale
+  "jest": { // Any overrides of core jest configuration
+    "silent": false
+  }
+}
+```
 
 ## How It Works
 Here is a simple example, to test the Get Facts skill:

@@ -1,21 +1,23 @@
 # Configuring
+There are a number of options that can be set for skill-testing.
 
 ## Configuration
 ### Example 
 ```json
 {
+  "handler": "index.handler",
+  "locale": "en-US",
   "jest": {
     "silent": false
-  },
-  "skillTesting": {
-    "handler": "index.handler",
-    "jestPath": "../../node_modules/.bin/jest"
   }
 }
 ```
 
 ### Skill Testing Configuration
-#### 
+Skill testing parameters:
+* handler
+* locale
+
 ### Jest Configuration
 Jest overrides can be set under the jest key.
 

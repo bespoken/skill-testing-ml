@@ -5,7 +5,7 @@ describe("virtual alexa runner", () => {
     test("runs fact skill test", async () => {
         const runner = new VirtualAlexaRunner({
             handler: "test/FactSkill/index.handler",
-            interactionModelFile: "test/FactSkill/models/en-US.json"
+            interactionModel: "test/FactSkill/models/en-US.json"
         });
         const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
         expect(results.length).toEqual(2);
@@ -13,7 +13,7 @@ describe("virtual alexa runner", () => {
 
     test("uses global locale", async () => {
         const runner = new VirtualAlexaRunner({
-            interactionModelFile: "test/FactSkill/models/en-US.json",
+            interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US"
         });
 
@@ -25,8 +25,10 @@ describe("virtual alexa runner", () => {
         const runner = new VirtualAlexaRunner({});
         const suite = new TestSuite("fileName", {}, []);
 
-        expect(() => {
-            runner.runSuite(suite);
-        }).toThrow("Locale must be defined either in the skill-config.json or the test file itself under the config element");
+        try {
+            await runner.runSuite(suite);
+        } catch (e) {
+            expect(e.message).toEqual("Locale must be defined either in the skill-config.json or the test file itself under the config element");
+        }
     });
 });

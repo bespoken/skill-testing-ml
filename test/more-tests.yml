@@ -1,0 +1,10 @@
+---
+- test: "Sequence 03. Test scenario: AMAZON.HelpIntent"
+# Test scenario: AMAZON.HelpIntent:> Ask for help and exit.
+- "open space facts"
+- "help":
+  - response.outputSpeech.ssml: "You can say tell me a space fact, or, you can say exit... What can I help you with?"
+  - response.card: undefined
+  - response.reprompt.outputspeech.ssml: "What can I help you with?"
+- "exit":
+  - response.outputSpeech.ssml: "Goodbye!"

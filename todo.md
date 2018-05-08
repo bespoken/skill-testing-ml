@@ -18,3 +18,6 @@
 - [ ] Move logless to its own repo
 - [ ] Add babel to support older nodejs versions
 - [ ] Add support for Jest cli options?
+- [ ] Should it be skill-testing.json or bst.json?
+- [ ] improve error messages - include line numbers?
+- [ ] call jest programmatically

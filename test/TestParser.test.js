@@ -21,12 +21,12 @@ describe("test parser", () => {
         expect(secondTest.interactions[0].utterance).toEqual("Get New Facts");
         expect(secondTest.interactions[0].assertions.length).toEqual(3);
 
-        const firstAssertion = secondTest.interactions[0].assertions[1];
+        const firstAssertion = secondTest.interactions[0].assertions[0];
         expect(firstAssertion.path).toEqual("response.outputSpeech.ssml");
         expect(firstAssertion.operator).toEqual("==");
         expect(firstAssertion.value).toEqual("Here's your fact:*");
 
-        const secondAssertion = secondTest.interactions[0].assertions[2];
+        const secondAssertion = secondTest.interactions[0].assertions[1];
         expect(secondAssertion.path).toEqual("response.card.title");
         expect(secondAssertion.operator).toEqual("==");
         expect(secondAssertion.value).toEqual("Space Facts");
@@ -51,7 +51,8 @@ describe("test parser", () => {
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response.outputSpeech.ssml: "Here's your fact: *"  
   - response.outputSpeech.ssml: /regular expression+.*/  
-  - response.outputSpeech.ssml: "/Here's your fact: .*/"  
+  - response.outputSpeech.ssml: "/Here's your fact: .*/" 
+  - response: undefined 
         `)
         const testSuite = parser.parse();
         const assertion = testSuite.tests[0].interactions[0].assertions[0];
@@ -68,5 +69,25 @@ describe("test parser", () => {
         expect(assertion3.path).toEqual("response.outputSpeech.ssml");
         expect(assertion3.operator).toEqual("=~");
         expect(assertion3.value).toEqual("/Here's your fact: .*/");
+
+        const assertion4 = testSuite.tests[0].interactions[0].assertions[3];
+        expect(assertion4.path).toEqual("response");
+        expect(assertion4.operator).toEqual("==");
+        expect(assertion4.value).toBeUndefined();
+    });
+
+    test("parses simple test file with some funny conditions", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+- LaunchRequest: "*"
+        `)
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(0);
+        expect(testSuite.tests[0].interactions[0].expressions.length).toBe(0);
+        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(0);
+        expect(testSuite.tests[0].interactions[1].expressions.length).toBe(0);
     });
 });
