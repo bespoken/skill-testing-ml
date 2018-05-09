@@ -12,9 +12,6 @@ jobs:
     steps:
       - checkout
       - run: npm test
-      - store_test_results:
-          path: coverage/clover.xml
-
 workflows:
   version: 2
   build_and_test:
