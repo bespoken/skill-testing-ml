@@ -7,9 +7,9 @@ commandLine.run().then(() => {
 });
 
 process.on("unhandledRejection", (e) => {
-    console.error(e.message);
+    console.error(e);
 })
 
 process.on("uncaughtException", (e) => {
-    console.error(e.message);
+    console.error(e);
 })

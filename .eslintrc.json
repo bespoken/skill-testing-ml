@@ -37,7 +37,9 @@
                 "lang": "en_US",
                 "skipWords": [
                     "alexa",
+                    "cli",
                     "cosmiconfig",
+                    "cwd",
                     "fs",
                     "js",
                     "jsonpath",

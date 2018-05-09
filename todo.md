@@ -4,12 +4,14 @@
 - [X] Add entity resolution and dialog manager
 - [X] Single config file
 - [X] NPM distribution
+- [X] Organize test hierarchy - test and interaction
+- [X] call jest programmatically
+- [ ] Add builtin mocks for address
+- [ ] add builtin mocks for dynamo
 - [ ] Add jenkins and codecov
-- [ ] Organize test hierarchy - test and interaction
 - [ ] Add tuneable logging
 - [ ] Make sure sessionendedrequest works
 - [ ] Add explicit intent and slot execution
-- [ ] Add builtin mocks for dynamo and location
 - [ ] Add wildcard support?
 - [ ] Add request property setting
 - [ ] Add goto support
@@ -17,7 +19,5 @@
 - [ ] Updated bst command
 - [ ] Move logless to its own repo
 - [ ] Add babel to support older nodejs versions
-- [ ] Add support for Jest cli options?
 - [ ] Should it be skill-testing.json or bst.json?
-- [ ] improve error messages - include line numbers?
-- [ ] call jest programmatically
+- [ ] improve error messages on parsing - include line numbers?
