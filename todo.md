@@ -6,13 +6,13 @@
 - [X] NPM distribution
 - [X] Organize test hierarchy - test and interaction
 - [X] call jest programmatically
+- [ ] Add wildcard support?
 - [ ] Add builtin mocks for address
 - [ ] add builtin mocks for dynamo
 - [ ] Add jenkins and codecov
 - [ ] Add tuneable logging
 - [ ] Make sure sessionendedrequest works
 - [ ] Add explicit intent and slot execution
-- [ ] Add wildcard support?
 - [ ] Add request property setting
 - [ ] Add goto support
 - [ ] Add filtering capability
