@@ -42,6 +42,10 @@ configuration:
   - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
 ```
+Run it:
+```
+skill-tester
+```
 
 Output:  
 ![Skill Testing Output](./docs/SkillTestingOutput.png)
