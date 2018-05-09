@@ -11,6 +11,7 @@ jobs:
           command: npm test
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - run: npm run coverage
       - store_test_results:
           path: reports/junit
       - store_artifacts:
