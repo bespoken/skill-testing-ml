@@ -10,7 +10,7 @@ jobs:
           name: Jest Suite
           command: npm test
           environment:
-            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"npm test
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
 workflows:
   version: 2
   build_and_test:
