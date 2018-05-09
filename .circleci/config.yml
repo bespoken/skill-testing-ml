@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - run: echo "I'm alive"
+      - run: npm install
   test:
     docker:
       - image: circleci/node:8
