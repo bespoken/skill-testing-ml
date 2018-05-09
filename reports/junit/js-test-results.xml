@@ -1,0 +1,28 @@
+<testsuites name="jest tests" tests="10" failures="0" time="1.25">
+  <testsuite name="virtual alexa runner" errors="0" failures="0" skipped="0" timestamp="2018-05-09T18:58:13" time="1.127" tests="3">
+    <testcase classname="virtual alexa runner runs fact skill test" name="virtual alexa runner runs fact skill test" time="0.55">
+    </testcase>
+    <testcase classname="virtual alexa runner uses global locale" name="virtual alexa runner uses global locale" time="0.001">
+    </testcase>
+    <testcase classname="virtual alexa runner error on no locale" name="virtual alexa runner error on no locale" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="test parser" errors="0" failures="0" skipped="0" timestamp="2018-05-09T18:58:14" time="0.074" tests="4">
+    <testcase classname="test parser parses simple test file successfully" name="test parser parses simple test file successfully" time="0.008">
+    </testcase>
+    <testcase classname="test parser parses simple test file with bad assertion" name="test parser parses simple test file with bad assertion" time="0.001">
+    </testcase>
+    <testcase classname="test parser parses simple test file with object assertions" name="test parser parses simple test file with object assertions" time="0.005">
+    </testcase>
+    <testcase classname="test parser parses simple test file with some funny conditions" name="test parser parses simple test file with some funny conditions" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="assertion" errors="0" failures="0" skipped="0" timestamp="2018-05-09T18:58:14" time="0.049" tests="3">
+    <testcase classname="assertion evaluate == a string" name="assertion evaluate == a string" time="0.002">
+    </testcase>
+    <testcase classname="assertion evaluate == undefined" name="assertion evaluate == undefined" time="0.001">
+    </testcase>
+    <testcase classname="assertion evaluate != undefined" name="assertion evaluate != undefined" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>
