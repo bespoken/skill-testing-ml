@@ -6,7 +6,7 @@
 - [X] NPM distribution
 - [X] Organize test hierarchy - test and interaction
 - [X] call jest programmatically
-- [ ] Add jenkins and codecov
+- [X] Add jenkins and codecov
 - [ ] Add wildcard support?
 - [ ] Add tuneable logging
 - [ ] Add builtin mocks for address
