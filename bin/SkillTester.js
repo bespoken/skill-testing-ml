@@ -1,9 +1,12 @@
 #!/usr/bin/env node
+
+/* eslint-disable no-console */
 const CLI = require("../lib/CLI");
+const debug = require("../lib/Debug");
 const commandLine = new CLI();
 
 commandLine.run().then(() => {
-    console.log("SkillTester Completed");
+    debug("SkillTester Completed");
 });
 
 process.on("unhandledRejection", (e) => {

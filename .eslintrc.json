@@ -13,7 +13,7 @@
         "jest", "sort-class-members", "sort-requires", "spellcheck"
     ],
     "rules": {
-        "no-console": "off",
+        "no-console": "error",
         "quotes": ["error", "double"],
         "sort-class-members/sort-class-members": [2, {
             "order": [
@@ -41,6 +41,7 @@
                     "cli",
                     "cosmiconfig",
                     "cwd",
+                    "eslint",
                     "fn",
                     "fs",
                     "js",
@@ -51,6 +52,7 @@
                     "rc",
                     "runtime",
                     "ssml",
+                    "stml",
                     "unhandled",
                     "usr",
                     "utf8",
