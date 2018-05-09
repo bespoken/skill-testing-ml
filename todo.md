@@ -10,8 +10,9 @@
 - [X] Add wildcard support?
 - [X] Add tuneable logging
 - [X] Add coverage for CLI path
-- [ ] Add explicit intent and slot execution
+- [X] Add version number
 - [ ] Add builtin mocks for address
+- [ ] Add explicit intent and slot execution
 - [ ] Add request property setting
 - [ ] Add babel to support older nodejs versions
 - [ ] add builtin mocks for dynamo
