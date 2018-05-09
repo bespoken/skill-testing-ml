@@ -7,10 +7,12 @@ jobs:
       - checkout
       - run: npm install
       - run:
-          name: Jest Suite
+          name: test
           command: npm test
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: reports/junit
 workflows:
   version: 2
   build_and_test:
