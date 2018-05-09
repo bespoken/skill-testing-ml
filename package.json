@@ -33,6 +33,7 @@
   "scripts": {
     "lint": "eslint --config .eslintrc.json lib/**.js",
     "test": "jest",
+    "coverage": "codecov",
     "test.watch": "jest --watchAll"
   },
   "author": "John Kelvie",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "alexa-sdk": "^1.0.25",
+    "codecov": "^3.0.2",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "eslint-config-standard": "^11.0.0",
