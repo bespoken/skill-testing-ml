@@ -6,18 +6,19 @@
 - [X] NPM distribution
 - [X] Organize test hierarchy - test and interaction
 - [X] call jest programmatically
-- [ ] Add wildcard support?
-- [ ] Add builtin mocks for address
-- [ ] add builtin mocks for dynamo
 - [ ] Add jenkins and codecov
+- [ ] Add wildcard support?
 - [ ] Add tuneable logging
-- [ ] Make sure sessionendedrequest works
+- [ ] Add builtin mocks for address
 - [ ] Add explicit intent and slot execution
 - [ ] Add request property setting
+- [ ] Add babel to support older nodejs versions
+- [ ] add builtin mocks for dynamo
+- [ ] Make sure sessionendedrequest works
 - [ ] Add goto support
 - [ ] Add filtering capability
 - [ ] Updated bst command
 - [ ] Move logless to its own repo
-- [ ] Add babel to support older nodejs versions
+- [ ] fix for windows
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] improve error messages on parsing - include line numbers?
