@@ -36,7 +36,9 @@
                 "identifiers": true,
                 "lang": "en_US",
                 "skipWords": [
+                    "amazonalexa",
                     "alexa",
+                    "api",
                     "chdir",
                     "cli",
                     "cosmiconfig",
@@ -44,6 +46,7 @@
                     "eslint",
                     "fn",
                     "fs",
+                    "https",
                     "js",
                     "jsonpath",
                     "lodash",

@@ -11,7 +11,7 @@
 - [X] Add tuneable logging
 - [X] Add coverage for CLI path
 - [X] Add version number
-- [ ] Add builtin mocks for address
+- [X] Add builtin mocks for address
 - [ ] Add explicit intent and slot execution
 - [ ] Add request property setting
 - [ ] Add babel to support older nodejs versions

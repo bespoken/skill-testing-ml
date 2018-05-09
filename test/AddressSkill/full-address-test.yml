@@ -1,0 +1,24 @@
+# Test created by Bespoken - to use this test, go to https://bespoken.io/testing
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+  address:
+    streetAddress1: 1600 Pennsylvania Avenue, NW
+    city: Washington
+    countryCode: US
+    postalCode: 20816
+    stateOrRegion: DC
+
+---
+- test: "Fails on swampland"
+- LaunchRequest:
+  - payload.streetAddress1 == "1600 Pennsylvania Avenue, NW"
+  - payload.streetAddress2: undefined
+  - payload.city: "Swampland"
+
+---
+- test: "Succeeds"
+- LaunchRequest:
+  - payload.streetAddress1 == "1600 Pennsylvania Avenue, NW"
+  - payload.streetAddress2: undefined
+  - payload.city: "Washington"

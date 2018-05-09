@@ -34,4 +34,41 @@ describe("virtual alexa runner", () => {
             expect(e.message).toEqual("Locale must be defined either in the skill-config.json or the test file itself under the config element");
         }
     });
+
+    test("Test Address API with full address", async () => {
+        const runner = new VirtualAlexaRunner({
+            handler: "test/AddressSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+
+        const results = await runner.run("test/AddressSkill/full-address-test.yml");
+        expect(results.length).toEqual(2);
+        expect(results[0].interactionResults[0].error).toBeDefined();
+        expect(results[1].interactionResults[0].error).toBeUndefined();
+    });
+
+    test("Test Address API with postal and country code", async () => {
+        const runner = new VirtualAlexaRunner({
+            handler: "test/AddressSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+
+        const results = await runner.run("test/AddressSkill/short-address-test.yml");
+        expect(results.length).toEqual(1);
+        expect(results[0].interactionResults[0].error).toBeUndefined();
+    });
+
+    test("Test Address API with insufficient permissions", async () => {
+        const runner = new VirtualAlexaRunner({
+            handler: "test/AddressSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+
+        const results = await runner.run("test/AddressSkill/no-address-test.yml");
+        expect(results.length).toEqual(1);
+        expect(results[0].interactionResults[0].error).toBeUndefined();
+    });
 });

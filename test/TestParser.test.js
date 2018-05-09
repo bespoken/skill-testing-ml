@@ -2,7 +2,7 @@ const TestParser = require("../lib/TestParser");
 
 describe("test parser", () => {
     test("parses simple test file successfully", () => {
-        const parser = new TestParser("test/simple-tests.yml");
+        const parser = new TestParser("test/TestFiles/simple-tests.yml");
         const testSuite = parser.parse();
         expect(testSuite.configuration.locale).toEqual("en-US");
         expect(testSuite.tests.length).toEqual(2);
