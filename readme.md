@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/bespoken/skill-testing-ml/branch/master/graph/badge.svg?token=C2VONoJUN3)](https://codecov.io/gh/bespoken/skill-testing-ml)
+[![CircleCI](https://circleci.com/gh/bespoken/skill-testing-ml.svg?style=svg&circle-token=baefda47f4480601f66cc6a579920b2b1bb739e5)](https://circleci.com/gh/bespoken/skill-testing-ml)
 # The Skill Tester
 
 ## Setup
