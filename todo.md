@@ -7,10 +7,11 @@
 - [X] Organize test hierarchy - test and interaction
 - [X] call jest programmatically
 - [X] Add jenkins and codecov
-- [ ] Add wildcard support?
+- [X] Add wildcard support?
 - [ ] Add tuneable logging
-- [ ] Add builtin mocks for address
 - [ ] Add explicit intent and slot execution
+- [ ] Add builtin mocks for address
+- [ ] Add coverage for CLI path
 - [ ] Add request property setting
 - [ ] Add babel to support older nodejs versions
 - [ ] add builtin mocks for dynamo
