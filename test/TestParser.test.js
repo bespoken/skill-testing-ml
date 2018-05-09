@@ -72,7 +72,7 @@ describe("test parser", () => {
 
         const assertion4 = testSuite.tests[0].interactions[0].assertions[3];
         expect(assertion4.path).toEqual("response");
-        expect(assertion4.operator).toEqual("==");
+        expect(assertion4.operator).toEqual("=");
         expect(assertion4.value).toBeUndefined();
     });
 

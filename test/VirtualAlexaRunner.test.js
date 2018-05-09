@@ -8,7 +8,10 @@ describe("virtual alexa runner", () => {
             interactionModel: "test/FactSkill/models/en-US.json"
         });
         const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
-        expect(results.length).toEqual(2);
+        expect(results.length).toEqual(3);
+        expect(results[0].test.description).toEqual("Launches successfully");
+        expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
+        expect(results[2].test.description).toEqual("Test 3");
     });
 
     test("uses global locale", async () => {
