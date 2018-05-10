@@ -1,0 +1,17 @@
+{
+  "coverageDirectory": "./coverage/",
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "dist/lib/**/*.js",
+    "dist/bin/**/*.js",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  "moduleFileExtensions": ["js"],
+  "silent": false,
+  "testMatch": [
+    "**/dist/test/**/*.test.js"
+  ],
+  "testResultsProcessor": "jest-junit",
+  "verbose": true
+}

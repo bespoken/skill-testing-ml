@@ -20,8 +20,8 @@
 - [ ] Make sure sessionendedrequest works
 - [ ] Add goto support
 - [ ] Add filtering capability
+- [ ] fix for windows
 - [ ] Updated bst command
 - [ ] Move logless to its own repo
-- [ ] fix for windows
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] improve error messages on parsing - include line numbers?

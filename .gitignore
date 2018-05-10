@@ -3,3 +3,5 @@ coverage
 node_modules
 reports
 junit.xml
+dist
+*.tgz
