@@ -14,9 +14,9 @@
 - [X] Add builtin mocks for address
 - [X] Add explicit intent and slot execution
 - [X] Add request property setting
+- [X] Check on false comparisons failing per ivan
+- [X] Add babel to support older nodejs versions
 - [ ] add builtin mocks for dynamo
-- [ ] Add babel to support older nodejs versions
-- [ ] Check on false comparisons failing per ivan
 - [ ] add full request/response json in debug output
 - [ ] Add jest adapter tests
 - [ ] Make sure sessionendedrequest works
@@ -28,3 +28,4 @@
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] jest does not work with node 4?
 - [ ] improve error messages on parsing - include line numbers?
+- [ ] create installer that does not require npm?
