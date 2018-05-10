@@ -22,7 +22,9 @@
       "!**/node_modules/**",
       "!**/vendor/**"
     ],
-    "moduleFileExtensions": ["js"],
+    "moduleFileExtensions": [
+      "js"
+    ],
     "silent": false,
     "testMatch": [
       "**/test/**/*.test.js"
@@ -36,7 +38,7 @@
     "babel.test": "babel test -D -d dist/test",
     "babel.bin": "babel bin -d dist/bin",
     "lint": "eslint --config .eslintrc.json bin lib test",
-    "petest": "npm run lint && npm run babel",
+    "pretest": "npm run lint && npm run babel",
     "preversion": "npm test",
     "test": "jest --config jest-config-babel.json",
     "coverage": "codecov",
@@ -56,7 +58,9 @@
   "devDependencies": {
     "alexa-sdk": "^1.0.25",
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
     "codecov": "^3.0.2",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",

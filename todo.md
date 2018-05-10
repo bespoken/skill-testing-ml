@@ -16,6 +16,7 @@
 - [X] Add request property setting
 - [ ] add builtin mocks for dynamo
 - [ ] Add babel to support older nodejs versions
+- [ ] Check on false comparisons failing per ivan
 - [ ] Add jest adapter tests
 - [ ] Make sure sessionendedrequest works
 - [ ] Add goto support
