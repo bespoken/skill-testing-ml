@@ -34,6 +34,41 @@
             "give me something"
           ],
           "slots": []
+        },
+        {
+          "name": "SlottedIntent",
+          "samples": [
+            "slot {SlotA} plus {SlotB}"
+          ],
+          "slots": [
+            {
+              "name": "SlotA",
+              "type": "SLOT_TYPE",
+              "samples": []
+            },
+            {
+              "name": "SlotB",
+              "type": "SLOT_TYPE",
+              "samples": []
+            }
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "SLOT_TYPE",
+          "values": [
+            {
+              "name": {
+                "value": "Value1"
+              }
+            },
+            {
+              "name": {
+                "value": "Value2"
+              }
+            }
+          ]
         }
       ]
     }

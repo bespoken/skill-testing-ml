@@ -1,0 +1,12 @@
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+---
+- test: "Explicit intent"
+- "This name means nothing":
+  - intent: SlottedIntent
+  - slots:
+      SlotA: Value1
+      SlotB: Value2
+  - response.outputSpeech.ssml == "Got a slot!"

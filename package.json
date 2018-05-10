@@ -23,7 +23,7 @@
       "js",
       "yml"
     ],
-    "silent": true,
+    "silent": false,
     "testMatch": [
       "**/test/*.test.js"
     ],

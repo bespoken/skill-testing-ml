@@ -86,6 +86,10 @@ const handlers = {
     "SessionEndedRequest": function () {
         // eslint-disable-next-line no-console
         console.log("Do Nothing");
-    }
+    },
+    "SlottedIntent": function () {
+        this.response.speak("Got a slot!");
+        this.emit(":responseReady");
+    },
 
 };
