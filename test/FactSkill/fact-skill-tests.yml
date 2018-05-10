@@ -9,11 +9,13 @@ configuration:
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response.outputSpeech.ssml =~ .*Here's your fact:.* # A comment
   - response.reprompt == undefined
+  - response.shouldEndSession: true
 
 ---
 - test: "Gets a new fact intent"
 - "Help":
   - response.outputSpeech.ssml =~ .*You can say.*
+  - response.shouldEndSession: false
 - "Get New Facts":
   - response.outputSpeech.ssml == "Here's your fact:"
   - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly

@@ -17,6 +17,7 @@
 - [ ] add builtin mocks for dynamo
 - [ ] Add babel to support older nodejs versions
 - [ ] Check on false comparisons failing per ivan
+- [ ] add full request/response json in debug output
 - [ ] Add jest adapter tests
 - [ ] Make sure sessionendedrequest works
 - [ ] Add goto support
@@ -25,4 +26,5 @@
 - [ ] Updated bst command
 - [ ] Move logless to its own repo
 - [ ] Should it be skill-testing.json or bst.json?
+- [ ] jest does not work with node 4?
 - [ ] improve error messages on parsing - include line numbers?

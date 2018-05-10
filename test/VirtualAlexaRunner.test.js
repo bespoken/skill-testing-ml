@@ -11,6 +11,8 @@ describe("virtual alexa runner", () => {
         expect(results.length).toEqual(3);
         expect(results[0].test.description).toEqual("Launches successfully");
         expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
+        expect(results[0].interactionResults[1].error).toBeUndefined();
+        expect(results[1].interactionResults[0].error).toBeUndefined();
         expect(results[2].test.description).toEqual("Test 3");
     });
 
