@@ -12,10 +12,11 @@
 - [X] Add coverage for CLI path
 - [X] Add version number
 - [X] Add builtin mocks for address
-- [ ] Add explicit intent and slot execution
-- [ ] Add request property setting
-- [ ] Add babel to support older nodejs versions
+- [X] Add explicit intent and slot execution
+- [X] Add request property setting
 - [ ] add builtin mocks for dynamo
+- [ ] Add babel to support older nodejs versions
+- [ ] Add jest adapter tests
 - [ ] Make sure sessionendedrequest works
 - [ ] Add goto support
 - [ ] Add filtering capability

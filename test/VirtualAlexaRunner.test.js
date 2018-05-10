@@ -34,6 +34,16 @@ describe("virtual alexa runner", () => {
         await runner.run("test/TestFiles/explicit-intent-tests.yml");
     });
 
+    test("set expressions", async () => {
+        const runner = new VirtualAlexaRunner({
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+
+        await runner.run("test/TestFiles/expressions-tests.yml");
+    });
+
     test("error on no locale", async () => {
         const runner = new VirtualAlexaRunner({});
         const suite = new TestSuite("fileName", {}, []);

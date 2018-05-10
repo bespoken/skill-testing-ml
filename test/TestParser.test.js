@@ -90,4 +90,20 @@ describe("test parser", () => {
         expect(testSuite.tests[0].interactions[1].assertions.length).toBe(0);
         expect(testSuite.tests[0].interactions[1].expressions.length).toBe(0);
     });
+
+    test("parses file with expressions", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - request.test.value: A value
+  - request.test.value2: Another value
+        `)
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].expressions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].expressions[0].path).toBe("request.test.value");
+        expect(testSuite.tests[0].interactions[0].expressions[0].value).toBe("A value");
+        expect(testSuite.tests[0].interactions[0].expressions[1].value).toBe("Another value");
+    });
 });
