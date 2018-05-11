@@ -22,7 +22,7 @@ jobs:
       steps:
         - checkout
         - run: npm install
-        - run: npm test.babel
+        - run: npm run test.babel
 workflows:
   version: 2
   build_and_test:
