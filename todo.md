@@ -16,8 +16,8 @@
 - [X] Add request property setting
 - [X] Check on false comparisons failing per ivan
 - [X] Add babel to support older nodejs versions
+- [X] add full request/response json in debug output - include labels on it
 - [ ] add builtin mocks for dynamo
-- [ ] add full request/response json in debug output
 - [ ] Add jest adapter tests
 - [ ] Make sure sessionendedrequest works
 - [ ] Add goto support

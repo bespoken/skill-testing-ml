@@ -47,6 +47,7 @@
   "author": "John Kelvie",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^2.4.1",
     "cosmiconfig": "^4.0.0",
     "debug": "^3.1.0",
     "jest": "^22.4.3",
