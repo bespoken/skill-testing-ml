@@ -4,7 +4,7 @@
 
 ## Setup
 ### Prerequisites
-* Node.js >= 8.x.x
+* Node.js >= 6.x.x
 
 ### Install
 `npm install skill-testing-ml -g`
@@ -13,9 +13,9 @@
 Create a file called skill-testing.json at the root level of your project. It should look like this:
 ```json
 {
-  "handler": "index.handler", // Filename and function for the handler
-  "locale": "en-US", // Locale
-  "jest": { // Any overrides of core jest configuration
+  "handler": "index.handler",
+  "locale": "en-US",
+  "jest": {
     "silent": false
   }
 }
@@ -59,13 +59,13 @@ Read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmO
 - [X] Dialog Interface support
 - [X] AudioPlater interface support
 - [X] Entity resolution
+- [X] Explicit intent and slot setting
+- [X] Wildcard support for non-regex expressions
+- [X] Support for setting address and permissions
 
 ## Roadmap
 - [ ] Explicit SessionEndedRequest
-- [ ] Explicit intent and slot setting
 - [ ] Support for goto and flow control
-- [ ] Wildcard support for non-regex expressions
 - [ ] Callbacks for filtering payloads programmatically
 - [ ] Virtual device support
-- [ ] Support for setting address and permissions
 - [ ] Support for testing dynamo

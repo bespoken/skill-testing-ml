@@ -16,8 +16,16 @@ jobs:
           path: reports/junit
       - store_artifacts:
           path: reports/junit
+  test-babel:
+      docker:
+        - image: circleci/node:8
+      steps:
+        - checkout
+        - run: npm install
+        - run: npm test.babel
 workflows:
   version: 2
   build_and_test:
     jobs:
       - test
+      - test-babel
