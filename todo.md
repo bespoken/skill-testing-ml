@@ -20,9 +20,10 @@
 - [X] Add jest adapter tests
 - [X] add builtin mocks for dynamo
 - [X] add ability to set applicationId, accountToken and deviceId
-- [ ] Add goto support
-- [ ] add support for other operators
+- [X] Add goto support
 - [ ] fix for windows
+- [ ] create getting started
+- [ ] add support for other operators
 - [ ] Updated bst command
 - [ ] reset dynamo between each test?
 - [ ] Move logless to its own repo
