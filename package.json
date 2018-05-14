@@ -29,6 +29,7 @@
     "testMatch": [
       "**/test/**/*.test.js"
     ],
+    "testPathIgnorePatterns": ["dist"],
     "testResultsProcessor": "jest-junit",
     "verbose": true
   },

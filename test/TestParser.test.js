@@ -106,4 +106,24 @@ describe("test parser", () => {
         expect(testSuite.tests[0].interactions[0].expressions[0].value).toBe("A value");
         expect(testSuite.tests[0].interactions[0].expressions[1].value).toBe("Another value");
     });
+
+    test("parses file with bad config", (done) => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+configuration:
+    locale:en-US
+--- 
+- LaunchRequest:
+  - request.test.value: A value
+        `);
+        try {
+            parser.parse();
+        } catch (e) {
+            expect(e.name).toEqual("YAML Syntax");
+            expect(e.message).toContain("Configuration element is not an object:");
+            done();
+        }
+
+    });
 });
