@@ -124,6 +124,12 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
             expect(results[0].interactionResults[1].interaction.utterance).toBe("Get New Fact");
             expect(results[0].interactionResults[1].passed).toBe(false);
+
+            // Check on exit
+            expect(results[1].interactionResults.length).toBe(1);
+            expect(results[1].interactionResults[0].passed).toBe(true);
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+            expect(results[1].interactionResults[0].exited).toBe(true);
         });
     });
 });
