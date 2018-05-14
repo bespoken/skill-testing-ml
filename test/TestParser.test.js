@@ -124,6 +124,38 @@ configuration:
             expect(e.message).toContain("Configuration element is not an object:");
             done();
         }
+    });
 
+    test("parses file with goto", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value: A value goto Help
+  - exit
+- Help:
+  - response.test.value: A value
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("A value");
+        expect(testSuite.tests[0].interactions[0].assertions[0].goto).toBe("Help");
+        expect(testSuite.tests[0].interactions[0].assertions[1].exit).toBe(true);
+    });
+
+    test("parses file with multi-word goto", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value: A value goto Help Me
+- Help Me:
+  - response.test.value: A value
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].goto).toBe("Help Me");
     });
 });

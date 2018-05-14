@@ -20,15 +20,18 @@
 - [X] Add jest adapter tests
 - [X] add builtin mocks for dynamo
 - [X] add ability to set applicationId, accountToken and deviceId
-- [ ] reset dynamo between each test?
-- [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
 - [ ] Add goto support
-- [ ] Add filtering capability
+- [ ] add support for other operators
 - [ ] fix for windows
 - [ ] Updated bst command
-- [ ] support prompt property for everything?
+- [ ] reset dynamo between each test?
 - [ ] Move logless to its own repo
 - [ ] Should it be skill-testing.json or bst.json?
+
+For V2
+- [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
+- [ ] Add filtering capability
+- [ ] support prompt property for everything?
 - [ ] jest does not work with node 4?
 - [ ] improve error messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
