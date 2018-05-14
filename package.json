@@ -29,7 +29,9 @@
     "testMatch": [
       "**/test/**/*.test.js"
     ],
-    "testPathIgnorePatterns": ["dist"],
+    "testPathIgnorePatterns": [
+      "dist"
+    ],
     "testResultsProcessor": "jest-junit",
     "verbose": true
   },
@@ -57,7 +59,7 @@
     "js-yaml": "^3.11.0",
     "jsonpath": "^1.0.0",
     "lodash": "^4.17.5",
-    "virtual-alexa": "^0.6.0-0"
+    "virtual-alexa": "^0.6.0-1"
   },
   "devDependencies": {
     "alexa-sdk": "^1.0.25",
