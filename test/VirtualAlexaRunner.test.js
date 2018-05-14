@@ -117,7 +117,7 @@ describe("virtual alexa runner", () => {
             const runner = new VirtualAlexaRunner();
 
             const results = await runner.run("test/TestFiles/control-flow-tests.yml");
-            expect(results.length).toEqual(1);
+            expect(results.length).toEqual(2);
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].passed).toBe(true);
             expect(results[0].interactionResults[0].goto).toBe("Get New Fact");
