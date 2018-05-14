@@ -17,15 +17,18 @@
 - [X] Check on false comparisons failing per ivan
 - [X] Add babel to support older nodejs versions
 - [X] add full request/response json in debug output - include labels on it
+- [X] Add jest adapter tests
 - [ ] add builtin mocks for dynamo
-- [ ] Add jest adapter tests
+- [ ] add ability to set applicationId, accountToken and deviceId
+- [ ] reset dynamo between each test?
 - [ ] Make sure sessionendedrequest works
 - [ ] Add goto support
 - [ ] Add filtering capability
 - [ ] fix for windows
 - [ ] Updated bst command
+- [ ] support prompt property for everything?
 - [ ] Move logless to its own repo
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] jest does not work with node 4?
 - [ ] improve error messages on parsing - include line numbers?
-- [ ] create installer that does not require npm?
+- [ ] create installer that does not require npm? https://github.com/zeit/pkg
