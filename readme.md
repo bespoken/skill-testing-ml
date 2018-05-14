@@ -62,10 +62,11 @@ Read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmO
 - [X] Explicit intent and slot setting
 - [X] Wildcard support for non-regex expressions
 - [X] Support for setting address and permissions
+- [X] Explicit SessionEndedRequest
+- [X] Support for goto and flow control
+- [X] Support for testing dynamo
 
 ## Roadmap
-- [ ] Explicit SessionEndedRequest
-- [ ] Support for goto and flow control
+- [ ] Much better documentation!
 - [ ] Callbacks for filtering payloads programmatically
 - [ ] Virtual device support
-- [ ] Support for testing dynamo
