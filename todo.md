@@ -18,10 +18,10 @@
 - [X] Add babel to support older nodejs versions
 - [X] add full request/response json in debug output - include labels on it
 - [X] Add jest adapter tests
-- [ ] add builtin mocks for dynamo
-- [ ] add ability to set applicationId, accountToken and deviceId
+- [X] add builtin mocks for dynamo
+- [X] add ability to set applicationId, accountToken and deviceId
 - [ ] reset dynamo between each test?
-- [ ] Make sure sessionendedrequest works
+- [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
 - [ ] Add goto support
 - [ ] Add filtering capability
 - [ ] fix for windows

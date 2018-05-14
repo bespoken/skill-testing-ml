@@ -1,96 +1,106 @@
+const Configuration = require("../lib/Configuration");
 const TestSuite = require("../lib/TestSuite");
 const VirtualAlexaRunner = require("../lib/VirtualAlexaRunner");
 
 describe("virtual alexa runner", () => {
-    test("runs fact skill test", async () => {
-        const runner = new VirtualAlexaRunner({
-            handler: "test/FactSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json"
-        });
-        const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
-        expect(results.length).toEqual(3);
-        expect(results[0].test.description).toEqual("Launches successfully");
-        expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
-        expect(results[0].interactionResults[1].error).toBeUndefined();
-        expect(results[1].interactionResults[0].error).toBeUndefined();
-        expect(results[2].test.description).toEqual("Test 3");
-    });
-
-    test("uses global locale", async () => {
-        const runner = new VirtualAlexaRunner({
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+    describe("basic tests", () => {
+        beforeEach(() => {
+            return Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
         });
 
-        const suite = new TestSuite("fileName", {}, []);
-        await runner.runSuite(suite);
-    });
-
-    test("explicit intent and slots", async () => {
-        const runner = new VirtualAlexaRunner({
-            handler: "test/FactSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+        afterEach(() => {
+            Configuration.singleton = undefined;
         });
 
-        await runner.run("test/TestFiles/explicit-intent-tests.yml");
-    });
-
-    test("set expressions", async () => {
-        const runner = new VirtualAlexaRunner({
-            handler: "test/FactSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+        test("runs fact skill test", async () => {
+            const runner = new VirtualAlexaRunner();
+            const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+            expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+            expect(results[2].test.description).toEqual("Test 3");
         });
 
-        await runner.run("test/TestFiles/expressions-tests.yml");
-    });
+        test("uses global locale", async () => {
+            Configuration.singleton = undefined;
+            Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
 
-    test("error on no locale", async () => {
-        const runner = new VirtualAlexaRunner({});
-        const suite = new TestSuite("fileName", {}, []);
-
-        try {
+            const runner = new VirtualAlexaRunner();
+            const suite = new TestSuite("fileName", {}, []);
             await runner.runSuite(suite);
-        } catch (e) {
-            expect(e.message).toEqual("Locale must be defined either in the skill-config.json or the test file itself under the config element");
-        }
-    });
-
-    test("Test Address API with full address", async () => {
-        const runner = new VirtualAlexaRunner({
-            handler: "test/AddressSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
         });
 
-        const results = await runner.run("test/AddressSkill/full-address-test.yml");
-        expect(results.length).toEqual(2);
-        expect(results[0].interactionResults[0].error).toBeDefined();
-        expect(results[1].interactionResults[0].error).toBeUndefined();
-    });
-
-    test("Test Address API with postal and country code", async () => {
-        const runner = new VirtualAlexaRunner({
-            handler: "test/AddressSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+        test("explicit intent and slots", async () => {
+            const runner = new VirtualAlexaRunner();
+            await runner.run("test/TestFiles/explicit-intent-tests.yml");
         });
 
-        const results = await runner.run("test/AddressSkill/short-address-test.yml");
-        expect(results.length).toEqual(1);
-        expect(results[0].interactionResults[0].error).toBeUndefined();
-    });
-
-    test("Test Address API with insufficient permissions", async () => {
-        const runner = new VirtualAlexaRunner({
-            handler: "test/AddressSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+        test("set expressions", async () => {
+            const runner = new VirtualAlexaRunner();
+            await runner.run("test/TestFiles/expressions-tests.yml");
         });
 
-        const results = await runner.run("test/AddressSkill/no-address-test.yml");
-        expect(results.length).toEqual(1);
-        expect(results[0].interactionResults[0].error).toBeUndefined();
+        test("error on no locale", async () => {
+            Configuration.singleton = undefined;
+            Configuration.configure({});
+            const runner = new VirtualAlexaRunner();
+            const suite = new TestSuite("fileName", {}, []);
+
+            try {
+                await runner.runSuite(suite);
+                throw "This should never be reached";
+            } catch (e) {
+                expect(e.message).toEqual("Locale must be defined either in the skill-config.json or the test file itself under the config element");
+            }
+        });
+    });
+
+    describe("address tests", () => {
+        beforeEach(() => {
+            return Configuration.configure({
+                handler: "test/AddressSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("Test Address API with full address", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/full-address-test.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Test Address API with postal and country code", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/short-address-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Test Address API with insufficient permissions", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/no-address-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
     });
 });
