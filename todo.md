@@ -20,11 +20,12 @@
 - [X] Add jest adapter tests
 - [X] add builtin mocks for dynamo
 - [X] add ability to set applicationId, accountToken and deviceId
+- [X] fix for windows
 - [ ] reset dynamo between each test?
+- [ ] fix error when running where there is no config or tests
 - [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
 - [ ] Add goto support
 - [ ] Add filtering capability
-- [ ] fix for windows
 - [ ] Updated bst command
 - [ ] support prompt property for everything?
 - [ ] Move logless to its own repo
