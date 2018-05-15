@@ -21,9 +21,13 @@
 - [X] add builtin mocks for dynamo
 - [X] add ability to set applicationId, accountToken and deviceId
 - [X] Add goto support
-- [ ] fix for windows
+- [X] fix for windows
 - [ ] create getting started
 - [ ] add support for other operators
+- [ ] reset dynamo between each test?
+- [ ] fix error when running where there is no config or tests
+- [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
+- [ ] Add filtering capability
 - [ ] Updated bst command
 - [ ] reset dynamo between each test?
 - [ ] Move logless to its own repo
