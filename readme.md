@@ -19,13 +19,13 @@ Write tests in YAML, like this:
 ```
 
 Output:  
-![Skill Testing Output](./docs/SkillTestingOutput.png)
+<img src="./docs/SkillTestingOutput.png" width="500" alt="Output" />
 
-Read our pgetting started guide here](https://github.com/bespoken/skill-testing-ml/tree/master/docs/get_started.md).
+Read our pgetting started guide here](./docs/get_started.md).
 
 For more in-depth info, read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit)
 
-## Current Support  
+## Current Support
 - [X] Multi-turn conversations
 - [X] Dialog Interface support
 - [X] AudioPlater interface support
