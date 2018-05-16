@@ -21,7 +21,7 @@ Write tests in YAML, like this:
 Output:  
 <img src="./docs/SkillTestingOutput.png" width="500" alt="Output" />
 
-Read our pgetting started guide here](./docs/get_started.md).
+Read our [getting started guide here](./docs/get_started.md).
 
 For more in-depth info, read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit)
 
