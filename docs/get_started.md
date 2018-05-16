@@ -1,7 +1,7 @@
 # Getting Started With Skill Testing
 It's easy to unit-test your Alexa skill with Bespoken.
 
-<img src="BST-Test-Run.gif" width="500" alt="Test Run Animated" />
+<img src="BST-Test-Run.gif" width="800" alt="Test Run Animated" />
 
 Here's a sample from the tests being run:
 
@@ -81,7 +81,7 @@ That's all there is to it!
 
 ## Understanding The Output
 
-<img src="BST-Test-Output.png" width="400" alt="Test Output"/>
+<img src="BST-Test-Output.png" width="800" alt="Test Output"/>
 
 The top of the output is the result of each test.
 Underneath each test is the sequence of interactions.
@@ -89,7 +89,7 @@ Underneath each test is the sequence of interactions.
 If any failed, they are marked with an X.
 
 Below this list of tests, we see detailed output for any test that failed:
-<img src="BST-Test-Failure.png" width="400" alt="Test Output"/>
+<img src="BST-Test-Failure.png" width="800" alt="Test Failure"/>
 
 This tells the exact interaction that failed, as well as why it failed.
 Based on this, we can either fix our test or fix the code.
