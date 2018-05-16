@@ -42,7 +42,7 @@
     "babel.bin": "babel bin -d dist/bin",
     "lint": "eslint --config .eslintrc.json bin lib test",
     "pretest": "npm run lint",
-    "preversion": "npm test",
+    "preversion": "npm test && npm run test.babel",
     "test": "jest",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
     "coverage": "codecov",
