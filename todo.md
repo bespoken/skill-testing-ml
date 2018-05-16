@@ -22,17 +22,20 @@
 - [X] add ability to set applicationId, accountToken and deviceId
 - [X] Add goto support
 - [X] fix for windows
+- [X] Updated bst command
 - [ ] create getting started
 - [ ] add support for other operators
 - [ ] reset dynamo between each test?
 - [ ] fix error when running where there is no config or tests
 - [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
 - [ ] Add filtering capability
-- [ ] Updated bst command
 - [ ] reset dynamo between each test?
 - [ ] Move logless to its own repo
+- [ ] Add ability to run specific tests
 - [ ] Should it be skill-testing.json or bst.json?
-- [ ] improve yaml error handling - rethrow handled error with extra info
+- [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
+- [ ] Add installation help steps
+- [ ] Add input event support to virtual alexa
 
 For V2
 - [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
@@ -41,3 +44,4 @@ For V2
 - [ ] jest does not work with node 4?
 - [ ] improve error messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
+- [ ] try out flow
