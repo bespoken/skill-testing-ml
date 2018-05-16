@@ -101,3 +101,9 @@ This provides detailed information about the code coverage for our tests.
 
 ## Going Deeper
 To add more tests, read our guide on the [Skill Testing Markup Language syntax here](guide.md).
+
+Learn about [common use-cases here](./docs/use_cases.md), such as:
+
+* State Management With Dynamo
+* Testing The Address API
+* Working With Dialogs

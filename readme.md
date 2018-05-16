@@ -23,6 +23,8 @@ Output:
 
 Read our [getting started guide here](./docs/get_started.md).
 
+Learn about [common use-cases here](./docs/use_cases.md).
+
 For more in-depth info, read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit)
 
 ## Current Support

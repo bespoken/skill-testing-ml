@@ -36,6 +36,7 @@
 - [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
 - [ ] Add installation help steps
 - [ ] Add input event support to virtual alexa
+- [ ] Add references to examples for all test cases
 
 For V2
 - [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
