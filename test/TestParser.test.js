@@ -158,4 +158,41 @@ configuration:
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].goto).toBe("Help Me");
     });
+
+    test("parses file with array of expected values", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value:
+    - value 1
+    - value 2
+- Help Me:
+  - response.test.value: 
+    - /regex1/
+    - /regex2/
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions[0].value.length).toBe(2);
+        expect(testSuite.tests[0].interactions[1].assertions[0].value.length).toBe(2);
+    });
+
+    test("parses file with array that is incorrectly formatted", (done) => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value:
+  - value1
+  - value 2
+        `);
+        try {
+            parser.parse();
+        } catch (e) {
+            expect(e.name).toEqual("Error");
+            expect(e.message).toContain("Invalid assertion: value1");
+            done();
+        }
+    });
 });

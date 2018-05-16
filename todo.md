@@ -32,6 +32,7 @@
 - [ ] reset dynamo between each test?
 - [ ] Move logless to its own repo
 - [ ] Should it be skill-testing.json or bst.json?
+- [ ] improve yaml error handling - rethrow handled error with extra info
 
 For V2
 - [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?

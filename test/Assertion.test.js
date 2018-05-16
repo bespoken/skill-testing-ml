@@ -28,6 +28,21 @@ describe("assertion", () => {
         expect(assertion.evaluate(obj)).toBe(true);
     });
 
+    test("evaluate array", () => {
+        const obj = { val: "Here is a test +" };
+        let assertion = new Assertion("val", "=~", ["/.*/", "not a test"]);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("val", "==", ["/Not here.*/", "Here is a test +"]);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("val", "==", ["/.*/", "Here does not match"]);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("val", "==", ["Not match", "Here does not match"]);
+        expect(assertion.evaluate(obj)).toBe(false);
+    });
+
     test("evaluate wild cards", () => {
         const obj = { val: "Here $ is ^ a + test?" };
         let assertion = new Assertion("val", "==", "Here $ is ^ a + *");
