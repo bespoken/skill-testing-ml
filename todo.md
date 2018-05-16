@@ -39,6 +39,7 @@
 - [ ] Add references to examples for all test cases
 
 For V2
+- [ ] Add debugging docs with vs code
 - [ ] Add filtering capability
 - [ ] support prompt property for everything?
 - [ ] jest does not work with node 4?
