@@ -1,7 +1,7 @@
 # Common Use-Cases And How To Handle Them
 * [Testing State With Dynamo](#testing-with-dynamo)
 * [Testing The Address API](#testing-with-the-address-api)
-* [Testing Dialog-Based Skills](#dialog-interface)
+* [Testing Dialog-Based Skills](#testing-with-the-dialog-interface)
 
 ## Testing With Dynamo
 Dynamo can be tricky to test with locally, because there is lots of setup to be done to work with Dynamo locally on your laptop.
