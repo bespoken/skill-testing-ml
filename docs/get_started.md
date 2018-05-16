@@ -42,14 +42,14 @@ To get started, you need to install Bespoken Tools.
 
 If you haven't already, follow these steps:
 
-**Install NPM**
+**Install NPM**  
 [Instructions here](https://www.npmjs.com/get-npm) if you have not already installed npm.
 
-**Open A Command Prompt**
+**Open A Command Prompt**  
 For Mac, run Applications -> Terminal
 For Windows, run Node Environment
 
-**Install Bespoken Tools**
+**Install Bespoken Tools**  
 Once on the command-line, type:
 
 ```
