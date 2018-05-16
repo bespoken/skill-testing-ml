@@ -71,7 +71,7 @@ BST: v2.0.0  Node: v8.11.1
   **(Output truncated)**
 ```
 
-** Run Your Tests
+## Run Your Tests
 If you are starting with one of the Alexa sample projects, just go ahead and enter:
 ```
 bst test
