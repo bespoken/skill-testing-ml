@@ -3,59 +3,29 @@
 [![codecov](https://codecov.io/gh/bespoken/skill-testing-ml/branch/master/graph/badge.svg?token=C2VONoJUN3)](https://codecov.io/gh/bespoken/skill-testing-ml)
 # The Skill Tester
 
-## Setup
-### Prerequisites
-* Node.js >= 6.x.x
-
-### Install
-`npm install skill-testing-ml -g`
-
-### Configure
-Create a file called skill-testing.json at the root level of your project. It should look like this:
-```json
-{
-  "handler": "index.handler",
-  "locale": "en-US",
-  "jest": {
-    "silent": false
-  }
-}
-```
+## What Is This
+A tool for unit-testing Alexa skills.
 
 ## How It Works
-Here is a simple example, to test the Get Facts skill:
+Write tests in YAML, like this:
 ```
-# A simple example of skill test suite
---- # Configuration YAML document
-configuration:
-  locale: en-US
-
---- # The --- indicates the start of a new test, which is a self-contained YAML document
-- test: "Launches successfully" # Optional info about the test
-- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
-  - response.outputSpeech.ssml =~ .*Here's your fact:.* # A comment
-  - response.reprompt == undefined
-
 ---
-- test: "Gets a new fact intent"
-- "Help":
-  - response.outputSpeech.ssml =~ .*You can say.*
-- "Get New Facts":
-  - response.outputSpeech.ssml == "Here's your fact:"
-  - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly
-  - response.card.content != undefined
-```
-Run it:
-```
-skill-tester
+- test: "Sequence 01. Test scenario: launch request, no further interaction."
+- LaunchRequest: # LaunchRequest is not an utterance but a request type and "reserved" word
+  - response.outputSpeech.ssml: "Here's your fact"
+  - response.card.type: "Simple"
+  - response.card.title: "Space Facts"
+  - response.card.content: "/.*/" # Regular expression indicating any text will match
 ```
 
 Output:  
 ![Skill Testing Output](./docs/SkillTestingOutput.png)
 
-Read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit)
+Read our pgetting started guide here](https://github.com/bespoken/skill-testing-ml/tree/master/docs/get_started.md).
 
-## Current Support
+For more in-depth info, read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit)
+
+## Current Support  
 - [X] Multi-turn conversations
 - [X] Dialog Interface support
 - [X] AudioPlater interface support
@@ -71,3 +41,6 @@ Read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmO
 - [ ] Much better documentation!
 - [ ] Callbacks for filtering payloads programmatically
 - [ ] Virtual device support
+
+## Support
+[Talk to us on gitter](https://gitter.im/bespoken/bst).
