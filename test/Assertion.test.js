@@ -11,6 +11,10 @@ describe("assertion", () => {
 
         assertion = new Assertion("val", "==", "Here it will fail");
         expect(assertion.evaluate(obj)).toBe(false);
+
+        const assertionString = assertion.toString(obj);
+        expect(assertionString).toContain("Expected value at [val] to ==\n");
+        expect(assertionString).toContain("\tHere it will fail\n");
     });
 
     test("evaluate regex", () => {
@@ -41,6 +45,9 @@ describe("assertion", () => {
 
         assertion = new Assertion("val", "==", ["Not match", "Here does not match"]);
         expect(assertion.evaluate(obj)).toBe(false);
+        const assertionString = assertion.toString(obj);
+        expect(assertionString).toContain("Expected value at [val] to be one of:\n");
+        expect(assertionString).toContain("\tNot match\n\tHere does not match\n");
     });
 
     test("evaluate numeric operators", () => {

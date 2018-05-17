@@ -25,12 +25,14 @@
 - [X] Updated bst command
 - [X] create getting started
 - [X] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
-- [ ] add support for other operators
-- [ ] reset dynamo between each test?
+- [x] Better error messages on variable responses
+- [x] add support for other operators
+- [ ] add support for sending intents to dialog delegate
+- [ ] fill-in core guide
+- [ ] figure out how to include docs on docs.bespoken.io
 - [ ] fix error when running where there is no config or tests
 - [ ] Add filtering capability
-- [ ] reset dynamo between each test?
-- [ ] Move logless to its own repo
+- [ ] Add docs on dynamo reset behavior
 - [ ] Add ability to run specific tests
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
