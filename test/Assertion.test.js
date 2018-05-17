@@ -91,6 +91,8 @@ describe("assertion", () => {
 
         assertion = new Assertion("notNumber", ">", "50");
         expect(assertion.evaluate(obj)).toBe(false);
+        const assertionString = assertion.toString(obj);
+        expect(assertionString).toContain("Expected value at [notNumber] to be >\n");
     });
 
     test("evaluate wild cards", () => {
