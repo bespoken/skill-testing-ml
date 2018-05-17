@@ -24,9 +24,12 @@
 - [X] fix for windows
 - [X] Updated bst command
 - [X] create getting started
-- [ ] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
+- [X] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
+- [ ] Better error messages on variable responses
 - [ ] add support for other operators
-- [ ] reset dynamo between each test?
+- [ ] add support for sending intents to dialog delegate
+- [ ] fill-in core guide
+- [ ] figure out how to include docs on docs.bespoken.io
 - [ ] fix error when running where there is no config or tests
 - [ ] Add filtering capability
 - [ ] reset dynamo between each test?
@@ -37,6 +40,7 @@
 - [ ] Add installation help steps
 - [ ] Add input event support to virtual alexa
 - [ ] Add references to examples for all test cases
+- [ ] reset dynamo between each test?
 
 For V2
 - [ ] Add debugging docs with vs code
