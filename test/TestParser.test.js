@@ -195,4 +195,20 @@ configuration:
             done();
         }
     });
+
+    test("parses file with invalid numeric value", (done) => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value > test
+        `);
+        try {
+            parser.parse();
+        } catch (e) {
+            expect(e.name).toEqual("Error");
+            expect(e.message).toContain("Invalid expected value - must be numeric: test");
+            done();
+        }
+    });
 });

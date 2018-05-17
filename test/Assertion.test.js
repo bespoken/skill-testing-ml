@@ -43,6 +43,49 @@ describe("assertion", () => {
         expect(assertion.evaluate(obj)).toBe(false);
     });
 
+    test("evaluate numeric operators", () => {
+        const obj = {
+            notNumber: "notNumber",
+            number: 100,
+            numberString: "100"
+        };
+
+        // Core operator tests
+        let assertion = new Assertion("number", ">", 99);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("number", ">", 100);
+        expect(assertion.evaluate(obj)).toBe(false);
+
+        assertion = new Assertion("number", ">=", 100);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("number", ">=", 101);
+        expect(assertion.evaluate(obj)).toBe(false);
+
+        assertion = new Assertion("number", "<=", 100);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("number", "<=", 99);
+        expect(assertion.evaluate(obj)).toBe(false);
+
+        assertion = new Assertion("number", "<", 101);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("number", "<", 100);
+        expect(assertion.evaluate(obj)).toBe(false);
+
+        // Check some edge cases
+        assertion = new Assertion("number", ">", "50");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("numberString", ">", "50");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion("notNumber", ">", "50");
+        expect(assertion.evaluate(obj)).toBe(false);
+    });
+
     test("evaluate wild cards", () => {
         const obj = { val: "Here $ is ^ a + test?" };
         let assertion = new Assertion("val", "==", "Here $ is ^ a + *");
