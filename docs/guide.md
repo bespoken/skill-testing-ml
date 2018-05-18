@@ -148,7 +148,7 @@ configuration:
 
 The test suite above contains two tests. Additionally, at the top it has a configuration element.
 
-The configuraiton provides settings that work across the test - [it is described below](#test-configuration).
+The configuration provides settings that work across the test - [it is described below](#test-configuration).
 
 The tests represent sequence of conversations with the skill.
 
@@ -195,10 +195,10 @@ each assertion is in turn evaluated in order when a response is received.
 If any assertion fails for a test, the test stops processing, and information about the failed assertion is provided.
 
 ### Assertions
-An assertion follows one of two simple syntaxes:
-[[JSONPath Property]]: [[Expected Value]]
-or
-[[JSONPath Property]] [[Operator]] [[Expected Value]]
+An assertion follows one of two simple syntaxes:  
+`[JSONPath Property]: [Expected Value]`   
+or  
+`[JSONPath Property] [Operator] [Expected Value]`
 
 The second syntax provides use more than just equality operators.
 
