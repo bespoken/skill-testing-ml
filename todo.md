@@ -29,6 +29,7 @@
 - [ ] add support for other operators
 - [ ] add support for sending intents to dialog delegate
 - [ ] fill-in core guide
+- [ ] support prompt property for everything?
 - [ ] figure out how to include docs on docs.bespoken.io
 - [ ] fix error when running where there is no config or tests
 - [ ] Add filtering capability
@@ -41,11 +42,12 @@
 - [ ] Add input event support to virtual alexa
 - [ ] Add references to examples for all test cases
 - [ ] reset dynamo between each test?
+- [ ] document dialogs
 
 For V2
 - [ ] Add debugging docs with vs code
+- [ ] Add monetization API
 - [ ] Add filtering capability
-- [ ] support prompt property for everything?
 - [ ] jest does not work with node 4?
 - [ ] improve error messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
