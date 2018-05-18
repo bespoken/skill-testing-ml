@@ -207,8 +207,8 @@ The operators are:
 * == Partial equals - for example, the expected value "partial sentence" will match "this is a partial sentence"
 * =~ Regular expression match
 * != Not equal to
-* >  Greater than
-* >= Greater than or equal
+* \>  Greater than
+* \>= Greater than or equal
 * <  Less than
 * <= Less than or equal
 
