@@ -10,12 +10,18 @@ To bypass this, simple enable our mock dynamo in your testing configuration:
 ```
 configuration:
   dynamo: mock
+  userId: MyUserID
 ```
 
 With this enabled, a local in-memory version of Dynamo will be used instead.
 
 You can also specifiy values for `userId` and `deviceId` in the configuration.
 In this way, different user scenarios can be worked on.
+
+The mock Dynamo DB will maintain it's state for the execution of the entire test suite (a single file).
+It will be **reset** between test file executions, so it will be wiped clean when a new test file begins running.
+
+In that way, the state can be modified from test to test and checked.
 
 More information on [how it works here](https://github.com/bespoken/virtual-alexa/blob/master/docs/Externals.md#dynamodb).
 
