@@ -25,24 +25,21 @@
 - [X] Updated bst command
 - [X] create getting started
 - [X] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
-- [ ] Better error messages on variable responses
-- [ ] add support for other operators
+- [x] Better error messages on variable responses
+- [x] add support for other operators
 - [ ] add support for sending intents to dialog delegate
 - [ ] fill-in core guide
 - [ ] support prompt property for everything?
 - [ ] figure out how to include docs on docs.bespoken.io
 - [ ] fix error when running where there is no config or tests
 - [ ] Add filtering capability
-- [ ] reset dynamo between each test?
-- [ ] Move logless to its own repo
+- [ ] Add docs on dynamo reset behavior
 - [ ] Add ability to run specific tests
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
 - [ ] Add installation help steps
 - [ ] Add input event support to virtual alexa
 - [ ] Add references to examples for all test cases
-- [ ] reset dynamo between each test?
-- [ ] document dialogs
 
 For V2
 - [ ] Add debugging docs with vs code
