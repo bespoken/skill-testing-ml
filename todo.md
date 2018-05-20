@@ -29,10 +29,11 @@
 - [x] add support for other operators
 - [X] add support for sending intents to dialog delegate
 - [X] fill-in core guide
+- [X] figure out how to include docs on docs.bespoken.io
 - [ ] support prompt property for everything?
 - [ ] make dynamo and address configurable globally and locally on test
 - [ ] support random intent on delegated dialog confirmation
-- [ ] figure out how to include docs on docs.bespoken.io
+- [ ] add implied prompt test
 - [ ] fix error when running where there is no config or tests
 - [ ] Add filtering capability
 - [ ] Add docs on dynamo reset behavior
