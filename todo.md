@@ -27,9 +27,10 @@
 - [X] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
 - [x] Better error messages on variable responses
 - [x] add support for other operators
-- [ ] add support for sending intents to dialog delegate
-- [ ] fill-in core guide
+- [X] add support for sending intents to dialog delegate
+- [X] fill-in core guide
 - [ ] support prompt property for everything?
+- [ ] make dynamo and address configurable globally and locally on test
 - [ ] figure out how to include docs on docs.bespoken.io
 - [ ] fix error when running where there is no config or tests
 - [ ] Add filtering capability
