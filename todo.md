@@ -30,11 +30,15 @@
 - [X] add support for sending intents to dialog delegate
 - [X] fill-in core guide
 - [X] figure out how to include docs on docs.bespoken.io
+- [ ] look at audioplayer tests
+- [ ] look at slots tests
+- [ ] look at goto tests
 - [ ] support prompt property for everything?
 - [ ] make dynamo and address configurable globally and locally on test
 - [ ] support random intent on delegated dialog confirmation
 - [ ] add implied prompt test
 - [ ] fix error when running where there is no config or tests
+- [ ] add prettier error messages when slots don't match
 - [ ] Add filtering capability
 - [ ] Add docs on dynamo reset behavior
 - [ ] Add ability to run specific tests
