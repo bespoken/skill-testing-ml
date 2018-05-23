@@ -1,6 +1,6 @@
 {
   "name": "skill-testing-ml",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Skill Testing Markup Language",
   "main": "dist/lib/Index.js",
   "bin": {
@@ -52,14 +52,14 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.4.1",
-    "cosmiconfig": "^5.0.3",
+    "cosmiconfig": "^5.0.4",
     "debug": "^3.1.0",
-    "jest": "^22.4.3",
+    "jest": "^22.4.4",
     "jest-message-util": "^22.4.3",
     "js-yaml": "^3.11.0",
     "jsonpath": "^1.0.0",
     "lodash": "^4.17.5",
-    "virtual-alexa": "^0.6.1"
+    "virtual-alexa": "^0.6.2-1"
   },
   "devDependencies": {
     "alexa-sdk": "^1.0.25",
