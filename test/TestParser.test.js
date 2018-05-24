@@ -87,7 +87,7 @@ describe("test parser", () => {
         expect(testSuite.tests[0].interactions.length).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(0);
         expect(testSuite.tests[0].interactions[0].expressions.length).toBe(0);
-        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(0);
+        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[1].expressions.length).toBe(0);
     });
 
@@ -210,5 +210,44 @@ configuration:
             expect(e.message).toContain("Invalid expected value - must be numeric: test");
             done();
         }
+    });
+
+    test("parses file with one-line request-response", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: "Hi"
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("Hi");
+        expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
+    });
+
+    test("parses file with one-line request-response and regex", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: /.*/
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("/.*/");
+        expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("=~");
+    });
+
+    test("parses file with one-line request-response and number", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: 15
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe(15);
+        expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
     });
 });

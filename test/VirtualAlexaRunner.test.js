@@ -132,4 +132,29 @@ describe("virtual alexa runner", () => {
             expect(results[1].interactionResults[0].exited).toBe(true);
         });
     });
+
+    describe("shorthand property tests", () => {
+        beforeAll(() => {
+            return Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        test("Test shorthand properties", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/TestFiles/shorthand-tests.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].passed).toBe(true);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+
+            // Check on help
+            expect(results[1].interactionResults.length).toBe(1);
+            expect(results[1].interactionResults[0].passed).toBe(true);
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+        });
+    });
 });

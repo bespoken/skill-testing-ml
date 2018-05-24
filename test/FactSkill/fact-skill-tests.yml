@@ -23,7 +23,7 @@ configuration:
   - response.card.title  =~   Space Facts # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
 
+# Example with a one-line request and response
 ---
-- "Help":
-  - response.outputSpeech.ssml: /.*You can say.*/
+- "Help": /.*You can say.*/
 - "yes"

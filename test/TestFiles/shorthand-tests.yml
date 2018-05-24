@@ -1,0 +1,16 @@
+# Test created by Bespoken - to use this test, go to https://bespoken.io/testing
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - prompt: "Here's your fact:*" # A comment
+  - reprompt: undefined
+
+---
+- test: "Gets a new fact intent"
+- "Help":
+  - prompt == "You can say tell me a space fact" # A comment
+  - reprompt == "What can I help you with"
