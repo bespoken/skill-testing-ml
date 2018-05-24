@@ -55,6 +55,7 @@
                     "metadata",
                     "num",
                     "rc",
+                    "reprompt",
                     "runtime",
                     "ssml",
                     "stml",
