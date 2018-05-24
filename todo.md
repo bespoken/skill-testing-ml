@@ -37,6 +37,7 @@
 - [ ] make dynamo and address configurable globally and locally on test
 - [ ] support random intent on delegated dialog confirmation
 - [ ] add implied prompt test
+- [ ] add "only" tag like in jest to skip all other tests
 - [ ] fix error when running where there is no config or tests
 - [ ] add prettier error messages when slots don't match
 - [ ] Add filtering capability
