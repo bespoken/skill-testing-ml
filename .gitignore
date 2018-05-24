@@ -5,3 +5,4 @@ reports
 junit.xml
 dist
 *.tgz
+.vscode
