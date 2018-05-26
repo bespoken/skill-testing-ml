@@ -36,8 +36,8 @@
 - [X] add implied prompt test
 - [X] look at goto tests
 - [X] fix interactionError when running where there is no config or tests
-- [ ] make dynamo and address configurable globally and locally on test
-- [ ] Better interactionError handling from parser - standardize output
+- [X] make dynamo and address configurable globally and locally on test
+- [X] Better interactionError handling from parser - standardize output
 - [ ] Document UNIT_TEST environment variable
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] support random intent on delegated dialog confirmation
