@@ -1,4 +1,5 @@
 const TestParser = require("../lib/TestParser");
+const Util = require("../lib/Util");
 
 describe("test parser", () => {
     test("parses simple test file successfully", () => {
@@ -32,16 +33,19 @@ describe("test parser", () => {
         expect(secondAssertion.value).toEqual("Space Facts");
     });
 
-    test("parses simple test file with bad assertion", () => {
+    test("parses simple test file with bad assertion", (done) => {
         const parser = new TestParser();
         parser.load(`
 --- 
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response === "Here's your fact:*"    
         `)
-        expect(() => {
+        try {
             parser.parse();
-        }).toThrowError("Invalid operator: ===");
+        } catch (e) {
+            expect(e.message).toBe("Invalid operator: ===");
+            done();
+        }
     });
 
     test("parses simple test file with object assertions", () => {
@@ -120,7 +124,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax");
+            expect(e.name).toEqual("YAML Syntax Error");
             expect(e.message).toContain("Configuration element is not an object:");
             done();
         }
@@ -190,7 +194,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax");
+            expect(e.name).toEqual("YAML Syntax Error");
             expect(e.message).toContain("Invalid assertion: value1");
             done();
         }
@@ -206,7 +210,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax");
+            expect(e.name).toEqual("YAML Syntax Error");
             expect(e.message).toContain("Invalid expected value - must be numeric: test");
             done();
         }
@@ -249,5 +253,22 @@ configuration:
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe(15);
         expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
+    });
+
+    test("parses file with line numbers", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: "string"
+- LaunchRequest: "string2"
+# Comment
+- LaunchRequest: "string3"
+        `);
+        const testSuite = parser.parse();
+        const value = testSuite.tests[0].interactions[0].assertions[0]._value;
+        expect(Util.isString(value));
+        expect(testSuite.tests[0].interactions[0].assertions[0]._value._yaml.line).toBe(2);
+        expect(testSuite.tests[0].interactions[1].assertions[0]._value._yaml.line).toBe(3);
+        expect(testSuite.tests[0].interactions[2].assertions[0]._value._yaml.line).toBe(5);
     });
 });

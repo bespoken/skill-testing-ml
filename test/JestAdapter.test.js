@@ -29,8 +29,8 @@ describe("JestAdapter", async () => {
     test("Runs a mock test that fails", async () => {
         const test = new Test({ description: "Test Description" });
         const testResult = new TestResult(test);
-        const interaction = new TestInteraction("Hi");
-        const assertion = new Assertion("path", "==", "value");
+        const interaction = new TestInteraction(test, "Hi");
+        const assertion = new Assertion(interaction, "path", "==", "value");
         const interactionResult = new InteractionResult(interaction, assertion, "Here is an error");
         testResult.addInteractionResult(interactionResult);
         const results = [testResult];
