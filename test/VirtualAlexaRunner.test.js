@@ -50,7 +50,7 @@ describe("virtual alexa runner", () => {
             await runner.run("test/TestFiles/expressions-tests.yml");
         });
 
-        test("error on no locale", async () => {
+        test("interactionError on no locale", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({});
             const runner = new VirtualAlexaRunner();

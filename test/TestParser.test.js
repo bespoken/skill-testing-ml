@@ -43,7 +43,7 @@ describe("test parser", () => {
         try {
             parser.parse();
         } catch (e) {
-            expect(e.message).toBe("Invalid operator: ===");
+            expect(e.message).toBe("Test Syntax Error:\n\tInvalid operator: ===");
             done();
         }
     });
@@ -124,7 +124,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax Error");
+            expect(e.name).toEqual("Test Syntax Error");
             expect(e.message).toContain("Configuration element is not an object:");
             done();
         }
@@ -194,7 +194,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax Error");
+            expect(e.name).toEqual("Test Syntax Error");
             expect(e.message).toContain("Invalid assertion: value1");
             done();
         }
@@ -210,7 +210,6 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax Error");
             expect(e.message).toContain("Invalid expected value - must be numeric: test");
             done();
         }

@@ -25,7 +25,7 @@
 - [X] Updated bst command
 - [X] create getting started
 - [X] Make sure sessionendedrequest works - do we need a next tick to make sure another request doesn't come before it finishes?
-- [x] Better error messages on variable responses
+- [x] Better interactionError messages on variable responses
 - [x] add support for other operators
 - [X] add support for sending intents to dialog delegate
 - [X] fill-in core guide
@@ -35,16 +35,16 @@
 - [X] support prompt property for everything?
 - [X] add implied prompt test
 - [X] look at goto tests
-- [X] fix error when running where there is no config or tests
+- [X] fix interactionError when running where there is no config or tests
 - [ ] make dynamo and address configurable globally and locally on test
-- [ ] Better error handling from parser - standardize output
+- [ ] Better interactionError handling from parser - standardize output
 - [ ] Document UNIT_TEST environment variable
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] support random intent on delegated dialog confirmation
 - [ ] add implied prompt test
 - [ ] add "only" tag like in jest to skip all other tests
-- [ ] fix error when running where there is no config or tests
-- [ ] add prettier error messages when slots don't match
+- [ ] fix interactionError when running where there is no config or tests
+- [ ] add prettier interactionError messages when slots don't match
 - [ ] Add filtering capability
 - [ ] Add docs on dynamo reset behavior
 - [ ] Add ability to run specific tests
@@ -55,12 +55,12 @@
 - [ ] add support for all written out numbers?
 
 For V2
-- [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
+- [ ] improve yaml interactionError handling - rethrow handled interactionError with extra info, line numbers?
 - [ ] add monetization api
 - [ ] Add debugging docs with vs code
 - [ ] Add monetization API
 - [ ] Add filtering capability
 - [ ] jest does not work with node 4?
-- [ ] improve error messages on parsing - include line numbers?
+- [ ] improve interactionError messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
 - [ ] try out flow
