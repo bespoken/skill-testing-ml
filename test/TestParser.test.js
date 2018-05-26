@@ -56,6 +56,7 @@ describe("test parser", () => {
   - response.outputSpeech.ssml: "Here's your fact: *"  
   - response.outputSpeech.ssml: /regular expression+.*/  
   - response.outputSpeech.ssml: "/Here's your fact: .*/" 
+  - response.outputSpeech.ssml: 15
   - response: undefined 
         `)
         const testSuite = parser.parse();
@@ -77,9 +78,15 @@ describe("test parser", () => {
         expect(assertion3._value._yaml.line).toEqual(5);
 
         const assertion4 = testSuite.tests[0].interactions[0].assertions[3];
-        expect(assertion4.path).toEqual("response");
+        expect(assertion4.path).toEqual("response.outputSpeech.ssml");
         expect(assertion4.operator).toEqual("==");
-        expect(assertion4.value).toBeUndefined();
+        expect(assertion4._value._yaml.line).toBe(6);
+        expect(assertion4.value).toBe(15);
+
+        const assertion5 = testSuite.tests[0].interactions[0].assertions[4];
+        expect(assertion5.path).toEqual("response");
+        expect(assertion5.operator).toEqual("==");
+        expect(assertion5.value).toBeUndefined();
     });
 
     test("parses simple test file with some funny conditions", () => {
@@ -181,6 +188,7 @@ configuration:
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions[0].value.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions[0].lineNumber).toBe(3);
         expect(testSuite.tests[0].interactions[1].assertions[0].value.length).toBe(2);
     });
 
