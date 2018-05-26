@@ -52,6 +52,29 @@ describe("JestAdapter", async () => {
         expect(jestTestResult.ancestorTitles[0]).toBe("Test Description");
         expect(jestTestResult.status).toBe("failed");
     });
+
+    test("Runs a mock test that fails on global parsing", async () => {
+        const jestResults = await testRunner({}, { rootDir: "rootDir" }, {}, new Runtime([]), "GlobalError.yml");
+        expect(jestResults.numPassingTests).toBe(0);
+        expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.testResults.length).toBe(1);
+
+        // Check the magical failure message
+        expect(jestResults.failureMessage).toContain("Global");
+        expect(jestResults.failureMessage).toContain("I got an error");
+    });
+
+    test("Runs a mock test that fails on test parsing", async () => {
+        const jestResults = await testRunner({}, { rootDir: "rootDir" }, {}, new Runtime([]), "TestError.yml");
+        expect(jestResults.numPassingTests).toBe(0);
+        expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.testResults.length).toBe(1);
+
+        // Check the magical failure message
+        expect(jestResults.failureMessage).toContain("Test Error Description");
+        expect(jestResults.failureMessage).toContain("Utterance");
+        expect(jestResults.failureMessage).toContain("I got an error");
+    });
 });
 
 class Runtime {
@@ -65,7 +88,17 @@ class Runtime {
 }
 
 class FakeVirtualAlexaRunner {
-    run() {
+    run(testFile) {
+        // Test setup to a global error
+        if (testFile === "GlobalError.yml") {
+            throw new Error("I got an error");
+        } else if (testFile === "TestError.yml") {
+            const error = new Error("I got an error");
+            const suite = new TestSuite(testFile);
+            error.test = new Test(suite, "Test Error Description");
+            error.interaction = new TestInteraction(test, "Utterance");
+            throw error;
+        }
         return FakeVirtualAlexaRunner.results;
     }
 }

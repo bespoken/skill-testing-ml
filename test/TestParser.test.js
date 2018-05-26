@@ -63,6 +63,7 @@ describe("test parser", () => {
         expect(assertion.path).toEqual("response.outputSpeech.ssml");
         expect(assertion.operator).toEqual("==");
         expect(assertion.value).toEqual("Here's your fact: *");
+        expect(assertion._value._yaml.line).toEqual(3);
 
         const assertion2 = testSuite.tests[0].interactions[0].assertions[1];
         expect(assertion2.path).toEqual("response.outputSpeech.ssml");
@@ -73,6 +74,7 @@ describe("test parser", () => {
         expect(assertion3.path).toEqual("response.outputSpeech.ssml");
         expect(assertion3.operator).toEqual("=~");
         expect(assertion3.value).toEqual("/Here's your fact: .*/");
+        expect(assertion3._value._yaml.line).toEqual(5);
 
         const assertion4 = testSuite.tests[0].interactions[0].assertions[3];
         expect(assertion4.path).toEqual("response");
@@ -125,7 +127,7 @@ configuration:
             parser.parse();
         } catch (e) {
             expect(e.name).toEqual("Test Syntax Error");
-            expect(e.message).toContain("Configuration element is not an object:");
+            expect(e.message).toContain("Configuration element is not an object");
             done();
         }
     });
