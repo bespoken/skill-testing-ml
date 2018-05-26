@@ -35,9 +35,10 @@
 - [X] support prompt property for everything?
 - [X] add implied prompt test
 - [X] look at goto tests
-- [ ] fix error when running where there is no config or tests
-- [ ] Better error handling from parser - standardize output
+- [X] fix error when running where there is no config or tests
 - [ ] make dynamo and address configurable globally and locally on test
+- [ ] Better error handling from parser - standardize output
+- [ ] Document UNIT_TEST environment variable
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] support random intent on delegated dialog confirmation
 - [ ] add implied prompt test
