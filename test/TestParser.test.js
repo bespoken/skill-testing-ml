@@ -190,7 +190,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("Error");
+            expect(e.name).toEqual("YAML Syntax");
             expect(e.message).toContain("Invalid assertion: value1");
             done();
         }
@@ -206,7 +206,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("Error");
+            expect(e.name).toEqual("YAML Syntax");
             expect(e.message).toContain("Invalid expected value - must be numeric: test");
             done();
         }

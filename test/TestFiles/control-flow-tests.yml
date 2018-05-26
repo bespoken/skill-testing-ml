@@ -21,11 +21,15 @@ configuration:
 ---
 - test: "Exits successfully"
 - LaunchRequest:
-  - response.outputSpeech.ssml == "ABC:*" goto Get New Fact
+  - response.outputSpeech.ssml == "ABC:*" goto "Get New Fact"
   - response.reprompt == undefined
   - response.card.content =~ /.*/
   - exit
-- Help:
+- Get New Fact:
+  - response.outputSpeech.ssml == "ABC" goto Help
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/
+- "Help":
   - response.outputSpeech.ssml == "Here's your fact:*"
   - response.reprompt == undefined
   - response.card.content =~ /.*/

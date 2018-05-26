@@ -34,8 +34,9 @@
 - [X] look at slots tests
 - [X] support prompt property for everything?
 - [X] add implied prompt test
-- [ ] look at goto tests
+- [X] look at goto tests
 - [ ] fix error when running where there is no config or tests
+- [ ] Better error handling from parser - standardize output
 - [ ] make dynamo and address configurable globally and locally on test
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] support random intent on delegated dialog confirmation
@@ -47,12 +48,14 @@
 - [ ] Add docs on dynamo reset behavior
 - [ ] Add ability to run specific tests
 - [ ] Should it be skill-testing.json or bst.json?
-- [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
 - [ ] Add installation help steps
 - [ ] Add input event support to virtual alexa
 - [ ] Add references to examples for all test cases
+- [ ] add support for all written out numbers?
 
 For V2
+- [ ] improve yaml error handling - rethrow handled error with extra info, line numbers?
+- [ ] add monetization api
 - [ ] Add debugging docs with vs code
 - [ ] Add monetization API
 - [ ] Add filtering capability
