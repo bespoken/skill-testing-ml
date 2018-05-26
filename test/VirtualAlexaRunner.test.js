@@ -42,7 +42,11 @@ describe("virtual alexa runner", () => {
 
         test("explicit intent and slots", async () => {
             const runner = new VirtualAlexaRunner();
-            await runner.run("test/TestFiles/explicit-intent-tests.yml");
+            const results = await runner.run("test/TestFiles/explicit-intent-tests.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].interaction.utterance).toEqual("This name means nothing");
+            expect(results[0].interactionResults[0].interaction.slots._yaml).toBeUndefined();
+            expect(results[0].interactionResults[0].error).toBeUndefined();
         });
 
         test("set expressions", async () => {
