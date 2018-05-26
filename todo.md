@@ -38,25 +38,22 @@
 - [X] fix interactionError when running where there is no config or tests
 - [X] make dynamo and address configurable globally and locally on test
 - [X] Better interactionError handling from parser - standardize output
-- [ ] Document UNIT_TEST environment variable
-- [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
-- [ ] support random intent on delegated dialog confirmation
-- [ ] add implied prompt test
-- [ ] add "only" tag like in jest to skip all other tests
-- [ ] fix interactionError when running where there is no config or tests
-- [ ] add prettier interactionError messages when slots don't match
-- [ ] Add filtering capability
-- [ ] Add docs on dynamo reset behavior
+- [X] improve yaml interactionError handling - rethrow handled interactionError with extra info, line numbers?
 - [ ] Add ability to run specific tests
+- [ ] Document UNIT_TEST environment variable
+- [ ] add "only" tag like in jest to skip all other tests
+- [ ] add prettier interactionError messages when slots don't match
+- [ ] Add docs on dynamo reset behavior
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] Add installation help steps
-- [ ] Add input event support to virtual alexa
 - [ ] Add references to examples for all test cases
-- [ ] add support for all written out numbers?
 
 For V2
-- [ ] improve yaml interactionError handling - rethrow handled interactionError with extra info, line numbers?
+- [ ] support random intent on delegated dialog confirmation
 - [ ] add monetization api
+- [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
+- [ ] add support for all written out numbers?
+- [ ] Add input event support to virtual alexa
 - [ ] Add debugging docs with vs code
 - [ ] Add monetization API
 - [ ] Add filtering capability

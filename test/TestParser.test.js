@@ -168,6 +168,7 @@ configuration:
         `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].lineNumber).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].goto).toBe("Help Me");
     });
@@ -259,6 +260,7 @@ configuration:
         `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].lineNumber).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe(15);
         expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
