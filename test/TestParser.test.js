@@ -1,4 +1,5 @@
 const TestParser = require("../lib/TestParser");
+const Util = require("../lib/Util");
 
 describe("test parser", () => {
     test("parses simple test file successfully", () => {
@@ -32,16 +33,19 @@ describe("test parser", () => {
         expect(secondAssertion.value).toEqual("Space Facts");
     });
 
-    test("parses simple test file with bad assertion", () => {
+    test("parses simple test file with bad assertion", (done) => {
         const parser = new TestParser();
         parser.load(`
 --- 
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response === "Here's your fact:*"    
         `)
-        expect(() => {
+        try {
             parser.parse();
-        }).toThrowError("Invalid operator: ===");
+        } catch (e) {
+            expect(e.message).toBe("Test Syntax Error:\n\tInvalid operator: ===");
+            done();
+        }
     });
 
     test("parses simple test file with object assertions", () => {
@@ -52,6 +56,7 @@ describe("test parser", () => {
   - response.outputSpeech.ssml: "Here's your fact: *"  
   - response.outputSpeech.ssml: /regular expression+.*/  
   - response.outputSpeech.ssml: "/Here's your fact: .*/" 
+  - response.outputSpeech.ssml: 15
   - response: undefined 
         `)
         const testSuite = parser.parse();
@@ -59,6 +64,7 @@ describe("test parser", () => {
         expect(assertion.path).toEqual("response.outputSpeech.ssml");
         expect(assertion.operator).toEqual("==");
         expect(assertion.value).toEqual("Here's your fact: *");
+        expect(assertion._value._yaml.line).toEqual(3);
 
         const assertion2 = testSuite.tests[0].interactions[0].assertions[1];
         expect(assertion2.path).toEqual("response.outputSpeech.ssml");
@@ -69,11 +75,18 @@ describe("test parser", () => {
         expect(assertion3.path).toEqual("response.outputSpeech.ssml");
         expect(assertion3.operator).toEqual("=~");
         expect(assertion3.value).toEqual("/Here's your fact: .*/");
+        expect(assertion3._value._yaml.line).toEqual(5);
 
         const assertion4 = testSuite.tests[0].interactions[0].assertions[3];
-        expect(assertion4.path).toEqual("response");
+        expect(assertion4.path).toEqual("response.outputSpeech.ssml");
         expect(assertion4.operator).toEqual("==");
-        expect(assertion4.value).toBeUndefined();
+        expect(assertion4._value._yaml.line).toBe(6);
+        expect(assertion4.value).toBe(15);
+
+        const assertion5 = testSuite.tests[0].interactions[0].assertions[4];
+        expect(assertion5.path).toEqual("response");
+        expect(assertion5.operator).toEqual("==");
+        expect(assertion5.value).toBeUndefined();
     });
 
     test("parses simple test file with some funny conditions", () => {
@@ -120,8 +133,8 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax");
-            expect(e.message).toContain("Configuration element is not an object:");
+            expect(e.name).toEqual("Test Syntax Error");
+            expect(e.message).toContain("Configuration element is not an object");
             done();
         }
     });
@@ -155,6 +168,7 @@ configuration:
         `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].lineNumber).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].goto).toBe("Help Me");
     });
@@ -175,6 +189,7 @@ configuration:
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions[0].value.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions[0].lineNumber).toBe(3);
         expect(testSuite.tests[0].interactions[1].assertions[0].value.length).toBe(2);
     });
 
@@ -190,7 +205,7 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax");
+            expect(e.name).toEqual("Test Syntax Error");
             expect(e.message).toContain("Invalid assertion: value1");
             done();
         }
@@ -206,7 +221,6 @@ configuration:
         try {
             parser.parse();
         } catch (e) {
-            expect(e.name).toEqual("YAML Syntax");
             expect(e.message).toContain("Invalid expected value - must be numeric: test");
             done();
         }
@@ -246,8 +260,26 @@ configuration:
         `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].lineNumber).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe(15);
         expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
+    });
+
+    test("parses file with line numbers", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: "string"
+- LaunchRequest: "string2"
+# Comment
+- LaunchRequest: "string3"
+        `);
+        const testSuite = parser.parse();
+        const value = testSuite.tests[0].interactions[0].assertions[0]._value;
+        expect(Util.isString(value));
+        expect(testSuite.tests[0].interactions[0].assertions[0]._value._yaml.line).toBe(2);
+        expect(testSuite.tests[0].interactions[1].assertions[0]._value._yaml.line).toBe(3);
+        expect(testSuite.tests[0].interactions[2].assertions[0]._value._yaml.line).toBe(5);
     });
 });
