@@ -35,28 +35,19 @@
 - [X] support prompt property for everything?
 - [X] add implied prompt test
 - [X] look at goto tests
-<<<<<<< HEAD
-- [X] fix error when running where there is no config or tests
-- [ ] make dynamo and address configurable globally and locally on test
-- [ ] Better error handling from parser - standardize output
-- [ ] Document UNIT_TEST environment variable
-- [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
-- [ ] support random intent on delegated dialog confirmation
-- [ ] add implied prompt test
-=======
 - [X] fix interactionError when running where there is no config or tests
 - [X] make dynamo and address configurable globally and locally on test
 - [X] Better interactionError handling from parser - standardize output
 - [X] improve yaml interactionError handling - rethrow handled interactionError with extra info, line numbers?
 - [ ] Add ability to run specific tests
 - [ ] Document UNIT_TEST environment variable
->>>>>>> 0fe5209c4c0ec3a47ee187d7412a0e066068cf92
 - [ ] add "only" tag like in jest to skip all other tests
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] Add installation help steps
 - [ ] Add references to examples for all test cases
+- [ ] setup travis and yaml for get facts project
 
 For V2
 - [ ] support random intent on delegated dialog confirmation
