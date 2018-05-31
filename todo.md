@@ -39,7 +39,7 @@
 - [X] make dynamo and address configurable globally and locally on test
 - [X] Better interactionError handling from parser - standardize output
 - [X] improve yaml interactionError handling - rethrow handled interactionError with extra info, line numbers?
-- [ ] Add ability to run specific tests
+- [X] Add ability to run specific tests
 - [ ] Document UNIT_TEST environment variable
 - [ ] add "only" tag like in jest to skip all other tests
 - [ ] add prettier interactionError messages when slots don't match
