@@ -1,7 +1,6 @@
 ---
 configuration:
   locale: en-US
-
 ---
 - test: "Goes to successfully"
 - LaunchRequest:
