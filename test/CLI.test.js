@@ -10,6 +10,7 @@ const CLI = require("../lib/CLI");
 
 describe("CLI", () => {
     beforeEach(() => {
+        jest.resetAllMocks();
         process.chdir("test/FactSkill");
     });
 
@@ -19,7 +20,7 @@ describe("CLI", () => {
 
     test("cli runs", async () => {
         const cli = new CLI();
-        await cli.run();
+        await cli.run([]);
         expect(mockRunCLI).toHaveBeenCalledTimes(1);
         const configString = mockRunCLI.mock.calls[0][0].config;
         expect(configString).toBeDefined();
