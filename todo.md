@@ -66,3 +66,4 @@ For V2
 - [ ] backwards compatibility for test scripts?
 - [ ] make note that audioplayer stuff requires some lambda/http response to work
 - [ ] Make the parser its own component to be used by dashboard
+- [ ] add CI and codecov docs for private repos

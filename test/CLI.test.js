@@ -42,4 +42,10 @@ describe("CLI", () => {
         expect(config.testMatch).toBeUndefined();
         expect(config.testRegex).toBe("argument3");
     });
+
+    test("cli prints version", async () => {
+        const cli = new CLI();
+        // This test is a success if this call does not blow up with a missing file
+        cli.printVersion();
+    });
 });
