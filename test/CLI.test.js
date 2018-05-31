@@ -28,4 +28,17 @@ describe("CLI", () => {
         const config = JSON.parse(configString);
         expect(config.collectCoverage).toBe(true);
     });
+
+    test("cli runs with arguments", async () => {
+        const cli = new CLI();
+        await cli.run(["argument1", "argument2", "argument3"]);
+        expect(mockRunCLI).toHaveBeenCalledTimes(1);
+        const configString = mockRunCLI.mock.calls[0][0].config;
+        expect(configString).toBeDefined();
+
+        // We pass the config to Jest as a string of JSON - so we need to convert it back to JSON
+        const config = JSON.parse(configString);
+        expect(config.testMatch).toBeUndefined();
+        expect(config.testRegex).toBe("argument3");
+    });
 });

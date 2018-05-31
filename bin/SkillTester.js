@@ -4,6 +4,6 @@ const CLI = require("../lib/CLI");
 const debug = require("../lib/Debug");
 const commandLine = new CLI();
 
-commandLine.run().then(() => {
+commandLine.run(process.argv).then(() => {
     debug("SkillTester Completed");
 });
