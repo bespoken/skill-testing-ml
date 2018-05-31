@@ -48,6 +48,7 @@
 - [ ] Add installation help steps
 - [ ] Add references to examples for all test cases
 - [ ] setup travis and yaml for get facts project
+- [ ] make sure docs reference beta bst version
 
 For V2
 - [ ] support random intent on delegated dialog confirmation
@@ -62,3 +63,6 @@ For V2
 - [ ] improve interactionError messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
 - [ ] try out flow
+- [ ] backwards compatibility for test scripts?
+- [ ] make note that audioplayer stuff requires some lambda/http response to work
+- [ ] Make the parser its own component to be used by dashboard
