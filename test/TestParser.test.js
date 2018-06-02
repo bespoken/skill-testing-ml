@@ -159,8 +159,7 @@ configuration:
 
     test("parses file with multi-word goto", () => {
         const parser = new TestParser();
-        parser.load(`
---- 
+        parser.load(`--- 
 - LaunchRequest:
   - response.test.value: A value goto Help Me
 - Help Me:
@@ -170,13 +169,13 @@ configuration:
         expect(testSuite.tests[0].interactions.length).toBe(2);
         expect(testSuite.tests[0].interactions[0].lineNumber).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].lineNumber).toBe(3);
         expect(testSuite.tests[0].interactions[0].assertions[0].goto).toBe("Help Me");
     });
 
     test("parses file with array of expected values", () => {
         const parser = new TestParser();
-        parser.load(`
---- 
+        parser.load(`--- 
 - LaunchRequest:
   - response.test.value:
     - value 1
@@ -222,6 +221,24 @@ configuration:
             parser.parse();
         } catch (e) {
             expect(e.message).toContain("Invalid expected value - must be numeric: test");
+            expect(e.line).toBe(4);
+            done();
+        }
+    });
+
+    test("parses file with bad goto", (done) => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value: 5
+  - response.test.value == test goto ten
+        `);
+        try {
+            parser.parse();
+        } catch (e) {
+            expect(e.message).toContain("No match for goto: ten");
+            expect(e.line).toBe(5);
             done();
         }
     });
@@ -260,7 +277,7 @@ configuration:
         `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(1);
-        expect(testSuite.tests[0].interactions[0].lineNumber).toBe(2);
+        expect(testSuite.tests[0].interactions[0].lineNumber).toBe(3);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe(15);
         expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");

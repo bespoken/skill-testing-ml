@@ -43,8 +43,8 @@
 - [X] Document UNIT_TEST environment variable
 - [X] Add references to examples for all test cases
 - [X] setup travis and yaml for get facts project
-- [ ] add "only" tag like in jest to skip all other tests
-- [ ] Fix line number issue
+- [X] add "only" tag like in jest to skip all other tests
+- [X] Fix line number issue
 - [ ] get stuff ready for edgar to do virtual-device work
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
