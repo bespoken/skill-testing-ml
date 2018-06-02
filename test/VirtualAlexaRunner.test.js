@@ -88,6 +88,7 @@ describe("virtual alexa runner", () => {
             const results = await runner.run("test/AddressSkill/full-address-test.yml");
             expect(results.length).toEqual(2);
             expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[0].interactionResults[0].error).toContain("at test/AddressSkill/full-address-test.yml:17:0");
             expect(results[1].interactionResults[0].error).toBeUndefined();
         });
 
