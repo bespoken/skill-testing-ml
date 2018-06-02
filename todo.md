@@ -46,6 +46,7 @@
 - [X] add "only" tag like in jest to skip all other tests
 - [X] Fix line number issue
 - [ ] get stuff ready for edgar to do virtual-device work
+- [ ] update ci scripts and docs from alpha to beta version
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
 - [ ] Should it be skill-testing.json or bst.json?
