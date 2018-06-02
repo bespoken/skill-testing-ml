@@ -161,4 +161,39 @@ describe("virtual alexa runner", () => {
             expect(results[1].interactionResults[0].error).toBeUndefined();
         });
     });
+
+    describe("skip and only tests", () => {
+        beforeAll(() => {
+            return Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        test("skip a test", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/TestFiles/skip-tests.yml");
+            expect(results.length).toEqual(3);
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].test.skip).toBe(false);
+            expect(results[1].test.skip).toBe(true);
+            expect(results[2].test.skip).toBe(false);
+        });
+
+        test("test file with only flags", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/TestFiles/only-tests.yml");
+            expect(results.length).toEqual(4);
+            expect(results[0].interactionResults.length).toBe(0);
+            expect(results[0].test.skip).toBe(true);
+            expect(results[1].test.skip).toBe(false);
+            expect(results[1].test.only).toBe(true);
+            expect(results[2].test.skip).toBe(false);
+            expect(results[2].test.only).toBe(true);
+            expect(results[3].test.skip).toBe(true);
+        });
+    });
 });

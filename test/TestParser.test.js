@@ -282,4 +282,36 @@ configuration:
         expect(testSuite.tests[0].interactions[1].assertions[0]._value._yaml.line).toBe(3);
         expect(testSuite.tests[0].interactions[2].assertions[0]._value._yaml.line).toBe(5);
     });
+
+    test("parses file with only tests", () => {
+        const parser = new TestParser("test/TestFiles/only-tests.yml");
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].skip).toBe(false);
+        expect(testSuite.tests[0].only).toBe(false);
+
+        expect(testSuite.tests[1].skip).toBe(false);
+        expect(testSuite.tests[1].only).toBe(true);
+        expect(testSuite.tests[1].description).toEqual("Test 2");
+
+        expect(testSuite.tests[2].skip).toBe(false);
+        expect(testSuite.tests[2].only).toBe(true);
+        expect(testSuite.tests[2].description).toEqual("Test 3");
+
+        expect(testSuite.tests[3].skip).toBe(false);
+        expect(testSuite.tests[3].only).toBe(false);
+    });
+
+    test("parses file with skip test", () => {
+        const parser = new TestParser("test/TestFiles/skip-tests.yml");
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].skip).toBe(false);
+        expect(testSuite.tests[0].only).toBe(false);
+
+        expect(testSuite.tests[1].skip).toBe(true);
+        expect(testSuite.tests[1].only).toBe(false);
+        expect(testSuite.tests[1].description).toEqual("Test 2");
+
+        expect(testSuite.tests[2].skip).toBe(false);
+        expect(testSuite.tests[2].only).toBe(false);
+    });
 });
