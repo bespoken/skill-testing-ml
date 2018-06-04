@@ -1,6 +1,6 @@
-const Configuration = require("../lib/Configuration");
-const TestSuite = require("../lib/TestSuite");
-const VirtualAlexaRunner = require("../lib/VirtualAlexaRunner");
+const Configuration = require("../lib/runner/Configuration");
+const TestRunner = require("../lib/runner/TestRunner");
+const TestSuite = require("../lib/test/TestSuite");
 
 describe("virtual alexa runner", () => {
     describe("basic tests", () => {
@@ -17,7 +17,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("runs fact skill test", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
             const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
@@ -35,13 +35,13 @@ describe("virtual alexa runner", () => {
                 locale: "en-US"
             });
 
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
             const suite = new TestSuite("fileName", {}, []);
             await runner.runSuite(suite);
         });
 
         test("explicit intent and slots", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
             const results = await runner.run("test/TestFiles/explicit-intent-tests.yml");
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("This name means nothing");
@@ -50,14 +50,14 @@ describe("virtual alexa runner", () => {
         });
 
         test("set expressions", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
             await runner.run("test/TestFiles/expressions-tests.yml");
         });
 
         test("interactionError on no locale", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({});
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
             const suite = new TestSuite("fileName", {}, []);
 
             try {
@@ -83,7 +83,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("Test Address API with full address", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/AddressSkill/full-address-test.yml");
             expect(results.length).toEqual(2);
@@ -93,7 +93,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("Test Address API with postal and country code", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/AddressSkill/short-address-test.yml");
             expect(results.length).toEqual(1);
@@ -101,7 +101,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("Test Address API with insufficient permissions", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/AddressSkill/no-address-test.yml");
             expect(results.length).toEqual(1);
@@ -119,7 +119,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("Test goto", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/TestFiles/control-flow-tests.yml");
             expect(results.length).toEqual(2);
@@ -148,7 +148,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("Test shorthand properties", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/TestFiles/shorthand-tests.yml");
             expect(results.length).toEqual(2);
@@ -173,7 +173,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("skip a test", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/TestFiles/skip-tests.yml");
             expect(results.length).toEqual(3);
@@ -184,7 +184,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("test file with only flags", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/TestFiles/only-tests.yml");
             expect(results.length).toEqual(4);
@@ -208,7 +208,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("no response", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/ExceptionSkill/no-response-test.yml");
             expect(results.length).toEqual(1);
@@ -216,7 +216,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("no intent match", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/ExceptionSkill/no-intent-test.yml");
             expect(results.length).toEqual(1);
@@ -224,7 +224,7 @@ describe("virtual alexa runner", () => {
         });
 
         test("no utterance match", async () => {
-            const runner = new VirtualAlexaRunner();
+            const runner = new TestRunner();
 
             const results = await runner.run("test/ExceptionSkill/no-utterance-test.yml");
             expect(results.length).toEqual(1);

@@ -1,5 +1,5 @@
-const TestParser = require("../lib/TestParser");
-const Util = require("../lib/Util");
+const TestParser = require("../lib/test/TestParser");
+const Util = require("../lib/util/Util");
 
 describe("test parser", () => {
     test("parses simple test file successfully", () => {

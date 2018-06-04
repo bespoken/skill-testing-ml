@@ -1,4 +1,4 @@
-const Assertion = require("../lib/Assertion");
+const Assertion = require("../lib/test/Assertion");
 
 describe("assertion", () => {
     test("evaluate == a string", () => {

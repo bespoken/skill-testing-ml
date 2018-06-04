@@ -1,10 +1,10 @@
-const Assertion = require("../lib/Assertion");
-const InteractionResult = require("../lib/TestResult").InteractionResult;
-const Test = require("../lib/Test");
-const TestInteraction = require("../lib/TestInteraction");
-const TestResult = require("../lib/TestResult").TestResult;
-const testRunner = require("../lib/JestAdapter");
-const TestSuite = require("../lib/TestSuite");
+const Assertion = require("../lib/test/Assertion");
+const InteractionResult = require("../lib/test/TestResult").InteractionResult;
+const Test = require("../lib/test/Test");
+const TestInteraction = require("../lib/test/TestInteraction");
+const TestResult = require("../lib/test/TestResult").TestResult;
+const testRunner = require("../lib/runner/JestAdapter");
+const TestSuite = require("../lib/test/TestSuite");
 
 describe("JestAdapter", async () => {
     test("Runs a mock test that succeeds", async () => {

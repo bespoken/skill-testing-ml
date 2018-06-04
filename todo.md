@@ -45,20 +45,21 @@
 - [X] setup travis and yaml for get facts project
 - [X] add "only" tag like in jest to skip all other tests
 - [X] Fix line number issue
-- [ ] Update all tests with proper descriptions
+- [X] update ci scripts and docs from alpha to beta version
+- [X] Update all tests with proper descriptions
 - [ ] Update READMEs with getting started link
 - [ ] look into bst warning on nomnom package on install
 - [ ] get stuff ready for edgar to do virtual-device work
-- [ ] update ci scripts and docs from alpha to beta version
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] Add installation help steps
-- [ ] make sure docs reference beta bst version
 
 For V2
 - [ ] support random intent on delegated dialog confirmation
 - [ ] add monetization api
+- [ ] change intent and slots to request.intent and request.slots
+- [ ] tough design aspects for multiple runners - look at extending.md
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] add support for all written out numbers?
 - [ ] Add input event support to virtual alexa
