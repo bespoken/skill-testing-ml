@@ -56,7 +56,7 @@
     "debug": "^3.1.0",
     "jest": "^22.4.4",
     "jest-message-util": "^22.4.3",
-    "js-yaml-bespoken": "^3.11.2",
+    "js-yaml-bespoken": "^3.11.3",
     "jsonpath": "^1.0.0",
     "lodash": "^4.17.5",
     "virtual-alexa": "^0.6.4-1"
