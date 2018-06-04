@@ -12,14 +12,19 @@ describe("JestAdapter", async () => {
         const test = new Test(testSuite, { description: "Test Description" });
         const testResult = new TestResult(test);
         const interaction = new TestInteraction("Hi");
-        const interactionResult = new InteractionResult(interaction)
+        const interactionResult = new InteractionResult(interaction);
         testResult.addInteractionResult(interactionResult);
+
+        const interaction2 = new TestInteraction("Hi");
+        const interactionResult2 = new InteractionResult(interaction2)
+        testResult.addInteractionResult(interactionResult2);
+
         const results = [testResult];
 
         const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
         expect(jestResults.numPassingTests).toBe(1);
         expect(jestResults.numFailingTests).toBe(0);
-        expect(jestResults.testResults.length).toBe(1);
+        expect(jestResults.testResults.length).toBe(2);
         expect(jestResults.testFilePath).toBe("MyTest.yml");
 
         // Check the individual test result
@@ -74,6 +79,29 @@ describe("JestAdapter", async () => {
         expect(jestResults.failureMessage).toContain("Test Error Description");
         expect(jestResults.failureMessage).toContain("Utterance");
         expect(jestResults.failureMessage).toContain("I got an error");
+    });
+
+    test("Runs a mock test that has skips", async () => {
+        const testSuite = new TestSuite("MyTest.yml");
+        const test = new Test(testSuite, { description: "Test 1" });
+        const test2 = new Test(testSuite, { description: "Test 2" });
+        test2.skip = true;
+
+        const testResult = new TestResult(test);
+        const interaction = new TestInteraction("Hi");
+        const interactionResult = new InteractionResult(interaction)
+        testResult.addInteractionResult(interactionResult);
+
+        const testResult2 = new TestResult(test2);
+
+        const results = [testResult, testResult2];
+
+        const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
+        expect(jestResults.numPassingTests).toBe(1);
+        expect(jestResults.numFailingTests).toBe(0);
+        expect(jestResults.testResults.length).toBe(2);
+        expect(jestResults.testResults[0].status).toBe("passed");
+        expect(jestResults.testResults[1].status).toBe("pending");
     });
 });
 

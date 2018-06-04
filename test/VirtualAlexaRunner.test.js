@@ -88,6 +88,7 @@ describe("virtual alexa runner", () => {
             const results = await runner.run("test/AddressSkill/full-address-test.yml");
             expect(results.length).toEqual(2);
             expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[0].interactionResults[0].error).toContain("at test/AddressSkill/full-address-test.yml:17:0");
             expect(results[1].interactionResults[0].error).toBeUndefined();
         });
 
@@ -160,5 +161,75 @@ describe("virtual alexa runner", () => {
             expect(results[1].interactionResults[0].passed).toBe(true);
             expect(results[1].interactionResults[0].error).toBeUndefined();
         });
+    });
+
+    describe("skip and only tests", () => {
+        beforeAll(() => {
+            return Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        test("skip a test", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/TestFiles/skip-tests.yml");
+            expect(results.length).toEqual(3);
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].test.skip).toBe(false);
+            expect(results[1].test.skip).toBe(true);
+            expect(results[2].test.skip).toBe(false);
+        });
+
+        test("test file with only flags", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/TestFiles/only-tests.yml");
+            expect(results.length).toEqual(4);
+            expect(results[0].interactionResults.length).toBe(0);
+            expect(results[0].test.skip).toBe(true);
+            expect(results[1].test.skip).toBe(false);
+            expect(results[1].test.only).toBe(true);
+            expect(results[2].test.skip).toBe(false);
+            expect(results[2].test.only).toBe(true);
+            expect(results[3].test.skip).toBe(true);
+        });
+    });
+
+    describe("edge case tests", () => {
+        beforeAll(() => {
+            return Configuration.configure({
+                handler: "test/ExceptionSkill/index.handler",
+                interactionModel: "test/ExceptionSkill/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        test("no response", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/ExceptionSkill/no-response-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults.length).toBe(1);
+        });
+
+        test("no intent match", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/ExceptionSkill/no-intent-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toContain("Interaction model has no intentName named: NonExistentIntent");
+        });
+
+        test("no utterance match", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/ExceptionSkill/no-utterance-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toContain("Unable to match utterance: Hi to an intent.");
+        });
+
     });
 });
