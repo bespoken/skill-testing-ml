@@ -1,0 +1,15 @@
+# Test created by Bespoken - to use this test, go to https://bespoken.io/testing
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+  address:
+    addressLine1: null
+    countryCode: US
+    postalCode: 20816
+
+---
+- test: "Has postal code"
+- LaunchRequest:
+  - payload.addressLine1: null
+  - payload.addressLine2: undefined
+
