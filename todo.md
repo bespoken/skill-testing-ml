@@ -45,6 +45,9 @@
 - [X] setup travis and yaml for get facts project
 - [X] add "only" tag like in jest to skip all other tests
 - [X] Fix line number issue
+- [ ] Update all tests with proper descriptions
+- [ ] Update READMEs with getting started link
+- [ ] look into bst warning on nomnom package on install
 - [ ] get stuff ready for edgar to do virtual-device work
 - [ ] update ci scripts and docs from alpha to beta version
 - [ ] add prettier interactionError messages when slots don't match
