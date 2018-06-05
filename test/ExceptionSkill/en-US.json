@@ -1,0 +1,12 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "exception skill",
+      "intents": [
+      ],
+      "types": [
+
+      ]
+    }
+  }
+}

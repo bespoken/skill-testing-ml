@@ -40,14 +40,20 @@
 - [X] Better interactionError handling from parser - standardize output
 - [X] improve yaml interactionError handling - rethrow handled interactionError with extra info, line numbers?
 - [X] Add ability to run specific tests
-- [ ] Document UNIT_TEST environment variable
-- [ ] add "only" tag like in jest to skip all other tests
+- [X] Document UNIT_TEST environment variable
+- [X] Add references to examples for all test cases
+- [X] setup travis and yaml for get facts project
+- [X] add "only" tag like in jest to skip all other tests
+- [X] Fix line number issue
+- [ ] Update all tests with proper descriptions
+- [ ] Update READMEs with getting started link
+- [ ] look into bst warning on nomnom package on install
+- [ ] get stuff ready for edgar to do virtual-device work
+- [ ] update ci scripts and docs from alpha to beta version
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
 - [ ] Should it be skill-testing.json or bst.json?
 - [ ] Add installation help steps
-- [ ] Add references to examples for all test cases
-- [ ] setup travis and yaml for get facts project
 - [ ] make sure docs reference beta bst version
 
 For V2
@@ -67,3 +73,4 @@ For V2
 - [ ] make note that audioplayer stuff requires some lambda/http response to work
 - [ ] Make the parser its own component to be used by dashboard
 - [ ] add CI and codecov docs for private repos
+- [ ] add synonyms file for post-processing values on virtual device calls
