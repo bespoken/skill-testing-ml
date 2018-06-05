@@ -10,6 +10,6 @@ configuration:
 ---
 - test: "Has postal code"
 - LaunchRequest:
-  - payload.addressLine1: null
+  - payload.countryCode: US
   - payload.addressLine2: undefined
 
