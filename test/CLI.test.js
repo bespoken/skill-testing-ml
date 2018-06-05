@@ -1,5 +1,8 @@
 // Best we can do with testing this is to mock jest and the call to runCLI
-const mockRunCLI = jest.fn();
+const mockRunCLI = jest.fn(() => {
+    return Promise.resolve({ results: { success: true } });
+});
+
 jest.mock("jest", () => {
     return {
         runCLI: mockRunCLI,
@@ -10,7 +13,7 @@ const CLI = require("../lib/CLI");
 
 describe("CLI", () => {
     beforeEach(() => {
-        jest.resetAllMocks();
+        mockRunCLI.mockClear();
         process.chdir("test/FactSkill");
     });
 
@@ -20,7 +23,8 @@ describe("CLI", () => {
 
     test("cli runs", async () => {
         const cli = new CLI();
-        await cli.run([]);
+        const success = await cli.run([]);
+        expect(success).toBe(true);
         expect(mockRunCLI).toHaveBeenCalledTimes(1);
         const configString = mockRunCLI.mock.calls[0][0].config;
         expect(configString).toBeDefined();
@@ -28,6 +32,15 @@ describe("CLI", () => {
         // We pass the config to Jest as a string of JSON - so we need to convert it back to JSON
         const config = JSON.parse(configString);
         expect(config.collectCoverage).toBe(true);
+    });
+
+    test("cli runs and fails", async () => {
+        const cli = new CLI();
+        mockRunCLI.mockImplementationOnce(() => {
+            return Promise.resolve({ results: { success: false } });
+        });
+        const success = await cli.run([]);
+        expect(success).toBe(false);
     });
 
     test("cli runs with arguments", async () => {
