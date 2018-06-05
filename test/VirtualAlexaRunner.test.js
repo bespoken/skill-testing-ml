@@ -69,7 +69,7 @@ describe("virtual alexa runner", () => {
         });
     });
 
-    describe("address tests", () => {
+    describe("call full address api tests", () => {
         beforeEach(() => {
             return Configuration.configure({
                 handler: "test/AddressSkill/index.handler",
@@ -90,6 +90,53 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toBeDefined();
             expect(results[0].interactionResults[0].error).toContain("at test/AddressSkill/full-address-test.yml:17:0");
             expect(results[1].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Test Address API with postal and country code", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/short-address-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+        });
+
+        test("Test Address API with insufficient permissions", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/no-address-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Test Address API with null field", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/null-address-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
+    describe("call partial address api tests", () => {
+        beforeEach(() => {
+            return Configuration.configure({
+                handler: "test/AddressSkill/postal-only-index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("Test Address API with full address", async () => {
+            const runner = new VirtualAlexaRunner();
+
+            const results = await runner.run("test/AddressSkill/full-address-test.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].error).toBeDefined();
         });
 
         test("Test Address API with postal and country code", async () => {

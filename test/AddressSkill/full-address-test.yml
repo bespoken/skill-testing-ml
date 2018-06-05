@@ -3,7 +3,7 @@
 configuration:
   locale: en-US
   address:
-    streetAddress1: 1600 Pennsylvania Avenue, NW
+    addressLine1: 1600 Pennsylvania Avenue, NW
     city: Washington
     countryCode: US
     postalCode: 20816
@@ -12,13 +12,13 @@ configuration:
 ---
 - test: "Fails on swampland"
 - LaunchRequest:
-  - payload.streetAddress1 == "1600 Pennsylvania Avenue, NW"
-  - payload.streetAddress2: undefined
+  - payload.addressLine1 == "1600 Pennsylvania Avenue, NW"
+  - payload.addressLine2: undefined
   - payload.city: "Swampland"
 
 ---
 - test: "Succeeds"
 - LaunchRequest:
-  - payload.streetAddress1 == "1600 Pennsylvania Avenue, NW"
-  - payload.streetAddress2: undefined
+  - payload.addressLine1 == "1600 Pennsylvania Avenue, NW"
+  - payload.addressLine2: undefined
   - payload.city: "Washington"

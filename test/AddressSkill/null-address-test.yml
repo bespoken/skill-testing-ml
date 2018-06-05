@@ -5,11 +5,12 @@ configuration:
   address:
     addressLine1: null
     countryCode: US
-    postalCode: 20816
+    postalCode: null
 
 ---
 - test: "Has postal code"
 - LaunchRequest:
-  - payload.addressLine1: null
+  - payload.countryCode: US
+  - payload.postalCode: null
   - payload.addressLine2: undefined
 
