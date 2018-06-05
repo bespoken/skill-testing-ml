@@ -69,7 +69,7 @@ describe("virtual alexa runner", () => {
         });
     });
 
-    describe("full address api tests", () => {
+    describe("call full address api tests", () => {
         beforeEach(() => {
             return Configuration.configure({
                 handler: "test/AddressSkill/index.handler",
@@ -116,7 +116,7 @@ describe("virtual alexa runner", () => {
         });
     });
 
-    describe("partial address api tests", () => {
+    describe("call partial address api tests", () => {
         beforeEach(() => {
             return Configuration.configure({
                 handler: "test/AddressSkill/postal-only-index.handler",
