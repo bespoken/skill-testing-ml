@@ -45,32 +45,37 @@
 - [X] setup travis and yaml for get facts project
 - [X] add "only" tag like in jest to skip all other tests
 - [X] Fix line number issue
-- [ ] Update all tests with proper descriptions
+- [X] Should it be skill-testing.json or bst.json?
+- [X] Update all tests with proper descriptions
+- [X] get stuff ready for edgar to do virtual-device work
+- [X] update ci scripts and docs from alpha to beta version
+- [X] document skip and only flags
+- [ ] make sure to merge in changes for country and postcal code fix (including null check)
 - [ ] Update READMEs with getting started link
 - [ ] look into bst warning on nomnom package on install
-- [ ] get stuff ready for edgar to do virtual-device work
-- [ ] update ci scripts and docs from alpha to beta version
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
-- [ ] Should it be skill-testing.json or bst.json?
 - [ ] Add installation help steps
-- [ ] make sure docs reference beta bst version
+- [X] make sure docs reference beta bst version
 
 For V2
-- [ ] support random intent on delegated dialog confirmation
-- [ ] add monetization api
+- [ ] add synonyms file for post-processing values on virtual device calls
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
+- [ ] support random intent on delegated dialog confirmation
+- [ ] check on guess the price not returning results
+- [ ] add intentschema support
+- [ ] handle audioplayer requests for virtual devices tests (ignore them?)
+- [ ] sessionendedrequest not working correctly for single-stream audioplayer
+- [ ] add monetization api
 - [ ] add support for all written out numbers?
 - [ ] Add input event support to virtual alexa
 - [ ] Add debugging docs with vs code
 - [ ] Add monetization API
 - [ ] Add filtering capability
 - [ ] jest does not work with node 4?
-- [ ] improve interactionError messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
 - [ ] try out flow
 - [ ] backwards compatibility for test scripts?
 - [ ] make note that audioplayer stuff requires some lambda/http response to work
 - [ ] Make the parser its own component to be used by dashboard
 - [ ] add CI and codecov docs for private repos
-- [ ] add synonyms file for post-processing values on virtual device calls
