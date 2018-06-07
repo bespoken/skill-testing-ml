@@ -1,8 +1,9 @@
 const Assertion = require("../lib/test/Assertion");
+const InvokerResponse = require("../lib/runner/Invoker").InvokerResponse;
 
 describe("assertion", () => {
     test("evaluate == a string", () => {
-        const obj = { val: "Here is a test" };
+        const obj = new MockResponse({ val: "Here is a test" });
         let assertion = new Assertion(undefined, "val", "==", "Here is a test");
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -18,7 +19,7 @@ describe("assertion", () => {
     });
 
     test("evaluate regex", () => {
-        const obj = { val: "Here is a test" };
+        const obj = new MockResponse({ val: "Here is a test" });
         let assertion = new Assertion(undefined, "val", "=~", "/.*/");
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -33,7 +34,7 @@ describe("assertion", () => {
     });
 
     test("evaluate array", () => {
-        const obj = { val: "Here is a test +" };
+        const obj = new MockResponse({ val: "Here is a test +" });
         let assertion = new Assertion(undefined, "val", "=~", ["/.*/", "not a test"]);
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -51,11 +52,11 @@ describe("assertion", () => {
     });
 
     test("evaluate numeric operators", () => {
-        const obj = {
+        const obj = new MockResponse({
             notNumber: "notNumber",
             number: 100,
             numberString: "100"
-        };
+        });
 
         // Core operator tests
         let assertion = new Assertion(undefined, "number", ">", 99);
@@ -96,7 +97,7 @@ describe("assertion", () => {
     });
 
     test("evaluate wild cards", () => {
-        const obj = { val: "Here $ is ^ a + test?" };
+        const obj = new MockResponse({ val: "Here $ is ^ a + test?" });
         let assertion = new Assertion(undefined, "val", "==", "Here $ is ^ a + *");
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -108,7 +109,7 @@ describe("assertion", () => {
     });
 
     test("evaluate == undefined", () => {
-        const obj = { val: undefined, val2: "a" };
+        const obj = new MockResponse({ val: undefined, val2: "a" });
         let assertion = new Assertion(undefined, "val", "==", "undefined");
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -120,7 +121,7 @@ describe("assertion", () => {
     });
 
     test("evaluate != undefined", () => {
-        const obj = { val: undefined, val2: "a" };
+        const obj = new MockResponse({ val: undefined, val2: "a" });
         let assertion = new Assertion(undefined, "val2", "!=", "undefined");
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -130,4 +131,38 @@ describe("assertion", () => {
         assertion = new Assertion(undefined, "val", "!=", undefined);
         expect(assertion.evaluate(obj)).toBe(false);
     });
+
+    test("ignore case on string assertions", () => {
+        const obj = new MockResponse({ ignoreCase: "TeSt2" });
+        let assertion = new Assertion(undefined, "ignoreCase", "==", "test2");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "ignoreCase", "==", "TEST2");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "ignoreCase", "=~", "/TEST2/");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "ignoreCase", "=~", "/TEST2/g");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "ignoreCase", "=~", "/.*/g");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "ignoreCase", "=~", "/ABC/g");
+        expect(assertion.evaluate(obj)).toBe(false);
+    });
 });
+
+class MockResponse extends InvokerResponse {
+    constructor(sourceJSON) {
+        super(sourceJSON);
+    }
+
+    ignoreCase(path) {
+        if (path === "ignoreCase") {
+            return true;
+        }
+        return false;
+    }
+}
