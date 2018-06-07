@@ -47,16 +47,27 @@
 - [X] Fix line number issue
 - [X] update ci scripts and docs from alpha to beta version
 - [X] Update all tests with proper descriptions
+- [X] Should it be skill-testing.json or bst.json?
+- [X] Update all tests with proper descriptions
+- [X] get stuff ready for edgar to do virtual-device work
+- [X] update ci scripts and docs from alpha to beta version
+- [X] document skip and only flags
+- [X] make sure docs reference beta bst version
+- [ ] make sure to merge in changes for country and postcal code fix (including null check)
 - [ ] Update READMEs with getting started link
 - [ ] look into bst warning on nomnom package on install
-- [ ] get stuff ready for edgar to do virtual-device work
 - [ ] add prettier interactionError messages when slots don't match
 - [ ] Add docs on dynamo reset behavior
-- [ ] Should it be skill-testing.json or bst.json?
 - [ ] Add installation help steps
 
 For V2
+- [ ] add synonyms file for post-processing values on virtual device calls
+- [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] support random intent on delegated dialog confirmation
+- [ ] check on guess the price not returning results
+- [ ] add intentschema support
+- [ ] handle audioplayer requests for virtual devices tests (ignore them?)
+- [ ] sessionendedrequest not working correctly for single-stream audioplayer
 - [ ] add monetization api
 - [ ] change intent and slots to request.intent and request.slots
 - [ ] tough design aspects for multiple runners - look at extending.md
@@ -67,7 +78,6 @@ For V2
 - [ ] Add monetization API
 - [ ] Add filtering capability
 - [ ] jest does not work with node 4?
-- [ ] improve interactionError messages on parsing - include line numbers?
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
 - [ ] try out flow
 - [ ] backwards compatibility for test scripts?
