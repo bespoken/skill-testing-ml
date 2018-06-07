@@ -53,31 +53,26 @@
 - [X] update ci scripts and docs from alpha to beta version
 - [X] document skip and only flags
 - [X] make sure docs reference beta bst version
-- [ ] make sure to merge in changes for country and postcal code fix (including null check)
-- [ ] Update READMEs with getting started link
-- [ ] look into bst warning on nomnom package on install
-- [ ] add prettier interactionError messages when slots don't match
-- [ ] Add docs on dynamo reset behavior
-- [ ] Add installation help steps
+- [X] make sure to merge in changes for country and postcal code fix (including null check)
 
-For V2
+For GA (First non-beta version)
 - [ ] add synonyms file for post-processing values on virtual device calls
 - [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
+- [ ] look into bst warning on nomnom package on install
 - [ ] support random intent on delegated dialog confirmation
 - [ ] check on guess the price not returning results
 - [ ] add intentschema support
 - [ ] handle audioplayer requests for virtual devices tests (ignore them?)
-- [ ] sessionendedrequest not working correctly for single-stream audioplayer
 - [ ] add monetization api
 - [ ] change intent and slots to request.intent and request.slots
 - [ ] tough design aspects for multiple runners - look at extending.md
-- [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
 - [ ] add support for all written out numbers?
 - [ ] Add input event support to virtual alexa
 - [ ] Add debugging docs with vs code
-- [ ] Add monetization API
 - [ ] Add filtering capability
-- [ ] jest does not work with node 4?
+
+For V3
+- [ ] Make invoker generally usable, outside of tests, as programmatic lib
 - [ ] create installer that does not require npm? https://github.com/zeit/pkg
 - [ ] try out flow
 - [ ] backwards compatibility for test scripts?
