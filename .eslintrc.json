@@ -50,6 +50,7 @@
                     "fs",
                     "goto",
                     "https",
+                    "invoker",
                     "js",
                     "jsonpath",
                     "lodash",

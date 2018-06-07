@@ -9,7 +9,7 @@ jest.mock("jest", () => {
     };
 });
 
-const CLI = require("../lib/CLI");
+const CLI = require("../lib/runner/CLI");
 
 describe("CLI", () => {
     beforeEach(() => {
