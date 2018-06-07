@@ -56,20 +56,10 @@
 - [X] make sure to merge in changes for country and postcal code fix (including null check)
 
 For GA (First non-beta version)
-- [ ] add synonyms file for post-processing values on virtual device calls
-- [ ] Should audioplayer builtin intents always be enabled? Or only when out of session?
-- [ ] look into bst warning on nomnom package on install
 - [ ] support random intent on delegated dialog confirmation
 - [ ] check on guess the price not returning results
-- [ ] add intentschema support
-- [ ] handle audioplayer requests for virtual devices tests (ignore them?)
-- [ ] add monetization api
-- [ ] change intent and slots to request.intent and request.slots
-- [ ] tough design aspects for multiple runners - look at extending.md
 - [ ] add support for all written out numbers?
 - [ ] Add input event support to virtual alexa
-- [ ] Add debugging docs with vs code
-- [ ] Add filtering capability
 
 For V3
 - [ ] Make invoker generally usable, outside of tests, as programmatic lib
