@@ -19,11 +19,11 @@ Write tests in YAML, like this:
 ```
 
 Output:  
-<img src="./docs/SkillTestingOutput.png" width="500" alt="Output" />
+<img src="./docs/BST-Test-Output.png" width="500" alt="Output" />
 
-Read our [getting started guide here](./docs/get_started.md).
+Read our [getting started guide here](https://read.bespoken.io/unit-testing/getting-started/).
 
-Learn about [common use-cases here](./docs/use_cases.md).
+Learn about [common use-cases here](https://read.bespoken.io/unit-testing/use-cases/).
 
 For more in-depth info, read the [full specification](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit)
 
