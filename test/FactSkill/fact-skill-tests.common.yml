@@ -1,0 +1,29 @@
+# A simple example of skill test suite
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- Hi
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - prompt =~ .*Here's your fact* # A comment
+  - reprompt == undefined
+  - shouldEndSession: true
+
+---
+- test: "Gets a new fact intent"
+- "Help":
+  - prompt:
+    - /.*you can say.*/i
+    - A phrase
+  - shouldEndSession: false
+- "Get New Facts":
+  - prompt == "Here's your fact"
+  - cardTitle  =~   Space Facts # Has extra spaces - need to be handled correctly
+  - cardContent != undefined
+
+# Example with a one-line request and response
+---
+- "Help": /.*You can say.*/
+- "yes"
