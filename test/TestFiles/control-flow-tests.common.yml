@@ -1,0 +1,34 @@
+---
+configuration:
+  locale: en-US
+---
+- test: "Goes to successfully"
+- LaunchRequest:
+  - prompt == "Here's your fact*" goto Get New Fact
+  - reprompt == undefined
+  - cardContent =~ /.*/
+  - exit
+- Help:
+  - prompt == "Here's your fact*"
+  - reprompt == undefined
+  - cardContent =~ /.*/
+- Get New Fact:
+  - prompt == "ABC"
+  - reprompt == undefined
+  - cardContent =~ /.*/
+
+---
+- test: "Exits successfully"
+- LaunchRequest:
+  - prompt == "ABC:*" goto "Get New Fact"
+  - reprompt == undefined
+  - cardContent =~ /.*/
+  - exit
+- Get New Fact:
+  - prompt == "ABC" goto Help
+  - reprompt == undefined
+  - cardContent =~ /.*/
+- "Help":
+  - rprompt == "Here's your fact:*"
+  - reprompt == undefined
+  - cardContent =~ /.*/
