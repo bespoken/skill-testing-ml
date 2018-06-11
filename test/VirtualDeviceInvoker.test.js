@@ -3,6 +3,8 @@ const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
 // eslint-disable-next-line 
 const message = require("virtual-device-sdk").mockMessage;
+// eslint-disable-next-line 
+const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 
 describe("virtual device integration", () => {
     let _invoker;
@@ -70,14 +72,18 @@ describe("virtual device integration", () => {
             expect(message).toHaveBeenCalledWith("test");
         });
 
-        test("Response", async () => {
+        test("homophones", async () => {
+            _interaction.test.testSuite.homophones = {
+                "lock": ["log"],
+                "white": ["wide","wife"],
+            };
             _interaction.utterance = "test";
-            _interaction.relativeIndex = 1;
     
             await _invoker.invoke(_interaction);
-    
-            expect(message).toHaveBeenCalledTimes(1);
-            expect(message).toHaveBeenCalledWith("test");
+
+            expect(addHomophones).toHaveBeenCalledTimes(2);
+            expect(addHomophones).toHaveBeenCalledWith("lock", ["log"]);
+            expect(addHomophones).toHaveBeenCalledWith("white", ["wide","wife"]);
         });
     });
 
