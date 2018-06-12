@@ -27,7 +27,7 @@ describe("virtual device integration", () => {
         test("LaunchRequest", async () => {
             _interaction.utterance = "LaunchRequest";
     
-            await _invoker.invoke([_interaction]);
+            await _invoker.invoke(_interaction);
     
             expect(message).toHaveBeenCalledTimes(1);
             expect(message.mock.calls[0][0][0].text).toBe("open space fact");
@@ -36,7 +36,7 @@ describe("virtual device integration", () => {
         test("AudioPlayer", async () => {
             _interaction.utterance = "AudioPlayer.";
     
-            await _invoker.invoke([_interaction]);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).not.toHaveBeenCalled();
         });
@@ -44,7 +44,7 @@ describe("virtual device integration", () => {
         test("SessionEndedRequest", async () => {
             _interaction.utterance = "SessionEndedRequest";
     
-            await _invoker.invoke([_interaction]);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
             expect(message.mock.calls[0][0][0].text).toBe("exit");
@@ -54,7 +54,7 @@ describe("virtual device integration", () => {
             _interaction.utterance = "hi";
             _interaction.relativeIndex = 0;
     
-            await _invoker.invoke([_interaction]);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
             expect(message.mock.calls[0][0][0].text).toBe("ask space fact to hi");
@@ -64,7 +64,7 @@ describe("virtual device integration", () => {
             _interaction.utterance = "test";
             _interaction.relativeIndex = 1;
     
-            await _invoker.invoke([_interaction]);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
             expect(message.mock.calls[0][0][0].text).toBe("test");
@@ -74,7 +74,7 @@ describe("virtual device integration", () => {
             _interaction.utterance = "test";
             _interaction.relativeIndex = 1;
     
-            await _invoker.invoke([_interaction]);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
             expect(message.mock.calls[0][0][0].text).toBe("test");
