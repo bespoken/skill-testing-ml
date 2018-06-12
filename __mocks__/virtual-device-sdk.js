@@ -1,24 +1,33 @@
 const mockMessage = jest.fn(()=>{
-  return {};  
+  return [{}];
 });
 
-const spaceFactMessage = jest.fn((utterance)=> {
-    const response = {
-        card:{
-            textField: "textField",
-            imageURL: "imageURL",
-            mainTitle: "mainTitle"
-        } 
-    };
-    if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";
-    else response.transcript = "Here's your fact";
-    return response;  
+const spaceFactMessage = jest.fn((messages)=> {
+    const responses = [];
+    for (const message of messages) {
+        responses.push(handleMessage(message));
+    }
+    return responses;
 });
 
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {
-    if(token === "space fact") return {message: spaceFactMessage};
-    return { message: mockMessage };
+    if(token === "space fact") return {batchMessage: spaceFactMessage};
+    return { batchMessage: mockMessage };
 });
+
+function handleMessage(message) {
+    const utterance = message.text;
+    const response = {
+        card:{
+            imageURL: "imageURL",
+            mainTitle: "mainTitle",
+            textField: "textField",
+        }
+    };
+    if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";
+    else response.transcript = "Here's your fact";
+    return response;
+}
 
 exports.mockMessage = mockMessage;
 exports.mockVirtualDevice = mockVirtualDevice;
