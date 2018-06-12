@@ -2,6 +2,8 @@ const mockMessage = jest.fn(()=>{
   return [{}];
 });
 
+const mockAddHomophones = jest.fn();
+
 const spaceFactMessage = jest.fn((messages)=> {
     const responses = [];
     for (const message of messages) {
@@ -12,7 +14,10 @@ const spaceFactMessage = jest.fn((messages)=> {
 
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {
     if(token === "space fact") return {batchMessage: spaceFactMessage};
-    return { batchMessage: mockMessage };
+    return {
+        addHomophones: mockAddHomophones,
+        batchMessage: mockMessage
+    };
 });
 
 function handleMessage(message) {
@@ -30,5 +35,6 @@ function handleMessage(message) {
 }
 
 exports.mockMessage = mockMessage;
+exports.mockAddHomophones = mockAddHomophones;
 exports.mockVirtualDevice = mockVirtualDevice;
 exports.VirtualDevice = mockVirtualDevice;
