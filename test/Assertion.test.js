@@ -156,7 +156,7 @@ describe("assertion", () => {
 
 class MockResponse extends InvokerResponse {
     constructor(sourceJSON) {
-        super(sourceJSON);
+        super(undefined, sourceJSON);
     }
 
     ignoreCase(path) {

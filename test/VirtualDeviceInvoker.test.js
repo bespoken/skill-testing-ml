@@ -1,10 +1,8 @@
+const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 const Configuration = require("../lib/runner/Configuration");
+const message = require("virtual-device-sdk").mockMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
-// eslint-disable-next-line 
-const message = require("virtual-device-sdk").mockMessage;
-// eslint-disable-next-line 
-const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 
 describe("virtual device integration", () => {
     let _invoker;
@@ -32,13 +30,13 @@ describe("virtual device integration", () => {
             await _invoker.invoke(_interaction);
     
             expect(message).toHaveBeenCalledTimes(1);
-            expect(message).toHaveBeenCalledWith("open space fact");
+            expect(message.mock.calls[0][0][0].text).toBe("open space fact");
         });
     
         test("AudioPlayer", async () => {
             _interaction.utterance = "AudioPlayer.";
     
-            await _invoker.invoke(_interaction);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).not.toHaveBeenCalled();
         });
@@ -46,30 +44,30 @@ describe("virtual device integration", () => {
         test("SessionEndedRequest", async () => {
             _interaction.utterance = "SessionEndedRequest";
     
-            await _invoker.invoke(_interaction);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
-            expect(message).toHaveBeenCalledWith("exit");
+            expect(message.mock.calls[0][0][0].text).toBe("exit");
         });
     
         test("First interaction is not a launch request", async () => {
             _interaction.utterance = "hi";
             _interaction.relativeIndex = 0;
     
-            await _invoker.invoke(_interaction);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
-            expect(message).toHaveBeenCalledWith("ask space fact to hi");
+            expect(message.mock.calls[0][0][0].text).toBe("ask space fact to hi");
         });
     
         test("Any utterance", async () => {
             _interaction.utterance = "test";
             _interaction.relativeIndex = 1;
     
-            await _invoker.invoke(_interaction);
+            await _invoker.invokeBatch([_interaction]);
     
             expect(message).toHaveBeenCalledTimes(1);
-            expect(message).toHaveBeenCalledWith("test");
+            expect(message.mock.calls[0][0][0].text).toBe("test");
         });
 
         test("homophones", async () => {
@@ -78,8 +76,11 @@ describe("virtual device integration", () => {
                 "white": ["wide","wife"],
             };
             _interaction.utterance = "test";
+            _invoker.before(_interaction.test.testSuite);
+            await _invoker.invokeBatch([_interaction]);
     
-            await _invoker.invoke(_interaction);
+            expect(message).toHaveBeenCalledTimes(1);
+            expect(message.mock.calls[0][0][0].text).toBe("test");
 
             expect(addHomophones).toHaveBeenCalledTimes(2);
             expect(addHomophones).toHaveBeenCalledWith("lock", ["log"]);
