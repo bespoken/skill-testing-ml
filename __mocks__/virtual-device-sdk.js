@@ -2,6 +2,7 @@ const mockMessage = jest.fn(()=>{
   return {};  
 });
 
+const mockAddHomophones = jest.fn();
 const spaceFactMessage = jest.fn((utterance)=> {
     const response = {
         card:{
@@ -17,9 +18,10 @@ const spaceFactMessage = jest.fn((utterance)=> {
 
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {
     if(token === "space fact") return {message: spaceFactMessage};
-    return { message: mockMessage };
+    return { message: mockMessage, addHomophones: mockAddHomophones };
 });
 
 exports.mockMessage = mockMessage;
+exports.mockAddHomophones = mockAddHomophones;
 exports.mockVirtualDevice = mockVirtualDevice;
 exports.VirtualDevice = mockVirtualDevice;
