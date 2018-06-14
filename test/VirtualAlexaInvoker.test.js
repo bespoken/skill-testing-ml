@@ -27,6 +27,24 @@ describe("virtual alexa runner", () => {
             expect(results[2].test.description).toEqual("Test 3");
         });
 
+        test("runs fact skill test using intentSchema and sampleUtterances", async () => {
+            Configuration.singleton = undefined;
+            Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                intentSchema: "test/FactSkill/models/intentSchema.json",
+                locale: "en-US",
+                sampleUtterances: "test/FactSkill/models/sampleUtterances.txt",
+            });
+            const runner = new TestRunner();
+            const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+            expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+            expect(results[2].test.description).toEqual("Test 3");
+        });
+
         test("uses global locale", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({
