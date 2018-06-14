@@ -12,12 +12,13 @@ describe("virtual device integration", () => {
 
         beforeEach(() => {
             _invoker = new VirtualDeviceInvoker(undefined);
-            _invoker.before({});
+            _invoker.before({ invocationName: "space fact", virtualDeviceToken: "123" });
     
             _interaction = {
                 test: {
                     testSuite: {
-                        invocationName: "space fact"
+                        invocationName: "space fact",
+                        virtualDeviceToken: "123"
                     }
                 }
             };
@@ -85,6 +86,20 @@ describe("virtual device integration", () => {
             expect(addHomophones).toHaveBeenCalledTimes(2);
             expect(addHomophones).toHaveBeenCalledWith("lock", ["log"]);
             expect(addHomophones).toHaveBeenCalledWith("white", ["wide","wife"]);
+        });
+
+        test("throw error if virtualDeviceToken is missing", async () => {
+            expect(function() {
+                _invoker.before({ invocationName: "123" });
+            }).toThrow();
+
+        });
+
+        test("throw error if invocationName is missing", async () => {
+            expect(function() {
+                _invoker.before({ virtualDeviceToken: "123" });
+            }).toThrow();
+
         });
     });
 
