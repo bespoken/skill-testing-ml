@@ -41,6 +41,7 @@
                     "api",
                     "argv",
                     "basename",
+                    "bst",
                     "chdir",
                     "cli",
                     "cosmiconfig",
