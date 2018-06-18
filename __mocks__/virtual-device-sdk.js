@@ -3,6 +3,7 @@ const mockMessage = jest.fn(()=>{
 });
 
 const mockAddHomophones = jest.fn();
+const mockWaitForSessionToEnd = jest.fn();
 
 const spaceFactMessage = jest.fn((messages)=> {
     const responses = [];
@@ -16,7 +17,8 @@ const mockVirtualDevice = jest.fn().mockImplementation((token) => {
     if(token === "space fact") return {batchMessage: spaceFactMessage};
     return {
         addHomophones: mockAddHomophones,
-        batchMessage: mockMessage
+        batchMessage: mockMessage,
+        waitForSessionToEnd: mockWaitForSessionToEnd
     };
 });
 
