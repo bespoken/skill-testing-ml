@@ -101,6 +101,11 @@ describe("virtual device integration", () => {
             }).toThrow();
 
         });
+
+        test("catch exception on virtual device call", async () => {
+            _interaction.utterance = "exception";
+            await _invoker.invokeBatch([_interaction]);
+        });
     });
 
 });
