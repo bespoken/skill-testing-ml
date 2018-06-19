@@ -1,4 +1,5 @@
-const mockMessage = jest.fn(()=>{
+const mockMessage = jest.fn((arg)=>{
+  if (arg && arg.length > 0 && arg[0].text === "exception") throw Error("mock exception");
   return [{}];
 });
 

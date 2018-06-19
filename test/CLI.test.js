@@ -3,11 +3,25 @@ const mockRunCLI = jest.fn(() => {
     return Promise.resolve({ results: { success: true } });
 });
 
+let invoker;
+const mockConfiguration = jest.fn(() => ({
+    jestConfig: jest.fn(() => ({ collectCoverage: true })),
+    value: jest.fn(() => invoker),
+}));
+
 jest.mock("jest", () => {
     return {
         runCLI: mockRunCLI,
     };
 });
+
+jest.mock("../lib/runner/Configuration", () => {
+    return {
+        configure: jest.fn(),
+        instance: mockConfiguration
+    };
+});
+
 
 const CLI = require("../lib/runner/CLI");
 
@@ -60,5 +74,22 @@ describe("CLI", () => {
         const cli = new CLI();
         // This test is a success if this call does not blow up with a missing file
         cli.printVersion();
+    });
+
+    test("cli runs with e2e setting", async () => {
+        invoker = "VirtualDeviceInvoker";
+        const cli = new CLI();
+        const success = await cli.run([]);
+        expect(success).toBe(true);
+        expect(mockRunCLI).toHaveBeenCalledTimes(1);
+
+        const configString = mockRunCLI.mock.calls[0][0].config;
+        expect(configString).toBeDefined();
+        const runInBand = mockRunCLI.mock.calls[0][0].runInBand;
+        expect(runInBand).toBe(true);
+
+        // We pass the config to Jest as a string of JSON - so we need to convert it back to JSON
+        const config = JSON.parse(configString);
+        expect(config.collectCoverage).toBe(false);
     });
 });
