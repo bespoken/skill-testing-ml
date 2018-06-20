@@ -5,7 +5,6 @@ configuration:
   address:
     countryCode: US
     postalCode: 20816
-  filter: filter.js
 
 ---
 - test: "Has postal code"
