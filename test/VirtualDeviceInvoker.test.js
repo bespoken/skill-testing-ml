@@ -144,6 +144,7 @@ describe("virtual device runner", () => {
             expect(batchMessagePayload[1].phrases.length).toBe(1);
             expect(batchMessagePayload[1].phrases[0]).toBe(".*Here's your fact*");
 
+            // Second batch call - first interaction has a collection of values
             batchMessagePayload = spaceFactMessage.mock.calls[1][0];
             expect(batchMessagePayload[0].phrases.length).toBe(2);
             expect(batchMessagePayload[0].phrases[0]).toEqual("/.*you can say.*/i");
