@@ -183,26 +183,40 @@ describe("virtual alexa runner", () => {
     });
 
     describe("filter tests", () => {
-        beforeEach(() => {
-            return Configuration.configure({
+                afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("filter is applied to request and response", async () => {
+            Configuration.configure({
                 accessToken: "testToken",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US"
             });
-        });
 
-        afterEach(() => {
-            Configuration.singleton = undefined;
-        });
-
-        test("filter is applied to request and response", async () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/FilterSkill/filter-test.yml");
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("filter is applied to request and response", async () => {
+            Configuration.configure({
+                accessToken: "testToken",
+                filter: "test/FilterSkill/filter-typo",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FilterSkill/filter-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeDefined();
         });
 
     });
