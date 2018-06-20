@@ -2,12 +2,11 @@
 --- # Configuration YAML document
 configuration:
   locale: en-US
-  address:
-    countryCode: US
-    postalCode: 20816
 
 ---
 - test: "Has postal code"
 - LaunchRequest:
-  - payload.postalCode: 20816
+  - requestFiltered: true
+  - responseFiltered: true
+  - accessToken: testToken
 
