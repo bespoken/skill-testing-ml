@@ -1,6 +1,7 @@
 const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 const Configuration = require("../lib/runner/Configuration");
 const message = require("virtual-device-sdk").mockMessage;
+const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
 
@@ -136,6 +137,17 @@ describe("virtual device runner", () => {
             expect(results[1].interactionResults[0].error).toBeUndefined();
             expect(results[2].test.description).toEqual("Test 3");
 
+            // Make sure phrases are passed correctly when the assertion value is an array
+            // First batch call - first interaction has no response, second has one
+            let batchMessagePayload = spaceFactMessage.mock.calls[0][0];
+            expect(batchMessagePayload[0].phrases.length).toBe(0);
+            expect(batchMessagePayload[1].phrases.length).toBe(1);
+            expect(batchMessagePayload[1].phrases[0]).toBe(".*Here's your fact*");
+
+            batchMessagePayload = spaceFactMessage.mock.calls[1][0];
+            expect(batchMessagePayload[0].phrases.length).toBe(2);
+            expect(batchMessagePayload[0].phrases[0]).toEqual("/.*you can say.*/i");
+            expect(batchMessagePayload[0].phrases[1]).toBe("A phrase");
         });
     });
 

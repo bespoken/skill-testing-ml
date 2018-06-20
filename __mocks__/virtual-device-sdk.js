@@ -37,6 +37,7 @@ function handleMessage(message) {
     return response;
 }
 
+exports.spaceFactMessage = spaceFactMessage;
 exports.mockMessage = mockMessage;
 exports.mockAddHomophones = mockAddHomophones;
 exports.mockVirtualDevice = mockVirtualDevice;
