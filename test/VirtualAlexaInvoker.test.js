@@ -183,7 +183,7 @@ describe("virtual alexa runner", () => {
     });
 
     describe("filter tests", () => {
-                afterEach(() => {
+        afterEach(() => {
             Configuration.singleton = undefined;
         });
 
