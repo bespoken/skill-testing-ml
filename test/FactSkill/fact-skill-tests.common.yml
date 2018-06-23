@@ -19,8 +19,10 @@ configuration:
     - A phrase
   - shouldEndSession: false
 - "Get New Facts":
-  - prompt == "Here's your fact"
-  - cardTitle  =~   Space Facts # Has extra spaces - need to be handled correctly
+  - prompt == "here's your fact"
+  - transcript == "here's your fact"
+  - cardTitle  =~ mainTitle # Has extra spaces - need to be handled correctly
+  - cardTitle  =~ maintitle # Has extra spaces - need to be handled correctly
   - cardContent != undefined
 
 # Example with a one-line request and response
