@@ -21,8 +21,8 @@ configuration:
 - "Get New Facts":
   - prompt == "here's your fact"
   - transcript == "here's your fact"
-  - cardTitle  =~ mainTitle # Has extra spaces - need to be handled correctly
-  - cardTitle  =~ maintitle # Has extra spaces - need to be handled correctly
+  - cardTitle  =~ maInTiTlE # Uppercase expected value
+  - cardTitle  =~ maintitle # Lowercase expected value
   - cardContent != undefined
 
 # Example with a one-line request and response
