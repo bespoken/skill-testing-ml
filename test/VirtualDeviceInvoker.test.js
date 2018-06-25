@@ -135,6 +135,8 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
             expect(results[0].interactionResults[1].error).toBeUndefined();
             expect(results[1].interactionResults[0].error).toBeUndefined();
+            // We do some case-sensitivity tests - prompt and transcript are not case-sensitive, other fields are
+            expect(results[1].interactionResults[1].error).toContain("cardTitle");
             expect(results[2].test.description).toEqual("Test 3");
 
             // Make sure phrases are passed correctly when the assertion value is an array
@@ -180,41 +182,6 @@ describe("virtual device runner", () => {
             expect(results[1].interactionResults[0].passed).toBe(true);
             expect(results[1].interactionResults[0].error).toBeUndefined();
             expect(results[1].interactionResults[0].exited).toBe(true);
-        });
-    });
-
-    describe("skip and only tests", () => {
-        beforeAll(() => {
-            return Configuration.configure({
-                handler: "test/FactSkill/index.handler",
-                interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
-            });
-        });
-
-        test("skip a test", async () => {
-            const runner = new TestRunner();
-
-            const results = await runner.run("test/TestFiles/skip-tests.yml");
-            expect(results.length).toEqual(3);
-            expect(results[0].interactionResults.length).toBe(1);
-            expect(results[0].test.skip).toBe(false);
-            expect(results[1].test.skip).toBe(true);
-            expect(results[2].test.skip).toBe(false);
-        });
-
-        test("test file with only flags", async () => {
-            const runner = new TestRunner();
-
-            const results = await runner.run("test/TestFiles/only-tests.yml");
-            expect(results.length).toEqual(4);
-            expect(results[0].interactionResults.length).toBe(0);
-            expect(results[0].test.skip).toBe(true);
-            expect(results[1].test.skip).toBe(false);
-            expect(results[1].test.only).toBe(true);
-            expect(results[2].test.skip).toBe(false);
-            expect(results[2].test.only).toBe(true);
-            expect(results[3].test.skip).toBe(true);
         });
     });
 
