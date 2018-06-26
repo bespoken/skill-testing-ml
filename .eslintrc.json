@@ -69,7 +69,8 @@
                     "yaml",
                     "yml",
                     "sdk",
-                    "txt"
+                    "txt",
+                    "async"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
