@@ -26,6 +26,8 @@ describe("virtual device integration", () => {
             message.mockClear();
         });
 
+        /*
+        // Removing support for special utters on virtual device
         test("LaunchRequest", async () => {
             _interaction.utterance = "LaunchRequest";
     
@@ -61,6 +63,7 @@ describe("virtual device integration", () => {
             expect(message).toHaveBeenCalledTimes(1);
             expect(message.mock.calls[0][0][0].text).toBe("ask space fact to hi");
         });
+        */
     
         test("Any utterance", async () => {
             _interaction.utterance = "test";
@@ -92,13 +95,6 @@ describe("virtual device integration", () => {
         test("throw error if virtualDeviceToken is missing", async () => {
             expect(function() {
                 _invoker.before({ invocationName: "123" });
-            }).toThrow();
-
-        });
-
-        test("throw error if invocationName is missing", async () => {
-            expect(function() {
-                _invoker.before({ virtualDeviceToken: "123" });
             }).toThrow();
 
         });
