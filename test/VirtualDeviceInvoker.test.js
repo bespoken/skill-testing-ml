@@ -1,6 +1,7 @@
 const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 const Configuration = require("../lib/runner/Configuration");
 const message = require("virtual-device-sdk").mockMessage;
+const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
 const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
@@ -110,13 +111,15 @@ describe("virtual device integration", () => {
 describe("virtual device runner", () => {
     describe("basic tests", () => {
         beforeEach(() => {
-            return Configuration.configure({
+            Configuration.configure({
                 invocationName: "space fact",
                 invoker: "VirtualDeviceInvoker",
                 locale: "en-US",
                 // eslint-disable-next-line spellcheck/spell-checker
-                virtualDeviceToken: "space fact"
+                virtualDeviceToken: "space fact",
+                voiceId: "voiceId"
             });
+            mockVirtualDevice.mockClear ();
         });
 
         afterEach(() => {
@@ -147,6 +150,15 @@ describe("virtual device runner", () => {
             expect(batchMessagePayload[0].phrases.length).toBe(2);
             expect(batchMessagePayload[0].phrases[0]).toEqual("/.*you can say.*/i");
             expect(batchMessagePayload[0].phrases[1]).toBe("A phrase");
+        });
+
+        test("use token, locale and voiceId when is on the configuration", async () => {
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0]).toBe("space fact");
+            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+            expect(mockVirtualDevice.mock.calls[0][2]).toBe("voiceId");
         });
     });
 
