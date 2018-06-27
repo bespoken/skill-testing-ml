@@ -70,7 +70,9 @@
                     "yml",
                     "sdk",
                     "txt",
-                    "async"
+                    "async",
+                    "args",
+                    "dto"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
