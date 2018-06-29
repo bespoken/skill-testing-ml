@@ -67,11 +67,6 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
         });
 
-        test("set expressions", async () => {
-            const runner = new TestRunner();
-            await runner.run("test/TestFiles/expressions-tests.yml");
-        });
-
         test("interactionError on no locale", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({});
@@ -84,6 +79,27 @@ describe("virtual alexa runner", () => {
             } catch (e) {
                 expect(e.message).toEqual("Locale must be defined either in the skill-config.json or the test file itself under the config element");
             }
+        });
+    });
+
+    describe("expression tests", () => {
+        beforeEach(() => {
+            return Configuration.configure({
+                handler: "test/ExpressionSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US"
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("set expressions", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("test/ExpressionSkill/expressions-tests.yml");
+            // The index handler throws exceptions if values are not set correctly
+            expect(results[0].interactionResults[0].error).toBeUndefined();
         });
     });
 
