@@ -20,11 +20,20 @@ Call the parse method, if the file is valid an object will be created, if not an
 parser.parse();
 ```
 
+The exception will have details of the error, even the line and column of the error.
+
 Error example:
 ```
-Error - YAMLException:
-end of the stream or a document separator is expected at line 17, column 14:
-    configuration:
+{
+    name: "YAMLException",
+    reason: "end of the stream or a document separator is expected",
+    mark: {
+        position: 826,
+        line: 16,
+        column: 13,
+    },
+    message: "end of the stream or a document separator is expected at line 17, column 14:\n    configuration:\n",
+}
 
 ```
 
@@ -34,7 +43,7 @@ end of the stream or a document separator is expected at line 17, column 14:
 ## Overview
 Test Runner allows to execute tests using [SkillTestingMarkupLanguage](https://docs.google.com/document/d/17GOv1yVAKY4vmOd1Vhg_IitpyCMiX-e_b09eufNysYI/edit#heading=h.9dwsxj6quakr).
 
-## How to used it
+## How to use it
 
 Create a TestRunner instance with the required configuration.
 
@@ -54,7 +63,7 @@ await runner.run("fact-skill-tests.yml", context);
 ```
 
 
-TestRunner will emit events before and after each testcase of the file, use subsribe method to add callbacks and listen for the events. "message" event will be fired before the execution and "result" after that. 
+TestRunner will emit events before and after each test interaction is run in the file, use subscribe method to add callbacks and listen for the events. "message" event will be fired before each interaction, and result will be sent back after each reply. 
 
 ```
 const messageCallback = (error, test, context) => {};
@@ -71,55 +80,42 @@ Error parameter will contain errors of the execution, will be undefined if every
 Test parameter will contain the test itself, will have this structure
 ```
 {
-    description: "" // Test's name,
-    status: "", // Test's status: "running" or "done"
-    interactions: [ // List of test's interactions
-        {
-            assertions: [ // Assertions list of current utter
-                ""
-            ],
-            expressions: [
-            ],
-            lineNumber: "", // Line number of the test
-            utterance: "" // utter tested
-        }
+    assertions: [ // Assertions list of current utter
+        ""
     ],
-    interactionResults: [ // List of result of all the interactions
-        {
-            passed: true
-        }
-    ]
+    expressions: [
+    ],
+    lineNumber: "", // Line number of the test
+    utterance: "", // utter tested
+    result: {
+        passed: true, // result of the interaction
+        errorMessage: "", // error message if there is an error
+    }
 }
 
-// Example
+// Example passed: true
 
 {
-    "description":"Sequence 02. Test scenario: Invoke intent adding items in different interaction",
-    "interactions":[
-        {
-            "assertions":["Expected value at [prompt] to ==\n\t*\nReceived:\n\tundefined\n"],
-            "expressions":[],
-            "lineNumber":28,
-            "utterance":"open bring"
-        },{
-            "assertions":["Expected value at [prompt] to ==\n\tok* cheese and wine is on your *\nReceived:\n\tundefined\n"],
-            "expressions":[],
-            "lineNumber":29,
-            "utterance":"add cheese and wine"
-        },
-        {
-            "assertions":["Expected value at [prompt] to ==\n\tyou have * cheese and wine * apples and oranges *\nReceived:\n\tundefined\n"],
-            "expressions":[],
-            "lineNumber":30,
-            "utterance":"read my list"
-        }
-    ],
-    "status":"done",
-    "interactionResults":[
-        {"passed":true},
-        {"passed":true},
-        {"errorMessage":"Expected value at [prompt] to ==\n\tyou have * cheese and wine * apples and oranges *\nReceived:\n\tyou have the following items on your list milk apples and oranges and cheese and wine what's next\n","exited":false,"passed":false}
-    ]
+    "assertions":["Expected value at [prompt] to ==\n\t*\nReceived:\n\tundefined\n"],
+    "expressions":[],
+    "lineNumber":28,
+    "utterance":"open bring",
+    "result": {
+        "passed": true
+    }
+}
+
+// Example passed: false
+
+{
+    "assertions":[],
+    "expressions":[],
+    "lineNumber":8,
+    "utterance":"Hi",
+    "result": {
+        "errorMessage": "Unable to match utterance: Hi to an intent. Try a different utterance, or explicitly set the intent\nat test/FactSkill/fact-skill-tests.yml:8:0",
+        "passed": false
+    }
 }
 
 ```
