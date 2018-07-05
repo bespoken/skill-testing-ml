@@ -14,10 +14,10 @@ const parser = new TestParser("en-US/edgar.yml");
 
 ```
 
-Call the parse method, if the file is valid an object will be created, if not an exception will be through with the error.
+Call the parse method, if the file is valid a testSuite object will be created, if not an exception will be through with the error.
 
 ```
-parser.parse();
+const testSuite = parser.parse();
 ```
 
 The exception will have details of the error, even the line and column of the error.
@@ -52,16 +52,10 @@ const TestRunner = require('skill-testing-ml').TestRunner;
 
 const runner = new TestRunner({
     invoker: "virtualDeviceInvoker",
+    batchEnabled: false, # Use this configuration to receive events per interaction, otherwise will be per test case.
 });
 
 ```
-
-Call run method using the file path and a context object, context object will be sent back as part of the event.
-```
-await runner.run("fact-skill-tests.yml", context);
-
-```
-
 
 TestRunner will emit events before and after each test interaction is run in the file, use subscribe method to add callbacks and listen for the events. "message" event will be fired before each interaction, and result will be sent back after each reply. 
 
@@ -73,6 +67,21 @@ runner.subscribe("message", messageCallback);
 runner.subscribe("result", resultCallback);
 
 ```
+
+
+Call runSuite method using the testSuite object created with the parser, context object will be sent back as part of the event.
+
+```
+await runner.runSuite(testSuite, context);
+
+```
+
+Run method can also be used, the path of the yml file should be used as paramenter.
+```
+await runner.run("fact-skill-tests.yml", context);
+
+```
+
 
 Error parameter will contain errors of the execution, will be undefined if everything is fine.
 
