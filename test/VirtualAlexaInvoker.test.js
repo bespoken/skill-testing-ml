@@ -360,4 +360,12 @@ describe("virtual alexa runner", () => {
         });
 
     });
+
+    describe("locales", () => {
+        test("run pet match skill", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");                    
+            expect(results.length).toEqual(4);
+        });
+    });
 });
