@@ -374,7 +374,11 @@ describe("virtual alexa runner", () => {
         test("get intent", async () => {
             const invoker = new VirtualAlexaInvoker();
 
-            let intent = invoker.detectIntent("PetMatchIntent size=mini");
+            let intent = invoker.detectIntent("PetMatchIntent");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots).toBeUndefined();
+
+            intent = invoker.detectIntent("PetMatchIntent size=mini");
             expect(intent.name).toBe("PetMatchIntent");
             expect(intent.slots.length).toBe(1);
             expect(intent.slots[0]).toEqual({size: "mini"});
@@ -410,6 +414,25 @@ describe("virtual alexa runner", () => {
             expect(intent.slots[0]).toEqual({size: "mini mini"});
             expect(intent.slots[1]).toEqual({temperament: "guard guard"});
 
+            intent = invoker.detectIntent("PetMatchIntent slot1=1");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            expect(intent.slots[0]).toEqual({slot1: "1"});
+
+            // eslint-disable-next-line spellcheck/spell-checker
+            intent = invoker.detectIntent("PetMatchIntent slot=\"Prüfung\"");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            // eslint-disable-next-line spellcheck/spell-checker
+            expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+
+            // eslint-disable-next-line spellcheck/spell-checker
+            intent = invoker.detectIntent("PetMatchIntent slot=Prüfung");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            // eslint-disable-next-line spellcheck/spell-checker
+            expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+            
         });
     });
 });
