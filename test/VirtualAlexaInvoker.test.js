@@ -1,6 +1,7 @@
 const Configuration = require("../lib/runner/Configuration");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
+const VirtualAlexaInvoker = require("../lib/runner/VirtualAlexaInvoker");
 
 describe("virtual alexa runner", () => {
     describe("basic tests", () => {
@@ -366,6 +367,72 @@ describe("virtual alexa runner", () => {
             const runner = new TestRunner();
             const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");                    
             expect(results.length).toEqual(4);
+        });
+    });
+
+    describe("succinct intent", () => {
+        test("get intent", async () => {
+            const invoker = new VirtualAlexaInvoker();
+
+            let intent = invoker.detectIntent("PetMatchIntent");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots).toBeUndefined();
+
+            intent = invoker.detectIntent("PetMatchIntent size=mini");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            expect(intent.slots[0]).toEqual({size: "mini"});
+
+            intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(2);
+            expect(intent.slots[0]).toEqual({size: "mini"});
+            expect(intent.slots[1]).toEqual({temperament: "guard"});
+
+            intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard energy=low");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(3);
+            expect(intent.slots[0]).toEqual({size: "mini"});
+            expect(intent.slots[1]).toEqual({temperament: "guard"});
+            expect(intent.slots[2]).toEqual({energy: "low"});
+
+            intent = invoker.detectIntent("PetMatchIntent size=\"mini\" temperament=guard");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(2);
+            expect(intent.slots[0]).toEqual({size: "mini"});
+            expect(intent.slots[1]).toEqual({temperament: "guard"});
+
+            intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=guard");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(2);
+            expect(intent.slots[0]).toEqual({size: "mini mini"});
+            expect(intent.slots[1]).toEqual({temperament: "guard"});
+            
+            intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=\"guard guard\"");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(2);
+            expect(intent.slots[0]).toEqual({size: "mini mini"});
+            expect(intent.slots[1]).toEqual({temperament: "guard guard"});
+
+            intent = invoker.detectIntent("PetMatchIntent slot1=1");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            expect(intent.slots[0]).toEqual({slot1: "1"});
+
+            // eslint-disable-next-line spellcheck/spell-checker
+            intent = invoker.detectIntent("PetMatchIntent slot=\"Prüfung\"");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            // eslint-disable-next-line spellcheck/spell-checker
+            expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+
+            // eslint-disable-next-line spellcheck/spell-checker
+            intent = invoker.detectIntent("PetMatchIntent slot=Prüfung");
+            expect(intent.name).toBe("PetMatchIntent");
+            expect(intent.slots.length).toBe(1);
+            // eslint-disable-next-line spellcheck/spell-checker
+            expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+            
         });
     });
 });
