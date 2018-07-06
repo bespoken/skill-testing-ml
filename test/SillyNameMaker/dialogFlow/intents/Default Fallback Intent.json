@@ -1,0 +1,31 @@
+{
+  "id": "99b34aca-d06c-4952-8b46-e5d12bc0bfc5",
+  "name": "Default Fallback Intent",
+  "auto": false,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "input.unknown",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": [
+            "Hmm that doesn\u0027t sound like an number to me. What\u0027s your lucky number again?",
+            "Sorry I didn\u0027t quite understand that number. What is your lucky number?"
+          ]
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": true,
+  "events": []
+}
