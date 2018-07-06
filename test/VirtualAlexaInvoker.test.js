@@ -363,10 +363,44 @@ describe("virtual alexa runner", () => {
     });
 
     describe("locales", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
         test("run pet match skill", async () => {
             const runner = new TestRunner();
             const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");                    
             expect(results.length).toEqual(4);
+        });
+
+        test("localization files", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");                    
+            expect(results.length).toEqual(4);
+
+            expect(results[0].test.description).toEqual("Multi locale skill");
+            expect(results[0].interactionResults[0].interaction.utterance).toEqual("LaunchRequest");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].interaction.utterance).toEqual("GetNewFactIntent");
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+
+            expect(results[1].test.description).toEqual("Multi locale skill");
+            expect(results[1].interactionResults[0].interaction.utterance).toEqual("LaunchRequest");
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+            expect(results[1].interactionResults[1].interaction.utterance).toEqual("GetNewFactIntent");
+            expect(results[1].interactionResults[1].error).toBeUndefined();
+
+            expect(results[2].test.description).toEqual("Multi locale skill");
+            expect(results[2].interactionResults[0].interaction.utterance).toEqual("LaunchRequest");
+            expect(results[2].interactionResults[0].error).toBeUndefined();
+            expect(results[2].interactionResults[1].interaction.utterance).toEqual("GetNewFactIntent");
+            expect(results[2].interactionResults[1].error).toBeUndefined();
+
+            expect(results[3].test.description).toEqual("Multi locale skill");
+            expect(results[3].interactionResults[0].interaction.utterance).toEqual("LaunchRequest");
+            expect(results[3].interactionResults[0].error).toBeUndefined();
+            expect(results[3].interactionResults[1].interaction.utterance).toEqual("GetNewFactIntent");
+            expect(results[3].interactionResults[1].error).toBeUndefined();
         });
     });
 
