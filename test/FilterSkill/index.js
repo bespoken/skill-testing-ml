@@ -8,5 +8,9 @@ exports.handler = function(event, context) {
         response.requestFiltered = true;
     }
 
+    response.audioPlayerSupported = event.audioPlayerSupported;
+    response.displaySupported = event.displaySupported;
+    response.videoAppSupported = event.videoAppSupported;
+
     context.done(null, response);
 }

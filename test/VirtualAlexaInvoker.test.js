@@ -491,4 +491,57 @@ describe("virtual alexa runner", () => {
             
         });
     });
+
+    describe("supportedInterfaces", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("VideoApp", async () => {
+            Configuration.configure({
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                supportedInterfaces: "VideoApp",
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/interfaces-videoApp-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Display and VideoApp", async () => {
+            Configuration.configure({
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                supportedInterfaces: "Display, VideoApp",
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/interfaces-display-and-videoApp-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("all interfaces", async () => {
+            Configuration.configure({
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/interfaces-all-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
 });
