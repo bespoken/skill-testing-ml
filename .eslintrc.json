@@ -72,7 +72,10 @@
                     "txt",
                     "async",
                     "args",
-                    "dto"
+                    "dto",
+                    "dirname",
+                    "filename",
+                    "readdir"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
