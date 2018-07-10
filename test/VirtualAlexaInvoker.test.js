@@ -361,7 +361,7 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toContain("Unable to match utterance: Hi to an intent.");
         });
 
-        test.only("when interaction model is not set, look for model/en-US.json", async () => {
+        test("when interaction model is not set, look for model/en-US.json", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({
                 handler: "test/ExceptionSkill/index.handler",
@@ -489,6 +489,59 @@ describe("virtual alexa runner", () => {
             // eslint-disable-next-line spellcheck/spell-checker
             expect(intent.slots[0]).toEqual({slot: "Prüfung"});
             
+        });
+    });
+
+    describe("supportedInterfaces", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("VideoApp", async () => {
+            Configuration.configure({
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                supportedInterfaces: "VideoApp",
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/interfaces-videoApp-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Display and VideoApp", async () => {
+            Configuration.configure({
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                supportedInterfaces: "Display, VideoApp",
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/interfaces-display-and-videoApp-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("all interfaces", async () => {
+            Configuration.configure({
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/interfaces-all-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
         });
     });
 });
