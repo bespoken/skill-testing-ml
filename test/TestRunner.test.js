@@ -75,7 +75,11 @@ describe("test runner", () => {
         runner.subscribe("message", messageCallbackMock);
         runner.subscribe("result", resultCallbackMock);
   
-        await runner.run("test/FactSkill/fact-skill-tests.yml");
+        try {
+            await runner.run("test/FactSkill/fact-skill-tests.yml");
+        } catch (error) {
+            expect(error).toBeDefined();
+        }
 
         expect(resultCallbackMock).toHaveBeenCalledTimes(1);
     });

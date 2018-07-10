@@ -1,4 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
+const path = require("path");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
 const VirtualAlexaInvoker = require("../lib/runner/VirtualAlexaInvoker");
@@ -360,6 +361,23 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toContain("Unable to match utterance: Hi to an intent.");
         });
 
+        test.only("when interaction model is not set, look for model/en-US.json", async () => {
+            Configuration.singleton = undefined;
+            Configuration.configure({
+                handler: "test/ExceptionSkill/index.handler",
+                locale: "en-US"
+            });
+
+            try {
+                const runner = new TestRunner();
+                await runner.run("test/ExceptionSkill/no-utterance-test.yml");
+                    
+            } catch (error) {
+                const defaultPath = path.normalize(`${process.cwd()}/models/en-US.json`);
+                expect(defaultPath.includes(error.path)).toBe(true);
+            }
+        });
+
     });
 
     describe("locales", () => {
@@ -368,13 +386,17 @@ describe("virtual alexa runner", () => {
         });
 
         test("run pet match skill", async () => {
-            const runner = new TestRunner();
+            const runner = new TestRunner({
+                directory: "test/PetMatchSkill"
+            });
             const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");                    
             expect(results.length).toEqual(4);
         });
 
         test("localization files", async () => {
-            const runner = new TestRunner();
+            const runner = new TestRunner({
+                directory: "test/MultiLocaleFactSkill"
+            });
             const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");                    
             expect(results.length).toEqual(4);
 
