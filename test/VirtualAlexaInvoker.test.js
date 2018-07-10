@@ -361,7 +361,7 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toContain("Unable to match utterance: Hi to an intent.");
         });
 
-        test.only("when interaction model is not set, look for model/en-US.json", async () => {
+        test("when interaction model is not set, look for model/en-US.json", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({
                 handler: "test/ExceptionSkill/index.handler",
