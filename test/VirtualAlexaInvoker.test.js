@@ -488,6 +488,10 @@ describe("virtual alexa runner", () => {
             expect(intent.slots.length).toBe(1);
             // eslint-disable-next-line spellcheck/spell-checker
             expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+
+            intent = invoker.detectIntent("AMAZON.HelpIntent");
+            expect(intent.name).toBe("AMAZON.HelpIntent");
+            expect(intent.slots).toBeUndefined();
             
         });
     });
