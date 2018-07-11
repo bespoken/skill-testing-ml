@@ -384,18 +384,45 @@ describe("virtual alexa runner", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
         });
-
-        test("run pet match skill", async () => {
+        
+        
+        test("run all locales, localized slot values", async () => {
+            const getSlotSize = locale => {
+                let value = "";
+                switch (locale) {
+                    // eslint-disable-next-line spellcheck/spell-checker
+                    case "de-DE":
+                        value = "miniature";
+                        break;
+                    case "en-GB":
+                        value = "tiddly";
+                        break;
+                    case "en-US":
+                        value = "mini";
+                        break;
+                    case "es-ES":
+                        // eslint-disable-next-line spellcheck/spell-checker
+                        value = "minúsculo";
+                        break;
+                }
+                return { size: value };
+            };
+            
             const runner = new TestRunner({
-                directory: "test/PetMatchSkill"
+                testDirectory: "test/PetMatchSkill"
             });
-            const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");                    
+            const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");
+            
             expect(results.length).toEqual(4);
+            expect(results[0].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[0].locale));
+            expect(results[1].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[1].locale));
+            expect(results[2].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[2].locale));
+            expect(results[3].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[3].locale));
         });
 
         test("localization files", async () => {
             const runner = new TestRunner({
-                directory: "test/MultiLocaleFactSkill"
+                testDirectory: "test/MultiLocaleFactSkill"
             });
             const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");                    
             expect(results.length).toEqual(4);
@@ -436,58 +463,58 @@ describe("virtual alexa runner", () => {
 
             intent = invoker.detectIntent("PetMatchIntent size=mini");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(1);
-            expect(intent.slots[0]).toEqual({size: "mini"});
+            expect(Object.keys(intent.slots).length).toBe(1);
+            expect(intent.slots.size).toEqual("mini");
 
             intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(2);
-            expect(intent.slots[0]).toEqual({size: "mini"});
-            expect(intent.slots[1]).toEqual({temperament: "guard"});
+            expect(Object.keys(intent.slots).length).toBe(2);
+            expect(intent.slots.size).toEqual("mini");
+            expect(intent.slots.temperament).toEqual("guard");
 
             intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard energy=low");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(3);
-            expect(intent.slots[0]).toEqual({size: "mini"});
-            expect(intent.slots[1]).toEqual({temperament: "guard"});
-            expect(intent.slots[2]).toEqual({energy: "low"});
+            expect(Object.keys(intent.slots).length).toBe(3);
+            expect(intent.slots.size).toEqual("mini");
+            expect(intent.slots.temperament).toEqual("guard");
+            expect(intent.slots.energy).toEqual("low");
 
             intent = invoker.detectIntent("PetMatchIntent size=\"mini\" temperament=guard");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(2);
-            expect(intent.slots[0]).toEqual({size: "mini"});
-            expect(intent.slots[1]).toEqual({temperament: "guard"});
+            expect(Object.keys(intent.slots).length).toBe(2);
+            expect(intent.slots.size).toEqual("mini");
+            expect(intent.slots.temperament).toEqual("guard");
 
             intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=guard");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(2);
-            expect(intent.slots[0]).toEqual({size: "mini mini"});
-            expect(intent.slots[1]).toEqual({temperament: "guard"});
+            expect(Object.keys(intent.slots).length).toBe(2);
+            expect(intent.slots.size).toEqual("mini mini");
+            expect(intent.slots.temperament).toEqual("guard");
             
             intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=\"guard guard\"");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(2);
-            expect(intent.slots[0]).toEqual({size: "mini mini"});
-            expect(intent.slots[1]).toEqual({temperament: "guard guard"});
+            expect(Object.keys(intent.slots).length).toBe(2);
+            expect(intent.slots.size).toEqual("mini mini");
+            expect(intent.slots.temperament).toEqual("guard guard");
 
             intent = invoker.detectIntent("PetMatchIntent slot1=1");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(1);
-            expect(intent.slots[0]).toEqual({slot1: "1"});
+            expect(Object.keys(intent.slots).length).toBe(1);
+            expect(intent.slots.slot1).toEqual("1");
 
             // eslint-disable-next-line spellcheck/spell-checker
             intent = invoker.detectIntent("PetMatchIntent slot=\"Prüfung\"");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(1);
+            expect(Object.keys(intent.slots).length).toBe(1);
             // eslint-disable-next-line spellcheck/spell-checker
-            expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+            expect(intent.slots.slot).toEqual("Prüfung");
 
             // eslint-disable-next-line spellcheck/spell-checker
             intent = invoker.detectIntent("PetMatchIntent slot=Prüfung");
             expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots.length).toBe(1);
+            expect(Object.keys(intent.slots).length).toBe(1);
             // eslint-disable-next-line spellcheck/spell-checker
-            expect(intent.slots[0]).toEqual({slot: "Prüfung"});
+            expect(intent.slots.slot).toEqual("Prüfung");
 
             intent = invoker.detectIntent("AMAZON.HelpIntent");
             expect(intent.name).toBe("AMAZON.HelpIntent");
