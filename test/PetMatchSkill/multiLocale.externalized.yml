@@ -2,7 +2,6 @@
 ---
 configuration:
   locales: de-DE,en-GB,en-US,es-ES
-  locale: en-US
   handler: "test/PetMatchSkill/index.handler"
   interactionModel: "test/PetMatchSkill/models/en-US.json"
 
