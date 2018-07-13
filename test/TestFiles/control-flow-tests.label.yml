@@ -1,0 +1,36 @@
+---
+configuration:
+  locale: en-US
+---
+- test: "Goes to successfully"
+- LaunchRequest:
+  - response.outputSpeech.ssml == "Here's your fact:*" goto GetNew
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/
+  - exit
+- Help:
+  - response.outputSpeech.ssml == "Here's your fact:*"
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/
+- Get New Fact:
+  - label: GetNew
+  - response.outputSpeech.ssml == "ABC"
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/
+
+---
+- test: "Exits successfully"
+- LaunchRequest:
+  - response.outputSpeech.ssml == "ABC:*" goto GetNew
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/
+  - exit
+- Get New Fact:
+  - label: GetNew
+  - response.outputSpeech.ssml == "ABC" goto Help
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/
+- "Help":
+  - response.outputSpeech.ssml == "Here's your fact:*"
+  - response.reprompt == undefined
+  - response.card.content =~ /.*/

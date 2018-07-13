@@ -41,7 +41,23 @@ describe("test suite", () => {
             expect(displaySupported).toBe(true);
             expect(videoAppSupported).toBe(true);
         });
+    });
 
+    describe("loadLocalizedValues", () => {
+        test("same path", async () => {
+            Configuration.configure({});
+    
+            const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
+            await testSuite.loadLocalizedValues();
+            expect(testSuite.localizedValues.en.test).toBe("This file is on locales/en.yml");
+        });
 
+        test("path over", async () => {
+            Configuration.configure({});
+    
+            const testSuite = new TestSuite("test/TestFiles/unit/dummy-test.yml");
+            await testSuite.loadLocalizedValues();
+            expect(testSuite.localizedValues.en.test).toBe("This file is on locales/en.yml");
+        });
     });
 });
