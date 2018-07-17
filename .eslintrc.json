@@ -75,7 +75,9 @@
                     "dto",
                     "dirname",
                     "filename",
-                    "readdir"
+                    "readdir",
+                    "unshift",
+                    "filepath"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",

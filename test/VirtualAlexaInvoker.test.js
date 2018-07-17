@@ -399,6 +399,7 @@ describe("virtual alexa runner", () => {
         test("when interaction model is not set, look for model/en-US.json", async () => {
             Configuration.singleton = undefined;
             Configuration.configure({
+                configurationPath: "test/ExceptionSkill/testing.json",
                 handler: "test/ExceptionSkill/index.handler",
                 locale: "en-US"
             });
@@ -444,6 +445,7 @@ describe("virtual alexa runner", () => {
             };
             
             const runner = new TestRunner({
+                configurationPath: "test/PetMatchSkill/testing.json",
                 testDirectory: "test/PetMatchSkill"
             });
             const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");
