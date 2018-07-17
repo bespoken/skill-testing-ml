@@ -71,10 +71,10 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(path.normalize(testSuite.interactionModel)).toBe("models/en-GB.json");
+            expect(testSuite.interactionModel).toBe(path.normalize("models/en-GB.json"));
         });
 
-        test("path relative", async () => {
+        test("relative path", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
                 interactionModel: "../models/en-GB.json",
@@ -83,7 +83,7 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(path.normalize(testSuite.interactionModel)).toBe("test/models/en-GB.json");
+            expect(testSuite.interactionModel).toBe(path.normalize("test/models/en-GB.json"));
         });
     });
 
@@ -98,7 +98,7 @@ describe("test suite", () => {
             expect(testSuite.handler).toBe("index.handler");
         });
 
-        test("path relative", async () => {
+        test("relative path", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
                 handler: "../index.handler",
@@ -106,7 +106,7 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(path.normalize(testSuite.handler)).toBe("test/index.handler");
+            expect(testSuite.handler).toBe(path.normalize("test/index.handler"));
         });
     });
 });
