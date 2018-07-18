@@ -1,0 +1,44 @@
+{
+  "id": "f056c0d3-9b7c-40a3-96da-c74d79a5cec9",
+  "name": "In Dialog Fallback",
+  "auto": false,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": "suggestion_chips",
+          "platform": "google",
+          "lang": "en",
+          "suggestions": [
+            {
+              "title": "History"
+            },
+            {
+              "title": "Headquarters"
+            }
+          ]
+        },
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "Sorry, I didn\u0027t understand. I can tell you about Google\u0027s history, or its headquarters. Which one do you want to hear about?"
+        }
+      ],
+      "defaultResponsePlatforms": {
+        "google": true
+      },
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": false,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1507654064935,
+  "fallbackIntent": true,
+  "events": []
+}

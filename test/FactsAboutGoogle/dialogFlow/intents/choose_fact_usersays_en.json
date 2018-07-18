@@ -1,0 +1,158 @@
+[
+  {
+    "id": "f75bbf23-303b-4db6-a7ea-d9c2aa824ca4",
+    "data": [
+      {
+        "text": "Tell me about Google",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "80ae1a53-a2e1-49ba-b781-a57e9282acf7",
+    "data": [
+      {
+        "text": "The ",
+        "userDefined": false
+      },
+      {
+        "text": "history of Google",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "82ed29f8-2028-49bd-8487-f446ca1847ec",
+    "data": [
+      {
+        "text": "Tell me about the ",
+        "userDefined": false
+      },
+      {
+        "text": "headquarters",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "566724e1-8a99-4386-b57d-29b87c4e8f15",
+    "data": [
+      {
+        "text": "Google\u0027s history",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "2e12a08d-1949-4447-a887-034848eff920",
+    "data": [
+      {
+        "text": "I want to hear about Google",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "da3d8342-7317-4ef2-b5ba-33596e12955c",
+    "data": [
+      {
+        "text": "Let\u0027s hear about ",
+        "userDefined": false
+      },
+      {
+        "text": "Google\u0027s headquarters",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "e6967502-733d-4565-baf7-568a22f3d07d",
+    "data": [
+      {
+        "text": "I want to hear about ",
+        "userDefined": false
+      },
+      {
+        "text": "Google\u0027s history",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "06739eb5-1f06-4cd2-a867-dead085d7cf1",
+    "data": [
+      {
+        "text": "History",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "0274cfd0-0514-4053-a563-ad0d11660d3f",
+    "data": [
+      {
+        "text": "Headquarters",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "eb76ae46-ca65-475f-ba11-2fcd231b5876",
+    "data": [
+      {
+        "text": "I want to hear about the ",
+        "userDefined": false
+      },
+      {
+        "text": "history",
+        "alias": "category",
+        "meta": "@fact-category",
+        "userDefined": true
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]
