@@ -11,6 +11,7 @@ describe("JestAdapter", async () => {
         const testSuite = new TestSuite("MyTest.yml");
         const test = new Test(testSuite, { description: "Test Description" });
         const testResult = new TestResult(test);
+        testResult.locale = "en-US";
         const interaction = new TestInteraction("Hi");
         const interactionResult = new InteractionResult(interaction);
         testResult.addInteractionResult(interactionResult);
@@ -29,7 +30,8 @@ describe("JestAdapter", async () => {
 
         // Check the individual test result
         const jestTestResult = jestResults.testResults[0]
-        expect(jestTestResult.ancestorTitles[0]).toBe("Test Description");
+        expect(jestTestResult.ancestorTitles[0]).toBe("en-US");
+        expect(jestTestResult.ancestorTitles[1]).toBe("Test Description");
         expect(jestTestResult.status).toBe("passed");
     });
 
@@ -37,6 +39,7 @@ describe("JestAdapter", async () => {
         const testSuite = new TestSuite("MyTest.yml");
         const test = new Test(testSuite, { description: "Test Description" });
         const testResult = new TestResult(test);
+        testResult.locale = "en-GB";
         const interaction = new TestInteraction(test, "Hi");
         const assertion = new Assertion(interaction, "path", "==", "value");
         const interactionResult = new InteractionResult(interaction, assertion, "Here is an interactionError");
@@ -54,7 +57,8 @@ describe("JestAdapter", async () => {
 
         // Check the individual test result
         const jestTestResult = jestResults.testResults[0]
-        expect(jestTestResult.ancestorTitles[0]).toBe("Test Description");
+        expect(jestTestResult.ancestorTitles[0]).toBe("en-GB");
+        expect(jestTestResult.ancestorTitles[1]).toBe("Test Description");
         expect(jestTestResult.status).toBe("failed");
     });
 

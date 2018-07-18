@@ -1,0 +1,16 @@
+
+---
+configuration:
+  locales: de-DE,en-GB,en-US,es-ES
+  handler: "test/PetMatchSkill/index.handler"
+  interactionModel: "test/PetMatchSkill/models/en-US.json"
+
+---
+- test: Disambiguation of slots
+- LaunchRequest: welcome
+- PetMatchIntent size=mini: smallOrTiny
+- PetMatchIntent size=small: familyOrGuard
+- PetMatchIntent temperament=guard: highOrLowEnergy
+- PetMatchIntent energy=low:
+  - response.outputSpeech.ssml: recommendationSmallGuardLow
+  - response.shouldEndSession: true

@@ -49,10 +49,6 @@ const data = [
 
 exports.handler = function(event, context) {
     var alexa = Alexa.handler(event, context);
-    if (event.test && event.test.value) {
-        context.done(null, { expression: true });
-        return;
-    }
     alexa.appId = APP_ID;
     alexa.registerHandlers(handlers);
     alexa.execute();

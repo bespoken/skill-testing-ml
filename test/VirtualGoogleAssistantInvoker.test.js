@@ -5,7 +5,7 @@ describe("virtual google assistant runner", () => {
     describe("basic tests", () => {
         beforeEach(() => {
             Configuration.configure({
-                directory: "test/SillyNameMakerExpress/dialogFlow",
+                dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
                 invoker: "VirtualGoogleAssistantInvoker",
@@ -30,7 +30,7 @@ describe("virtual google assistant runner", () => {
     describe("Complex tests", () => {
         beforeEach(() => {
             Configuration.configure({
-                directory: "test/FactsAboutGoogle/dialogFlow",
+                dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
                 invoker: "VirtualGoogleAssistantInvoker",

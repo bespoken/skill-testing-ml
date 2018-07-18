@@ -161,6 +161,76 @@ describe("virtual device runner", () => {
             expect(mockVirtualDevice.mock.calls[0][2]).toBe("voiceId");
         });
     });
+    
+    describe("virtualDeviceToken", () => {
+        let config = {};
+        beforeEach(() => {
+            config = {
+                invoker: "VirtualDeviceInvoker",
+            };
+            mockVirtualDevice.mockClear ();
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("one token", async () => {
+            config.virtualDeviceToken = "space fact"
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0]).toBe("space fact");
+            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+        });
+
+        test("alexa token", async () => {
+            config.virtualDeviceToken = {
+                alexa: "alexaToken",
+                google: "googleToken",
+            };
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0]).toBe("alexaToken");
+            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+        });
+
+        test("google token", async () => {
+            config.platform = "google";
+            config.virtualDeviceToken = {
+                alexa: "alexaToken",
+                google: "googleToken",
+            };
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0]).toBe("googleToken");
+            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+        });
+
+        test("alexa token with locales", async () => {
+            config.virtualDeviceToken = {
+                alexa: {
+                    // eslint-disable-next-line spellcheck/spell-checker
+                    "de-DE": "alexaTokenDE",
+                    // eslint-disable-next-line spellcheck/spell-checker
+                    "en-US": "alexaTokenUS"
+                }
+            };
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0]).toBe("alexaTokenUS");
+            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+        });
+
+    });
+
 
     describe("control flow tests", () => {
         beforeAll(() => {

@@ -1,6 +1,6 @@
 {
   "name": "skill-testing-ml",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Skill Testing Markup Language",
   "main": "dist/lib/Index.js",
   "bin": {
@@ -68,6 +68,8 @@
   "devDependencies": {
     "actions-on-google": "^2.2.0",
     "alexa-sdk": "^1.0.25",
+    "ask-sdk-core": "^2.0.0",
+    "ask-sdk-model": "^1.0.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-es2015-block-scoping": "^6.26.0",

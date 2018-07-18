@@ -1,0 +1,32 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "deutsch weltraumwissen",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "GetNewFactIntent",
+          "slots": [],
+          "samples": [
+            "eine wirklichkeit",
+            "ein weltraumwissen",
+            "nenne mir einen fakt über den weltraum",
+            "nenne mir einen fakt"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}

@@ -1,0 +1,13 @@
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+---
+- test: "Expression Test"
+- LaunchRequest:
+  - request.test.numberValue: 1
+  - request.test.stringValue: hi
+  - request.test.booleanValue: true
+  - request.test.booleanValueFalse: false
+  # TODO For now, this is also treated as true - need to fix YAML parser to distinguish between "true" and true
+  - request.test.stringValueTrue: "true"
