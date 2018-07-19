@@ -59,7 +59,7 @@
     "js-yaml-bespoken": "^3.11.3",
     "jsonpath": "^1.0.0",
     "lodash": "^4.17.5",
-    "virtual-alexa": "^0.6.9",
+    "virtual-alexa": "^0.6.11",
     "virtual-device-sdk": "^1.4.10"
   },
   "devDependencies": {
