@@ -79,7 +79,7 @@ describe("virtual alexa runner", () => {
                 await runner.runSuite(suite);
                 throw "This should never be reached";
             } catch (e) {
-                expect(e.message).toEqual("Locale must be defined either in the skill-config.json or the test file itself under the config element");
+                expect(e.message).toEqual("Locale must be defined either in the testing.json or the test file itself under the config element");
             }
         });
     });
