@@ -63,7 +63,7 @@
     "lodash": "^4.17.5",
     "virtual-alexa": "^0.6.9",
     "virtual-device-sdk": "^1.4.10",
-    "virtual-google-assistant": "0.2.1-0"
+    "virtual-google-assistant": "0.2.3-0"
   },
   "devDependencies": {
     "actions-on-google": "^2.2.0",
