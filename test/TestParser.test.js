@@ -1,3 +1,4 @@
+const Configuration = require("../lib/runner/Configuration");
 const TestParser = require("../lib/test/TestParser");
 const Util = require("../lib/util/Util");
 
@@ -330,5 +331,34 @@ configuration:
 
         expect(testSuite.tests[2].skip).toBe(false);
         expect(testSuite.tests[2].only).toBe(false);
+    });
+
+    describe("findReplace", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("replace values", () => {
+            Configuration.configure({
+                findReplace: {
+                    "INVOCATION_NAME": "my skill"
+                 }
+            });
+
+            const parser = new TestParser();
+            parser.load(`
+--- 
+- open INVOCATION_NAME:
+  - request.test.value: A value
+  - request.test.value2: Another value
+        `)
+            const testSuite = parser.parse();
+            expect(testSuite.tests[0].interactions.length).toBe(1);
+            expect(testSuite.tests[0].interactions[0].utterance).toBe("open my skill");
+            expect(testSuite.tests[0].interactions[0].expressions.length).toBe(2);
+            expect(testSuite.tests[0].interactions[0].expressions[0].path).toBe("request.test.value");
+            expect(testSuite.tests[0].interactions[0].expressions[0].value).toBe("A value");
+            expect(testSuite.tests[0].interactions[0].expressions[1].value).toBe("Another value");
+        });
     });
 });
