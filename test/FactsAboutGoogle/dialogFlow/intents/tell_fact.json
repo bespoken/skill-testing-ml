@@ -1,0 +1,53 @@
+{
+  "id": "606781f6-3761-447b-a769-2e9ca538b91a",
+  "parentId": "4a35cf33-e446-4b2b-a284-c70bc4dfce17",
+  "rootParentId": "4a35cf33-e446-4b2b-a284-c70bc4dfce17",
+  "name": "tell_fact",
+  "auto": true,
+  "contexts": [
+    "choose_fact-followup"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "tell.fact",
+      "affectedContexts": [
+        {
+          "name": "choose_fact-followup",
+          "parameters": {},
+          "lifespan": 5
+        }
+      ],
+      "parameters": [
+        {
+          "id": "e78da6db-e415-4fba-b1b9-7f6b1eace50b",
+          "required": true,
+          "dataType": "@fact-category",
+          "name": "category",
+          "value": "#choose_fact-followup.category",
+          "prompts": [
+            {
+              "lang": "en",
+              "value": "Which category of fact do you want to hear? History or headquarters?"
+            }
+          ]
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1507654064971,
+  "fallbackIntent": false,
+  "events": []
+}

@@ -1,0 +1,17 @@
+# A simple example of skill test suite for google assistant
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- I want to hear about Google's History: Sure, here's a history fact.
+- "Using intent slot":
+  - intent: tell_fact
+  - slots:
+      category: history
+  - prompt == "Sure, here's a history fact"
+- I want to hear about Google's History: Sure, here's a history fact.
+- I want to hear about Google's History: Sure, here's a history fact.
+# This example preserves context, after 4 random history facts, it prompt a different message
+- I want to hear about Google's History: Looks like you've heard all there is to know about

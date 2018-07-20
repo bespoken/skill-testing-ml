@@ -7,7 +7,11 @@
     "!**/node_modules/**",
     "!**/vendor/**"
   ],
-  "moduleFileExtensions": ["js"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "node"
+  ],
   "silent": false,
   "testMatch": [
     "**/dist/test/**/*.test.js"

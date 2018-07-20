@@ -1,0 +1,34 @@
+[
+  {
+    "id": "db069e07-4a6c-4ffa-a888-f50148cd8d20",
+    "data": [
+      {
+        "text": "My lucky number is ",
+        "userDefined": false
+      },
+      {
+        "text": "23",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "acb136d0-6bd3-4882-92f7-0c4ff79eed8d",
+    "data": [
+      {
+        "text": "23",
+        "alias": "number",
+        "meta": "@sys.number",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

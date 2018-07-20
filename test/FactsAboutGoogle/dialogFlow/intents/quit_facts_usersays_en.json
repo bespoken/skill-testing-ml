@@ -1,0 +1,86 @@
+[
+  {
+    "id": "3bc8eaf2-ade5-484b-9bc2-013647adf003",
+    "data": [
+      {
+        "text": "No",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "453839b7-b57d-4267-969a-0689b8972be1",
+    "data": [
+      {
+        "text": "I don\u0027t want to hear any more",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "420a2b4c-b8a6-4991-9d84-88c68e0f6ba1",
+    "data": [
+      {
+        "text": "Quit",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "b0ad9d5a-ae19-4466-b4b4-115fb7f6caaf",
+    "data": [
+      {
+        "text": "Bye",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "97f50e12-e50c-4511-a241-c5ebc6ec5593",
+    "data": [
+      {
+        "text": "Thanks",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "441e4c07-dca1-4772-aaaa-cab0bd817b64",
+    "data": [
+      {
+        "text": "Nevermind",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "8554349d-aaa2-44f0-b5cc-d1febe92f96c",
+    "data": [
+      {
+        "text": "I\u0027m done now",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

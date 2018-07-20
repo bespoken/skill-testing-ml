@@ -1,0 +1,31 @@
+{
+  "id": "753c8d95-1bd9-42ce-80a1-aecddd904255",
+  "name": "Unrecognized Deep Link Fallback",
+  "auto": false,
+  "contexts": [
+    "google_assistant_welcome"
+  ],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "",
+      "affectedContexts": [],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": "Welcome to Google Facts! I didn\u0027t quite understand that, but I can tell you about Google\u0027s history or its headquarters. Which would you like to hear about?"
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1520472702,
+  "fallbackIntent": true,
+  "events": []
+}

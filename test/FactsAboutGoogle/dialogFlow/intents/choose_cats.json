@@ -1,0 +1,40 @@
+{
+  "id": "14df3938-3776-477c-811c-d1758ecd15cb",
+  "name": "choose_cats",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "tell.cat.fact",
+      "affectedContexts": [
+        {
+          "name": "choose_cats-followup",
+          "parameters": {},
+          "lifespan": 2
+        },
+        {
+          "name": "choose_fact-followup",
+          "parameters": {},
+          "lifespan": 0
+        }
+      ],
+      "parameters": [],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "lastUpdate": 1507654064925,
+  "fallbackIntent": false,
+  "events": []
+}

@@ -1,0 +1,11 @@
+# A simple example of skill test suite for google assistant
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- My favorite number is 23: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - response.outputSpeech =~ .*Alright, your silly name is.* # A comment
+  - response.reprompt == undefined
+  - response.shouldEndSession: false

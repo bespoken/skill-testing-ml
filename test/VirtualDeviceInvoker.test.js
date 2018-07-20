@@ -119,7 +119,7 @@ describe("virtual device runner", () => {
                 virtualDeviceToken: "space fact",
                 voiceId: "voiceId"
             });
-            mockVirtualDevice.mockClear ();
+            mockVirtualDevice.mockClear();
         });
 
         afterEach(() => {

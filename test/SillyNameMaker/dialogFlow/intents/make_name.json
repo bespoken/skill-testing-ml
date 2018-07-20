@@ -1,0 +1,60 @@
+{
+  "id": "01c9e176-80f8-4f63-a661-9efb715f847e",
+  "name": "make_name",
+  "auto": true,
+  "contexts": [],
+  "responses": [
+    {
+      "resetContexts": false,
+      "action": "make_name",
+      "affectedContexts": [],
+      "parameters": [
+        {
+          "id": "cee5f787-31bd-4689-ab47-4ddab4ab8b6d",
+          "required": true,
+          "dataType": "@sys.number",
+          "name": "number",
+          "value": "$number",
+          "prompts": [
+            {
+              "lang": "en",
+              "value": "What is your lucky number?"
+            }
+          ],
+          "isList": false
+        },
+        {
+          "id": "69b36743-f601-49b5-9b25-680779c41a53",
+          "required": true,
+          "dataType": "@sys.color",
+          "name": "color",
+          "value": "$color",
+          "prompts": [
+            {
+              "lang": "en",
+              "value": "What is your favorite color?"
+            },
+            {
+              "lang": "en",
+              "value": "What color is your favorite?"
+            }
+          ]
+        }
+      ],
+      "messages": [
+        {
+          "type": 0,
+          "lang": "en",
+          "speech": []
+        }
+      ],
+      "defaultResponsePlatforms": {},
+      "speech": []
+    }
+  ],
+  "priority": 500000,
+  "webhookUsed": true,
+  "webhookForSlotFilling": false,
+  "fallbackIntent": false,
+  "events": []
+}
