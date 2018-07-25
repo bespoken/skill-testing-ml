@@ -1,5 +1,6 @@
 const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 const Configuration = require("../lib/runner/Configuration");
+const CONSTANTS = require("../lib/util/Constants");
 const message = require("virtual-device-sdk").mockMessage;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
 const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
@@ -113,8 +114,8 @@ describe("virtual device runner", () => {
         beforeEach(() => {
             Configuration.configure({
                 invocationName: "space fact",
-                invoker: "VirtualDeviceInvoker",
                 locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
                 // eslint-disable-next-line spellcheck/spell-checker
                 virtualDeviceToken: "space fact",
                 voiceId: "voiceId"
@@ -166,7 +167,7 @@ describe("virtual device runner", () => {
         let config = {};
         beforeEach(() => {
             config = {
-                invoker: "VirtualDeviceInvoker",
+                type: CONSTANTS.TYPE.e2e,
             };
             mockVirtualDevice.mockClear ();
         });
@@ -236,8 +237,8 @@ describe("virtual device runner", () => {
         beforeAll(() => {
             return Configuration.configure({
                 invocationName: "space fact",
-                invoker: "VirtualDeviceInvoker",
                 locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
                 // eslint-disable-next-line spellcheck/spell-checker
                 virtualDeviceToken: "space fact"
             });

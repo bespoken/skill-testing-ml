@@ -1,4 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
+const CONSTANTS = require("../lib/util/Constants");
 const TestRunner = require("../lib/runner/TestRunner");
 
 describe("virtual google assistant runner", () => {
@@ -8,8 +9,8 @@ describe("virtual google assistant runner", () => {
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
-                invoker: "VirtualGoogleAssistantInvoker",
-                locale: "en-US"
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
             });
         });
 
@@ -36,8 +37,8 @@ describe("virtual google assistant runner", () => {
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
-                invoker: "VirtualGoogleAssistantInvoker",
-                locale: "en-US"
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
             });
         });
 
@@ -61,8 +62,8 @@ describe("virtual google assistant runner", () => {
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
-                invoker: "VirtualGoogleAssistantInvoker",
-                locale: "en-US"
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google
             });
         });
 
@@ -93,8 +94,8 @@ describe("virtual google assistant runner", () => {
             Configuration.configure({
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
-                invoker: "VirtualGoogleAssistantInvoker",
-                locale: "en-US"
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google
             });
             const runner = new TestRunner();
 
@@ -112,8 +113,8 @@ describe("virtual google assistant runner", () => {
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
-                invoker: "VirtualGoogleAssistantInvoker",
-                locale: "en-US"
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google
             });
             const runner = new TestRunner();
 
