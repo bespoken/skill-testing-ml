@@ -1,12 +1,13 @@
+const CONSTANTS = require("../lib/util/Constants");
 // Best we can do with testing this is to mock jest and the call to runCLI
 const mockRunCLI = jest.fn(() => {
     return Promise.resolve({ results: { success: true } });
 });
 
-let invoker;
+let type;
 const mockConfiguration = jest.fn(() => ({
     jestConfig: jest.fn(() => ({ collectCoverage: true })),
-    value: jest.fn(() => invoker),
+    value: jest.fn(() => type),
 }));
 
 jest.mock("jest", () => {
@@ -77,7 +78,7 @@ describe("CLI", () => {
     });
 
     test("cli runs with e2e setting", async () => {
-        invoker = "VirtualDeviceInvoker";
+        type = CONSTANTS.TYPE.e2e;
         const cli = new CLI();
         const success = await cli.run([]);
         expect(success).toBe(true);

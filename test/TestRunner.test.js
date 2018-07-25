@@ -1,4 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
+const CONSTANTS = require("../lib/util/Constants");
 const mockMessage = require("virtual-device-sdk").mockMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 
@@ -62,7 +63,7 @@ describe("test runner", () => {
 
     test("error", async () => {
         const runner = new TestRunner({
-            invoker: "VirtualDeviceInvoker",
+            type: CONSTANTS.TYPE.e2e,
         });
         const messageCallback = (error) => {
             expect(error).toBeDefined();
@@ -86,7 +87,7 @@ describe("test runner", () => {
 
     test("batchEnabled true", async () => {
         const runner = new TestRunner({
-            invoker: "VirtualDeviceInvoker",
+            type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "123"
         });
   
@@ -97,7 +98,7 @@ describe("test runner", () => {
     test("batchEnabled false", async () => {
         const runner = new TestRunner({
             batchEnabled: false,
-            invoker: "VirtualDeviceInvoker",
+            type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "123"
         });
   
