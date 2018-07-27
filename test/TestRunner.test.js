@@ -2,6 +2,7 @@ const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const mockMessage = require("virtual-device-sdk").mockMessage;
 const TestRunner = require("../lib/runner/TestRunner");
+const TestSuite = require("../lib/test/TestSuite");
 
 describe("test runner", () => {
     beforeEach(() => {
@@ -104,5 +105,37 @@ describe("test runner", () => {
   
         await runner.run("test/FactSkill/fact-skill-tests.yml");
         expect(mockMessage.mock.calls.length).toBe(6);
+    });
+
+    test("getInvoker default value", async () => {
+        Configuration.configure({});
+
+        const testSuite = new TestSuite();
+        const runner = new TestRunner();
+        
+        expect(runner.getInvoker(testSuite)).toBe("VirtualAlexaInvoker");
+    });
+
+    test("getInvoker when invoker is defined", async () => {
+        Configuration.configure({
+            invoker: "VirtualDeviceInvoker"
+        });
+
+        const testSuite = new TestSuite();
+        const runner = new TestRunner();
+        
+        expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
+    });
+
+    test("getInvoker when platform and type are defined", async () => {
+        Configuration.configure({
+            platform: "alexa",
+            type: "e2e"
+        });
+
+        const testSuite = new TestSuite();
+        const runner = new TestRunner();
+        
+        expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
     });
 });
