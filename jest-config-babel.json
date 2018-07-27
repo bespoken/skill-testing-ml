@@ -13,9 +13,11 @@
     "node"
   ],
   "silent": false,
+  "testEnvironment": "node",
   "testMatch": [
     "**/dist/test/**/*.test.js"
   ],
   "testResultsProcessor": "jest-junit",
+  "testURL": "http://localhost/",
   "verbose": true
 }

@@ -28,6 +28,7 @@
       "node"
     ],
     "silent": false,
+    "testEnvironment": "node",
     "testMatch": [
       "**/test/**/*.test.js"
     ],
@@ -35,6 +36,7 @@
       "dist"
     ],
     "testResultsProcessor": "jest-junit",
+    "testURL": "http://localhost/",
     "verbose": true
   },
   "scripts": {
