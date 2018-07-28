@@ -71,7 +71,7 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(testSuite.interactionModel).toBe(path.normalize("models/en-GB.json"));
+            expect(testSuite.interactionModel).toBe("./models/en-GB.json");
         });
 
         test("relative path", async () => {
@@ -95,7 +95,7 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(testSuite.handler).toBe("index.handler");
+            expect(testSuite.handler).toBe("./index.handler");
         });
 
         test("relative path", async () => {
