@@ -13,6 +13,15 @@ describe("configuration", () => {
         expect(jestConfiguration.collectCoverage).toBe(false);
     });
 
+    test("override configuration with cli", async () => {
+        const cliOverrides = {
+            "jest.collectCoverage": "false"
+        };
+        await Configuration.configure({}, "", cliOverrides);
+        const jestConfiguration = Configuration.instance().value("jest");
+        expect(jestConfiguration.collectCoverage).toBe(false);
+    });
+
     describe("test path", function () {
         test("testing.json same folder of test file", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e");
