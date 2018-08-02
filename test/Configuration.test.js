@@ -1,4 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
+const path = require("path");
 
 describe("configuration", () => {
     beforeEach(() => {
@@ -36,7 +37,7 @@ describe("configuration", () => {
         test("when testing.json exists", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/unit");
             let jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.coverageDirectory).toBe("test/ConfigurationTestFiles/test/unit/coverage/");
+            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/ConfigurationTestFiles/test/unit/coverage/"));
         });
     
         test("when testing.json is missing", async () => {
