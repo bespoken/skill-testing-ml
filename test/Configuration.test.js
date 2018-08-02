@@ -43,7 +43,7 @@ describe("configuration", () => {
         test("when testing.json is missing", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-GB");
             let jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.coverageDirectory).toBe("test/coverage/");
+            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/coverage/"));
         });
 
         test("when testing.json overrides coverageDirectory", async () => {
