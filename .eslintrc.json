@@ -77,7 +77,8 @@
                     "filename",
                     "readdir",
                     "unshift",
-                    "filepath"
+                    "filepath",
+                    "lstat"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
