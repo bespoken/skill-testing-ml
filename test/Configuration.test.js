@@ -1,4 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
+const ConfigurationKeys = require("../lib/runner/ConfigurationKeys");
 const path = require("path");
 
 describe("configuration", () => {
@@ -9,6 +10,15 @@ describe("configuration", () => {
     test("override configuration with env variables", async () => {
         process.env["jest.collectCoverage"] = false;
         await Configuration.configure();
+        const jestConfiguration = Configuration.instance().value("jest");
+        expect(jestConfiguration.collectCoverage).toBe(false);
+    });
+
+    test("override configuration with cli", async () => {
+        const cliOverrides = {
+            "jest.collectCoverage": "false"
+        };
+        await Configuration.configure({}, "", cliOverrides);
         const jestConfiguration = Configuration.instance().value("jest");
         expect(jestConfiguration.collectCoverage).toBe(false);
     });
@@ -50,6 +60,36 @@ describe("configuration", () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/overrideCoverage");
             let jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe("customFolder/coverage/");
+        });
+    });
+
+    describe("ConfigurationKeys", () =>{
+        const keys = [
+            "voiceId",
+            "accessToken",
+            "deviceId",
+            "platform",
+            "type",
+            "locales",
+            "locale",
+            "trace",
+            "virtualDeviceToken",
+            "jest.collectCoverage",
+            "jest.collectCoverageFrom",
+            "jest.coverageDirectory",
+            "jest.moduleFileExtensions",
+            "jest.silent",
+            "jest.testMatch",
+            "jest.testPathIgnorePatterns",
+            "jest.verbose",
+        ];
+
+        keys.forEach(key => {
+            const match = ConfigurationKeys.find(item => item.key === key);
+            expect(match).toBeDefined();
+            expect(match.key).toBeDefined();
+            expect(match.shortcut).toBeDefined();
+            expect(match.text).toBeDefined();
         });
     });
 
