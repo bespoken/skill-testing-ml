@@ -10,15 +10,18 @@ const mockConfiguration = jest.fn(() => ({
     value: jest.fn(() => type),
 }));
 
+const mockConfigure = jest.fn();
+
 jest.mock("jest", () => {
     return {
         runCLI: mockRunCLI,
     };
 });
 
+
 jest.mock("../lib/runner/Configuration", () => {
     return {
-        configure: jest.fn(),
+        configure: mockConfigure,
         instance: mockConfiguration
     };
 });
@@ -29,6 +32,7 @@ const CLI = require("../lib/runner/CLI");
 describe("CLI", () => {
     beforeEach(() => {
         mockRunCLI.mockClear();
+        mockConfigure.mockClear();
         process.chdir("test/FactSkill");
     });
 
@@ -92,5 +96,16 @@ describe("CLI", () => {
         // We pass the config to Jest as a string of JSON - so we need to convert it back to JSON
         const config = JSON.parse(configString);
         expect(config.collectCoverage).toBe(false);
+    });
+
+    test("cli runs with path to test", async () => {
+        const cli = new CLI();
+        const success = await cli.run(["argument1", "argument2", "models"]);
+        expect(success).toBe(true);
+        expect(mockRunCLI).toHaveBeenCalledTimes(1);
+        const configString = mockRunCLI.mock.calls[0][0].config;
+        expect(configString).toBeDefined();
+        const testPath = mockConfigure.mock.calls[0][1];
+        expect(testPath).toBe("models");
     });
 });
