@@ -1,1 +1,4 @@
 test: This file is on locales/en.yml
+
+invalid
+missing-value:
