@@ -46,20 +46,28 @@ describe("configuration", () => {
 
         test("when testing.json exists", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/unit");
-            let jestConfiguration = Configuration.instance().value("jest");
+            const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/ConfigurationTestFiles/test/unit/coverage/"));
         });
     
         test("when testing.json is missing", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-GB");
-            let jestConfiguration = Configuration.instance().value("jest");
+            const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/coverage/"));
         });
 
         test("when testing.json overrides coverageDirectory", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/overrideCoverage");
-            let jestConfiguration = Configuration.instance().value("jest");
+            const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe("customFolder/coverage/");
+        });
+
+        test("when testing.json is on the root folder", async () => {
+            process.chdir("test/FactSkill")
+            await Configuration.configure(undefined, ".");
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("coverage/"));
+            process.chdir("../..");
         });
     });
 
@@ -88,7 +96,6 @@ describe("configuration", () => {
             const match = ConfigurationKeys.find(item => item.key === key);
             expect(match).toBeDefined();
             expect(match.key).toBeDefined();
-            expect(match.shortcut).toBeDefined();
             expect(match.text).toBeDefined();
         });
     });
