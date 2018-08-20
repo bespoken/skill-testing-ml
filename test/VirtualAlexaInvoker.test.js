@@ -613,4 +613,25 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
         });
     });
+
+    describe("skillURL", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+            return Configuration.configure({
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                skillURL: "http://httpbin.org/post"
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("valid url", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("test/ExpressionSkill/skillURL-tests.yml");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
 });

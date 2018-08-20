@@ -1,0 +1,9 @@
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+---
+- test: "Expression Test"
+- LaunchRequest:
+  - request.test.numberValue: 1
+  - url: http://httpbin.org/post
