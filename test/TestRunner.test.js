@@ -3,6 +3,7 @@ const CONSTANTS = require("../lib/util/Constants");
 const mockMessage = require("virtual-device-sdk").mockMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
+const requestAndResponseFilter = require("./TestFilters/requestAndResponseFilter");
 
 describe("test runner", () => {
     beforeEach(() => {
@@ -137,5 +138,35 @@ describe("test runner", () => {
         const runner = new TestRunner();
         
         expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
+    });
+
+    test("Filter for request and Response()", async () => {
+        const runner = new TestRunner({
+            filter: "test/TestFilters/requestAndResponseFilter",
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        let requestFilterCalled = false;
+        let responseFilterCalled = false;
+
+        requestAndResponseFilter.onRequest = function (test, request) {
+            expect(test).toBeDefined();
+            expect(request.context).toBeDefined();
+            expect(request.request).toBeDefined();
+            requestFilterCalled = true;
+        };
+
+        requestAndResponseFilter.onResponse = function (test, response) {
+            expect(test).toBeDefined();
+            expect(response.response).toBeDefined();
+            responseFilterCalled = true;
+        };
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        expect(requestFilterCalled).toBe(true);
+        expect(responseFilterCalled).toBe(true);
     });
 });
