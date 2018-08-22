@@ -159,14 +159,14 @@ describe("test runner", () => {
         let requestFilterCalled = false;
         let responseFilterCalled = false;
 
-        requestAndResponseFilter.onRequest = function (test, request) {
+        requestAndResponseFilter.onRequest = (test, request) => {
             expect(test).toBeDefined();
             expect(request.context).toBeDefined();
             expect(request.request).toBeDefined();
             requestFilterCalled = true;
         };
 
-        requestAndResponseFilter.onResponse = function (test, response) {
+        requestAndResponseFilter.onResponse = (test, response) => {
             expect(test).toBeDefined();
             expect(response.response).toBeDefined();
             responseFilterCalled = true;
@@ -189,16 +189,16 @@ describe("test runner", () => {
         let testSuiteStart = false;
         let testSuiteEnd = false;
 
-        requestAndResponseFilter.onTestSuiteStart = function (testSuite, context, locale) {
+        requestAndResponseFilter.onTestSuiteStart = (testSuite, context) => {
             expect(testSuite).toBeDefined();
             expect(context).toBeDefined();
             expect(context.context).toBe("context");
-            expect(locale).toBe("en-US");
+            expect(testSuite.locale).toBe("en-US");
 
             testSuiteStart = true;
         };
 
-        requestAndResponseFilter.onTestSuiteEnd = function (results) {
+        requestAndResponseFilter.onTestSuiteEnd = (results) => {
             expect(results).toBeDefined();
             testSuiteEnd = true;
         };
@@ -222,13 +222,14 @@ describe("test runner", () => {
         let testStart = false;
         let testEnd = false;
 
-        requestAndResponseFilter.onTestStart = function (test) {
+        requestAndResponseFilter.onTestStart = (test) => {
             expect(test).toBeDefined();
             testStart = true;
         };
 
-        requestAndResponseFilter.onTestSuiteEnd = function (test) {
+        requestAndResponseFilter.onTestEnd = (test, testResult) => {
             expect(test).toBeDefined();
+            expect(testResult).toBeDefined();
             testEnd = true;
         };
 
