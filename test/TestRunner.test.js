@@ -1,14 +1,22 @@
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const mockMessage = require("virtual-device-sdk").mockMessage;
+const requestAndResponseFilter = require("./TestFilters/requestAndResponseFilter");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
-const requestAndResponseFilter = require("./TestFilters/requestAndResponseFilter");
 
 describe("test runner", () => {
     beforeEach(() => {
         mockMessage.mockClear();
         Configuration.singleton = undefined;
+
+        // Remove all implementations
+        requestAndResponseFilter.onRequest = undefined;
+        requestAndResponseFilter.onResponse = undefined;
+        requestAndResponseFilter.onTestStart = undefined;
+        requestAndResponseFilter.onTestEnd = undefined;
+        requestAndResponseFilter.onTestSuiteStart = undefined;
+        requestAndResponseFilter.onTestSuiteEnd = undefined;
     });
 
     test("subscribe()", async () => {
@@ -140,7 +148,7 @@ describe("test runner", () => {
         expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
     });
 
-    test("Filter for request and Response()", async () => {
+    test("Filter for request and response", async () => {
         const runner = new TestRunner({
             filter: "test/TestFilters/requestAndResponseFilter",
             handler: "test/FactSkill/index.handler",
@@ -168,5 +176,65 @@ describe("test runner", () => {
 
         expect(requestFilterCalled).toBe(true);
         expect(responseFilterCalled).toBe(true);
+    });
+
+    test("Filter for test suite start and stop", async () => {
+        const runner = new TestRunner({
+            filter: "test/TestFilters/requestAndResponseFilter",
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        let testSuiteStart = false;
+        let testSuiteEnd = false;
+
+        requestAndResponseFilter.onTestSuiteStart = function (testSuite, context, locale) {
+            expect(testSuite).toBeDefined();
+            expect(context).toBeDefined();
+            expect(context.context).toBe("context");
+            expect(locale).toBe("en-US");
+
+            testSuiteStart = true;
+        };
+
+        requestAndResponseFilter.onTestSuiteEnd = function (results) {
+            expect(results).toBeDefined();
+            testSuiteEnd = true;
+        };
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml", {
+            context: "context"
+        });
+
+        expect(testSuiteStart).toBe(true);
+        expect(testSuiteEnd).toBe(true);
+    });
+
+    test("Filter for test start and stop", async () => {
+        const runner = new TestRunner({
+            filter: "test/TestFilters/requestAndResponseFilter",
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        let testStart = false;
+        let testEnd = false;
+
+        requestAndResponseFilter.onTestStart = function (test) {
+            expect(test).toBeDefined();
+            testStart = true;
+        };
+
+        requestAndResponseFilter.onTestSuiteEnd = function (test) {
+            expect(test).toBeDefined();
+            testEnd = true;
+        };
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        expect(testStart).toBe(true);
+        expect(testEnd).toBe(true);
     });
 });
