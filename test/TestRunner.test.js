@@ -138,4 +138,93 @@ describe("test runner", () => {
         
         expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
     });
+
+    test("Filter for request and response", async () => {
+        let requestFilterCalled = false;
+        let responseFilterCalled = false;
+
+        const runner = new TestRunner({
+            filter: {
+                onRequest: (test, request) => {
+                    expect(test).toBeDefined();
+                    expect(request.context).toBeDefined();
+                    expect(request.request).toBeDefined();
+                    requestFilterCalled = true;
+                },
+                onResponse: (test, response) => {
+                    expect(test).toBeDefined();
+                    expect(response.response).toBeDefined();
+                    responseFilterCalled = true;
+                },
+            },
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        expect(requestFilterCalled).toBe(true);
+        expect(responseFilterCalled).toBe(true);
+    });
+
+    test("Filter for test suite start and stop", async () => {
+        let testSuiteStart = false;
+        let testSuiteEnd = false;
+
+        const runner = new TestRunner({
+            filter: {
+                onTestSuiteEnd: (results) => {
+                    expect(results).toBeDefined();
+                    testSuiteEnd = true;
+                },
+                onTestSuiteStart: (testSuite, context) => {
+                    expect(testSuite).toBeDefined();
+                    expect(context).toBeDefined();
+                    expect(context.context).toBe("context");
+                    expect(testSuite.locale).toBe("en-US");
+
+                    testSuiteStart = true;
+                },
+            },
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml", {
+            context: "context"
+        });
+
+        expect(testSuiteStart).toBe(true);
+        expect(testSuiteEnd).toBe(true);
+    });
+
+    test("Filter for test start and stop", async () => {
+        let testStart = false;
+        let testEnd = false;
+
+        const runner = new TestRunner({
+            filter: {
+                onTestEnd: (test, testResult) => {
+                    expect(test).toBeDefined();
+                    expect(testResult).toBeDefined();
+                    testEnd = true;
+                },
+                onTestStart:(test) => {
+                    expect(test).toBeDefined();
+                    testStart = true;
+                },
+
+            },
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        expect(testStart).toBe(true);
+        expect(testEnd).toBe(true);
+    });
 });
