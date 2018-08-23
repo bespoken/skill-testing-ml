@@ -1,7 +1,6 @@
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const mockMessage = require("virtual-device-sdk").mockMessage;
-const requestAndResponseFilter = require("./TestFilters/requestAndResponseFilter");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
 
@@ -9,14 +8,6 @@ describe("test runner", () => {
     beforeEach(() => {
         mockMessage.mockClear();
         Configuration.singleton = undefined;
-
-        // Remove all implementations
-        requestAndResponseFilter.onRequest = undefined;
-        requestAndResponseFilter.onResponse = undefined;
-        requestAndResponseFilter.onTestStart = undefined;
-        requestAndResponseFilter.onTestEnd = undefined;
-        requestAndResponseFilter.onTestSuiteStart = undefined;
-        requestAndResponseFilter.onTestSuiteEnd = undefined;
     });
 
     test("subscribe()", async () => {
@@ -149,28 +140,27 @@ describe("test runner", () => {
     });
 
     test("Filter for request and response", async () => {
+        let requestFilterCalled = false;
+        let responseFilterCalled = false;
+
         const runner = new TestRunner({
-            filter: "test/TestFilters/requestAndResponseFilter",
+            filter: {
+                onRequest: (test, request) => {
+                    expect(test).toBeDefined();
+                    expect(request.context).toBeDefined();
+                    expect(request.request).toBeDefined();
+                    requestFilterCalled = true;
+                },
+                onResponse: (test, response) => {
+                    expect(test).toBeDefined();
+                    expect(response.response).toBeDefined();
+                    responseFilterCalled = true;
+                },
+            },
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US",
         });
-
-        let requestFilterCalled = false;
-        let responseFilterCalled = false;
-
-        requestAndResponseFilter.onRequest = (test, request) => {
-            expect(test).toBeDefined();
-            expect(request.context).toBeDefined();
-            expect(request.request).toBeDefined();
-            requestFilterCalled = true;
-        };
-
-        requestAndResponseFilter.onResponse = (test, response) => {
-            expect(test).toBeDefined();
-            expect(response.response).toBeDefined();
-            responseFilterCalled = true;
-        };
 
         await runner.run("test/FactSkill/fact-skill-tests.yml");
 
@@ -179,29 +169,28 @@ describe("test runner", () => {
     });
 
     test("Filter for test suite start and stop", async () => {
+        let testSuiteStart = false;
+        let testSuiteEnd = false;
+
         const runner = new TestRunner({
-            filter: "test/TestFilters/requestAndResponseFilter",
+            filter: {
+                onTestSuiteEnd: (results) => {
+                    expect(results).toBeDefined();
+                    testSuiteEnd = true;
+                },
+                onTestSuiteStart: (testSuite, context) => {
+                    expect(testSuite).toBeDefined();
+                    expect(context).toBeDefined();
+                    expect(context.context).toBe("context");
+                    expect(testSuite.locale).toBe("en-US");
+
+                    testSuiteStart = true;
+                },
+            },
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US",
         });
-
-        let testSuiteStart = false;
-        let testSuiteEnd = false;
-
-        requestAndResponseFilter.onTestSuiteStart = (testSuite, context) => {
-            expect(testSuite).toBeDefined();
-            expect(context).toBeDefined();
-            expect(context.context).toBe("context");
-            expect(testSuite.locale).toBe("en-US");
-
-            testSuiteStart = true;
-        };
-
-        requestAndResponseFilter.onTestSuiteEnd = (results) => {
-            expect(results).toBeDefined();
-            testSuiteEnd = true;
-        };
 
         await runner.run("test/FactSkill/fact-skill-tests.yml", {
             context: "context"
@@ -212,26 +201,26 @@ describe("test runner", () => {
     });
 
     test("Filter for test start and stop", async () => {
+        let testStart = false;
+        let testEnd = false;
+
         const runner = new TestRunner({
-            filter: "test/TestFilters/requestAndResponseFilter",
+            filter: {
+                onTestEnd: (test, testResult) => {
+                    expect(test).toBeDefined();
+                    expect(testResult).toBeDefined();
+                    testEnd = true;
+                },
+                onTestStart:(test) => {
+                    expect(test).toBeDefined();
+                    testStart = true;
+                },
+
+            },
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US",
         });
-
-        let testStart = false;
-        let testEnd = false;
-
-        requestAndResponseFilter.onTestStart = (test) => {
-            expect(test).toBeDefined();
-            testStart = true;
-        };
-
-        requestAndResponseFilter.onTestEnd = (test, testResult) => {
-            expect(test).toBeDefined();
-            expect(testResult).toBeDefined();
-            testEnd = true;
-        };
 
         await runner.run("test/FactSkill/fact-skill-tests.yml");
 
