@@ -568,11 +568,12 @@ describe("virtual alexa runner", () => {
 
         test("VideoApp", async () => {
             Configuration.configure({
+                deviceId: "device",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
-                supportedInterfaces: "VideoApp",
+                supportedInterfaces: "VideoApp"
             });
 
             const runner = new TestRunner();
@@ -609,6 +610,30 @@ describe("virtual alexa runner", () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/TestFiles/interfaces-all-supported-test.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
+
+    describe("deviceId and userId", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("send deviceId and userId to virtual alexa", async () => {
+            Configuration.configure({
+                deviceId: "MyDeviceId",
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                userId: "MyUserId"
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/deviceId-userId.yml");
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults[0].error).toBeUndefined();
         });
