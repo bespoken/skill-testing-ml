@@ -1,6 +1,8 @@
 const Configuration = require("../lib/runner/Configuration");
 const ConfigurationKeys = require("../lib/runner/ConfigurationKeys");
+const fs = require("fs");
 const path = require("path");
+const {exec} = require("child_process");
 
 describe("configuration", () => {
     beforeEach(() => {
@@ -21,6 +23,26 @@ describe("configuration", () => {
         await Configuration.configure({}, "", cliOverrides);
         const jestConfiguration = Configuration.instance().value("jest");
         expect(jestConfiguration.collectCoverage).toBe(false);
+    });
+
+    describe("override configuration write a skill testing file", () => {
+        beforeEach(async () => {
+            return new Promise(resolve => {
+                exec("rm -rf " + Configuration.skillTestingConfigDirectory(), async function () {
+                    resolve();
+                });
+            });
+        })
+
+        test("generate file", async () => {
+            const cliOverrides = {
+                "jest.collectCoverage": "false"
+            };
+            await Configuration.configure({}, "", cliOverrides, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.collectCoverage).toBe(false);
+            expect(fs.existsSync(Configuration.skillTestingConfigPath())).toBe(true);
+        });
     });
 
     describe("test path", function () {
