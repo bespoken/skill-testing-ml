@@ -178,10 +178,8 @@ describe("test runner", () => {
                     expect(results).toBeDefined();
                     testSuiteEnd = true;
                 },
-                onTestSuiteStart: (testSuite, context) => {
+                onTestSuiteStart: (testSuite) => {
                     expect(testSuite).toBeDefined();
-                    expect(context).toBeDefined();
-                    expect(context.context).toBe("context");
                     expect(testSuite.locale).toBe("en-US");
 
                     testSuiteStart = true;
@@ -192,9 +190,7 @@ describe("test runner", () => {
             locale: "en-US",
         });
 
-        await runner.run("test/FactSkill/fact-skill-tests.yml", {
-            context: "context"
-        });
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
 
         expect(testSuiteStart).toBe(true);
         expect(testSuiteEnd).toBe(true);
