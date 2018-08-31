@@ -14,8 +14,8 @@ module.exports = {
     onTestSuiteEnd: function (testResult) {
         this.callbackEnd(testResult);
     },
-    onTestSuiteStart: function (testSuite, context) {
-        this.callbackStart(testSuite, context);
+    onTestSuiteStart: function (testSuite) {
+        this.callbackStart(testSuite);
     },
     setCallbackEnd: function(callback) {
         this.callbackEnd = callback;
