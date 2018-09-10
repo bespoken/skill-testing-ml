@@ -280,5 +280,23 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults.length).toBe(1);
         });
+
+        test("support only cardContent and prompt when platform is google", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                platform: CONSTANTS.PLATFORM.google,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });            
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            expect(results.length).toEqual(3);
+            expect(results[1].interactionResults.length).toBe(2);
+            expect(results[1].interactionResults[1].error).toBeUndefined();
+        });
     });
+
+    
 });
