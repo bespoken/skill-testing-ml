@@ -32,7 +32,7 @@ describe("configuration", () => {
                     resolve();
                 });
             });
-        })
+        });
 
         test("generate file", async () => {
             const cliOverrides = {
@@ -85,7 +85,7 @@ describe("configuration", () => {
         });
 
         test("when testing.json is on the root folder", async () => {
-            process.chdir("test/FactSkill")
+            process.chdir("test/FactSkill");
             await Configuration.configure(undefined, ".");
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe(path.normalize("coverage/"));
@@ -103,6 +103,7 @@ describe("configuration", () => {
             "locales",
             "locale",
             "trace",
+            "runInBand",
             "virtualDeviceToken",
             "jest.collectCoverage",
             "jest.collectCoverageFrom",
