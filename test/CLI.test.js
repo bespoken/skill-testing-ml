@@ -5,9 +5,10 @@ const mockRunCLI = jest.fn(() => {
 });
 
 let type;
+let defaultValue = true;
 const mockConfiguration = jest.fn(() => ({
     jestConfig: jest.fn(() => ({ collectCoverage: true })),
-    value: jest.fn(() => type),
+    value: jest.fn((first, second, third) => third? defaultValue : type),
 }));
 
 const mockConfigure = jest.fn();
@@ -102,8 +103,9 @@ describe("CLI", () => {
     });
 
     test("cli runs with runInBand setting", async () => {
-        // This will return false for type and runInBand
-        type = false;
+        type = undefined;
+        // This will return false for runInBand
+        defaultValue = false;
         const cli = new CLI();
         const success = await cli.run([]);
         expect(success).toBe(true);
