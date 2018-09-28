@@ -7,7 +7,7 @@ describe("test parser", () => {
         const parser = new TestParser("test/TestFiles/simple-tests.yml");
         const testSuite = parser.parse();
         expect(testSuite.configuration.locale).toEqual("en-US");
-        expect(testSuite.tests.length).toEqual(2);
+        expect(testSuite.tests.length).toEqual(3);
 
         const firstTest = testSuite.tests[0];
         expect(firstTest.description).toEqual("Launches successfully");
@@ -32,6 +32,12 @@ describe("test parser", () => {
         expect(secondAssertion.path).toEqual("response.card.title");
         expect(secondAssertion.operator).toEqual("==");
         expect(secondAssertion.value).toEqual("Space Facts");
+
+        const thirdTest = testSuite.tests[2];
+        expect(thirdTest.description).toEqual("Launches successfully");
+        expect(thirdTest.interactions.length).toEqual(2);
+        expect(thirdTest.interactions[0].requestType).toBeUndefined();
+        expect(thirdTest.interactions[0].utterance).toEqual("Hi");
     });
 
     test("parses simple test file with bad assertion", (done) => {
@@ -332,6 +338,21 @@ configuration:
         expect(testSuite.tests[2].skip).toBe(false);
         expect(testSuite.tests[2].only).toBe(false);
     });
+
+    test("parses file with tag tests", () => {
+        const parser = new TestParser("test/TestFiles/tag-tests.yml");
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].tags).toBe(undefined);
+
+        expect(testSuite.tests[1].tags).toEqual(["alexa"]);
+        expect(testSuite.tests[1].description).toEqual("Test 2");
+
+        expect(testSuite.tests[2].tags).toEqual(["alexa", "broken"]);
+        expect(testSuite.tests[2].description).toEqual("Test 3");
+
+        expect(testSuite.tests[3].tags).toBe(undefined);
+    });
+
 
     describe("findReplace", () => {
         beforeEach(() => {

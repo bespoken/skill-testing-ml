@@ -4,24 +4,32 @@ configuration:
   locale: en-US
 
 --- # The --- indicates the start of a new test, which is a self-contained YAML document
-- test: "Launches successfully" # Optional info about the test
+- test: "Test 1" # Optional info about the test
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response.outputSpeech.ssml == "Here's your fact:*" # A comment
   - response.reprompt == undefined
   - response.card.content =~ /.*/ # =~ means a regular expression match
 
 ---
-- test: "Gets a new fact intent"
+- test: "Test 2"
+- tag: alexa
 - "Get New Facts":
   - response.outputSpeech.ssml == "Here's your fact:*"
   -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
   - response.card.content != undefined
 
+---
+- test: "Test 3"
+- tag: alexa, broken
+- "Get New Facts":
+  - response.outputSpeech.ssml == "Here's your fact:*"
+  -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
+  - response.card.content != undefined
 
---- # The --- indicates the start of a new test, which is a self-contained YAML document
-- test: "Launches successfully" # Optional info about the test
-- Hi
-- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
-  - response.outputSpeech.ssml == "Here's your fact:*" # A comment
-  - response.reprompt == undefined
-  - response.card.content =~ /.*/ # =~ means a regular expression match
+---
+- test: "Test 4"
+- "Get New Facts":
+  - response.outputSpeech.ssml == "Here's your fact:*"
+  -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
+  - response.card.content != undefined
+
