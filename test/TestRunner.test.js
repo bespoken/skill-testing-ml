@@ -117,6 +117,60 @@ describe("test runner", () => {
         expect(resultCallbackMock).toHaveBeenCalledTimes(2);
     });
 
+    test("Runs all tests if excludedTag is present and test does not have tags", async () => {
+        const runner = new TestRunner({
+            excludedTags: "broken",
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+        const messageCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.utterance).toBeDefined();
+        };
+        const resultCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.result).toBeDefined();
+        };
+        const messageCallbackMock = jest.fn(messageCallback);
+        const resultCallbackMock = jest.fn(resultCallback);
+        runner.subscribe("message", messageCallbackMock);
+        runner.subscribe("result", resultCallbackMock);
+
+        await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+        // Runs only 3 of the 3 tests (the ones including alexa but not broken)
+        expect(messageCallbackMock).toHaveBeenCalledTimes(6);
+        expect(resultCallbackMock).toHaveBeenCalledTimes(6);
+    });
+
+    test("Runs no tests if includedTag is present and test does not have tags", async () => {
+        const runner = new TestRunner({
+            handler: "test/FactSkill/index.handler",
+            includedTags: "alexa",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+        const messageCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.utterance).toBeDefined();
+        };
+        const resultCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.result).toBeDefined();
+        };
+        const messageCallbackMock = jest.fn(messageCallback);
+        const resultCallbackMock = jest.fn(resultCallback);
+        runner.subscribe("message", messageCallbackMock);
+        runner.subscribe("result", resultCallbackMock);
+
+        await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+        // Runs 0 of the 3 tests
+        expect(messageCallbackMock).toHaveBeenCalledTimes(0);
+        expect(resultCallbackMock).toHaveBeenCalledTimes(0);
+    });
+
     test("unsubscribe()", async () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
