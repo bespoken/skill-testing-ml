@@ -104,6 +104,8 @@ describe("configuration", () => {
             "locale",
             "trace",
             "runInBand",
+            "includeTags",
+            "excludeTags",
             "virtualDeviceToken",
             "jest.collectCoverage",
             "jest.collectCoverageFrom",

@@ -35,6 +35,88 @@ describe("test runner", () => {
         expect(resultCallbackMock).toHaveBeenCalledTimes(6);
     });
 
+    test("Runs only tests with included tags", async () => {
+        const runner = new TestRunner({
+            handler: "test/FactSkill/index.handler",
+            includedTags: "alexa",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+        const messageCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.utterance).toBeDefined();
+        };
+        const resultCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.result).toBeDefined();
+        };
+        const messageCallbackMock = jest.fn(messageCallback);
+        const resultCallbackMock = jest.fn(resultCallback);
+        runner.subscribe("message", messageCallbackMock);
+        runner.subscribe("result", resultCallbackMock);
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        // Runs only 2 of the 3 tests (the ones including alexa)
+        expect(messageCallbackMock).toHaveBeenCalledTimes(4);
+        expect(resultCallbackMock).toHaveBeenCalledTimes(4);
+    });
+
+    test("Runs only tests not having excluded tags", async () => {
+        const runner = new TestRunner({
+            excludedTags: "alexa",
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+        const messageCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.utterance).toBeDefined();
+        };
+        const resultCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.result).toBeDefined();
+        };
+        const messageCallbackMock = jest.fn(messageCallback);
+        const resultCallbackMock = jest.fn(resultCallback);
+        runner.subscribe("message", messageCallbackMock);
+        runner.subscribe("result", resultCallbackMock);
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        // Runs only 1 of the 3 tests (the one not including alexa)
+        expect(messageCallbackMock).toHaveBeenCalledTimes(2);
+        expect(resultCallbackMock).toHaveBeenCalledTimes(2);
+    });
+
+    test("Runs only tests with included tags but not excluded tags", async () => {
+        const runner = new TestRunner({
+            excludedTags: "broken",
+            handler: "test/FactSkill/index.handler",
+            includedTags: "alexa",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US"
+        });
+        const messageCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.utterance).toBeDefined();
+        };
+        const resultCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.result).toBeDefined();
+        };
+        const messageCallbackMock = jest.fn(messageCallback);
+        const resultCallbackMock = jest.fn(resultCallback);
+        runner.subscribe("message", messageCallbackMock);
+        runner.subscribe("result", resultCallbackMock);
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        // Runs only 1 of the 3 tests (the ones including alexa but not broken)
+        expect(messageCallbackMock).toHaveBeenCalledTimes(2);
+        expect(resultCallbackMock).toHaveBeenCalledTimes(2);
+    });
+
     test("unsubscribe()", async () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
