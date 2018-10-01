@@ -33,6 +33,7 @@ function handleMessage(message) {
         }
     };
     if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";
+    else if (utterance.toLowerCase().includes("throw error")) throw new Error("error");
     else response.transcript = "Here's your fact";
     return response;
 }
