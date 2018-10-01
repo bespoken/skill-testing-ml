@@ -38,7 +38,7 @@ describe("test runner", () => {
     test("Runs only tests with included tags", async () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
-            includedTags: "alexa",
+            include: "alexa",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US"
         });
@@ -64,7 +64,7 @@ describe("test runner", () => {
 
     test("Runs only tests not having excluded tags", async () => {
         const runner = new TestRunner({
-            excludedTags: "alexa",
+            exclude: "alexa",
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US"
@@ -91,9 +91,9 @@ describe("test runner", () => {
 
     test("Runs only tests with included tags but not excluded tags", async () => {
         const runner = new TestRunner({
-            excludedTags: "broken",
+            exclude: "broken",
             handler: "test/FactSkill/index.handler",
-            includedTags: "alexa",
+            include: "alexa",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US"
         });
@@ -119,7 +119,7 @@ describe("test runner", () => {
 
     test("Runs all tests if excludedTag is present and test does not have tags", async () => {
         const runner = new TestRunner({
-            excludedTags: "broken",
+            exclude: "broken",
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US"
@@ -147,7 +147,7 @@ describe("test runner", () => {
     test("Runs no tests if includedTag is present and test does not have tags", async () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
-            includedTags: "alexa",
+            include: "alexa",
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US"
         });
