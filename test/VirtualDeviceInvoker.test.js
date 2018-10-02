@@ -296,7 +296,52 @@ describe("virtual device runner", () => {
             expect(results[1].interactionResults.length).toBe(2);
             expect(results[1].interactionResults[1].error).toBeUndefined();
         });
-    });
 
-    
+        test("ignore external errors", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                ignoreExternalErrors: true,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
+            expect(results.length).toEqual(3);
+
+            expect(results[0].skipped).toBe(false);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+
+            expect(results[1].skipped).toBe(true);
+            expect(results[1].interactionResults.length).toBe(3);
+            expect(results[1].interactionResults[2].error).toBeDefined();
+            expect(results[1].interactionResults[2].errorOnProcess).toBe(true);
+        });
+
+        test("fail on external error", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
+            expect(results.length).toEqual(3);
+
+            expect(results[0].skipped).toBe(false);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+
+            expect(results[1].skipped).toBe(false);
+            expect(results[1].interactionResults.length).toBe(3);
+            expect(results[1].interactionResults[2].error).toBeDefined();
+            expect(results[1].interactionResults[2].errorOnProcess).toBe(true);
+        });
+    });
 });
