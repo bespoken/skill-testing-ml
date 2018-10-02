@@ -85,7 +85,7 @@ describe("JestAdapter", async () => {
         expect(jestResults.failureMessage).toContain("I got an error");
     });
 
-    test.only("Runs a mock test that has skips", async () => {
+    test("Runs a mock test that has skips", async () => {
         const testSuite = new TestSuite("MyTest.yml");
         const test = new Test(testSuite, { description: "Test 1" });
         const test2 = new Test(testSuite, { description: "Test 2" });
