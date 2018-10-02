@@ -308,7 +308,7 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
-            expect(results.length).toEqual(3);
+            expect(results.length).toEqual(4);
 
             expect(results[0].skipped).toBe(false);
             expect(results[0].interactionResults.length).toBe(2);
@@ -331,7 +331,7 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
-            expect(results.length).toEqual(3);
+            expect(results.length).toEqual(4);
 
             expect(results[0].skipped).toBe(false);
             expect(results[0].interactionResults.length).toBe(2);
@@ -341,8 +341,13 @@ describe("virtual device runner", () => {
             expect(results[1].skipped).toBe(false);
             expect(results[1].interactionResults.length).toBe(3);
             expect(results[1].interactionResults[2].error).toBeDefined();
-            expect(results[1].interactionResults[2].error).toBe("SystemError:\n\tError from virtual device");
+            expect(results[1].interactionResults[2].error).toBe("Error from virtual device");
             expect(results[1].interactionResults[2].errorOnProcess).toBeDefined();
+
+            expect(results[2].skipped).toBe(false);
+            expect(results[2].interactionResults.length).toBe(3);
+            expect(results[2].interactionResults[2].error).toBe("Array, error");
+            expect(results[2].interactionResults[2].errorOnProcess).toBeDefined();            
         });
     });
 });

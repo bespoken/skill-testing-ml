@@ -158,7 +158,7 @@ describe("assertion", () => {
             const json = { val: "Here is a test" };
             const assertion = new Assertion(undefined, "val", "==", "Here is a test");
             let errorObj = "This is an error";
-            expect(assertion.toString(json, errorObj)).toBe("SystemError:\n\tThis is an error");
+            expect(assertion.toString(json, errorObj)).toBe("This is an error");
         });
     });
 
