@@ -26,6 +26,21 @@ configuration:
   - cardTitle  =~ maintitle # Lowercase expected value
   - cardContent != undefined
 
+---
+- test: "Gets a new fact intent"
+- "Help":
+  - prompt:
+    - /.*you can say.*/i
+    - A phrase
+  - shouldEndSession: false
+- "Throw error complex"
+- "Get New Facts":
+  - prompt == "here's your fact"
+  - transcript == "here's your fact"
+  - cardTitle  =~ maInTiTlE # Uppercase expected value
+  - cardTitle  =~ maintitle # Lowercase expected value
+  - cardContent != undefined
+
 # Example with a one-line request and response
 ---
 - "Help": /.*You can say.*/
