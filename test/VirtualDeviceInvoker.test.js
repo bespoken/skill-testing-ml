@@ -281,7 +281,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(1);
         });
 
-        test("support only cardContent and prompt when platform is google", async () => {
+        test.skip("support only cardContent and prompt when platform is google", async () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
