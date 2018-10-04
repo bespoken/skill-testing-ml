@@ -12,7 +12,7 @@ configuration:
 
 ---
 - test: "Test 2"
-- tag: alexa
+- tags: alexa
 - "Get New Facts":
   - response.outputSpeech.ssml == "Here's your fact:*"
   -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
@@ -20,7 +20,7 @@ configuration:
 
 ---
 - test: "Test 3"
-- tag: alexa, broken
+- tags: alexa, broken
 - "Get New Facts":
   - response.outputSpeech.ssml == "Here's your fact:*"
   -  response.card.title  ==   "Space Facts" # Has extra spaces - need to be handled correctly
