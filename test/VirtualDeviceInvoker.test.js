@@ -316,9 +316,9 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[1].error).toBeUndefined();
 
             expect(results[1].skipped).toBe(true);
-            expect(results[1].interactionResults.length).toBe(3);
-            expect(results[1].interactionResults[2].error).toBeDefined();
-            expect(results[1].interactionResults[2].errorOnProcess).toBeDefined();
+            expect(results[1].interactionResults.length).toBe(1);
+            expect(results[1].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
         });
 
         test("fail on external error", async () => {
@@ -339,15 +339,15 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[1].error).toBeUndefined();
             
             expect(results[1].skipped).toBe(false);
-            expect(results[1].interactionResults.length).toBe(3);
-            expect(results[1].interactionResults[2].error).toBeDefined();
-            expect(results[1].interactionResults[2].error).toBe("Error from virtual device");
-            expect(results[1].interactionResults[2].errorOnProcess).toBeDefined();
+            expect(results[1].interactionResults.length).toBe(1);
+            expect(results[1].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].error).toBe("Error from virtual device");
+            expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
 
             expect(results[2].skipped).toBe(false);
-            expect(results[2].interactionResults.length).toBe(3);
-            expect(results[2].interactionResults[2].error).toBe("Array, error");
-            expect(results[2].interactionResults[2].errorOnProcess).toBeDefined();            
+            expect(results[2].interactionResults.length).toBe(1);
+            expect(results[2].interactionResults[0].error).toBe("Array, error");
+            expect(results[2].interactionResults[0].errorOnProcess).toBeDefined();            
         });
     });
 });
