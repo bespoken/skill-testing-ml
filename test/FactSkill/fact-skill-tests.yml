@@ -5,7 +5,7 @@ configuration:
 
 --- # The --- indicates the start of a new test, which is a self-contained YAML document
 - test: "Launches successfully" # Optional info about the test
-- tag: alexa
+- tags: alexa
 - Hi
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response.outputSpeech.ssml =~ .*Here's your fact:.* # A comment
@@ -14,7 +14,7 @@ configuration:
 
 ---
 - test: "Gets a new fact intent"
-- tag: alexa, broken
+- tags: alexa, broken
 - "Help":
   - response.outputSpeech.ssml:
     - /.*you can say.*/i
