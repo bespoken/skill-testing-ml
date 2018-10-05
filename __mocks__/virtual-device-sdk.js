@@ -30,6 +30,15 @@ function handleMessage(message) {
             imageURL: "imageURL",
             mainTitle: "mainTitle",
             textField: "textField",
+        },
+        display: {
+            description: "display description",
+            anotherKey: {
+                subKey: "20"
+            }
+        },
+        raw: {
+            key: "some value"
         }
     };
     if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";

@@ -8,6 +8,8 @@ configuration:
 - Hi
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - prompt =~ .*Here's your fact* # A comment
+  - display.description: "display description"
+  - raw.key: "some value"
   - reprompt == undefined
   - shouldEndSession: true
 
