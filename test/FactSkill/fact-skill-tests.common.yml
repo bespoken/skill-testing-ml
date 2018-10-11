@@ -9,7 +9,9 @@ configuration:
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - prompt =~ .*Here's your fact* # A comment
   - display.description: "display description"
+  - display.array[0].url: "this is a url"
   - raw.key: "some value"
+  - raw.array[1].url: "this is a url 2"
   - reprompt == undefined
   - shouldEndSession: true
 

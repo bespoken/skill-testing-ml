@@ -35,10 +35,24 @@ function handleMessage(message) {
             description: "display description",
             anotherKey: {
                 subKey: "20"
-            }
+            },
+            array: [
+                {
+                    url: "this is a url"
+                }, {
+                    url: "this is a url 2"
+                }
+            ]            
         },
         raw: {
-            key: "some value"
+            key: "some value",
+            array: [
+                {
+                    url: "this is a url"
+                }, {
+                    url: "this is a url 2"
+                }
+            ]
         }
     };
     if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";
