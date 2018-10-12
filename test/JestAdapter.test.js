@@ -42,7 +42,7 @@ describe("JestAdapter", async () => {
         testResult.locale = "en-GB";
         const interaction = new TestInteraction(test, "Hi");
         const assertion = new Assertion(interaction, "path", "==", "value");
-        const interactionResult = new InteractionResult(interaction, assertion, "Here is an interactionError", undefined, 1399919400000);
+        const interactionResult = new InteractionResult(interaction, assertion, "Here is an interactionError", undefined, new Date(1399919400000));
         testResult.addInteractionResult(interactionResult);
         const results = [testResult];
 
