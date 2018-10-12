@@ -55,7 +55,8 @@ describe("JestAdapter", async () => {
         expect(jestResults.failureMessage).toContain("Test Description › Hi");
         expect(jestResults.failureMessage).toContain("Here is an interactionError");
         expect(jestResults.failureMessage).toContain("Timestamp:");
-        expect(jestResults.failureMessage).toContain("2014-05-12T13:30:00.000");
+        // We are ignoring the hour at the test to avoid issues between format locally and on CI
+        expect(jestResults.failureMessage).toContain("2014-05-12T");
 
         // Check the individual test result
         const jestTestResult = jestResults.testResults[0];
