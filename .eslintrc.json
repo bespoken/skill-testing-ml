@@ -79,7 +79,8 @@
                     "unshift",
                     "filepath",
                     "lstat",
-                    "rf"
+                    "rf",
+                    "timestamp"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",

@@ -42,7 +42,7 @@ describe("JestAdapter", async () => {
         testResult.locale = "en-GB";
         const interaction = new TestInteraction(test, "Hi");
         const assertion = new Assertion(interaction, "path", "==", "value");
-        const interactionResult = new InteractionResult(interaction, assertion, "Here is an interactionError");
+        const interactionResult = new InteractionResult(interaction, assertion, "Here is an interactionError", undefined, 1399919400000);
         testResult.addInteractionResult(interactionResult);
         const results = [testResult];
 
@@ -54,9 +54,11 @@ describe("JestAdapter", async () => {
         // Check the magical failure message
         expect(jestResults.failureMessage).toContain("Test Description › Hi");
         expect(jestResults.failureMessage).toContain("Here is an interactionError");
+        expect(jestResults.failureMessage).toContain("Timestamp:");
+        expect(jestResults.failureMessage).toContain("2014-05-12T13:30:00.000");
 
         // Check the individual test result
-        const jestTestResult = jestResults.testResults[0]
+        const jestTestResult = jestResults.testResults[0];
         expect(jestTestResult.ancestorTitles[0]).toBe("en-GB");
         expect(jestTestResult.ancestorTitles[1]).toBe("Test Description");
         expect(jestTestResult.status).toBe("failed");
