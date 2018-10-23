@@ -2,7 +2,6 @@ const Configuration = require("../lib/runner/Configuration");
 const path = require("path");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
-const VirtualAlexaInvoker = require("../lib/runner/VirtualAlexaInvoker");
 
 describe("virtual alexa runner", () => {
     describe("basic tests", () => {
@@ -488,76 +487,6 @@ describe("virtual alexa runner", () => {
             expect(results[3].interactionResults[0].error).toBeUndefined();
             expect(results[3].interactionResults[1].interaction.utterance).toEqual("GetNewFactIntent");
             expect(results[3].interactionResults[1].error).toBeUndefined();
-        });
-    });
-
-    describe("succinct intent", () => {
-        test("get intent", async () => {
-            const invoker = new VirtualAlexaInvoker();
-
-            let intent = invoker.detectIntent("PetMatchIntent");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots).toBeUndefined();
-
-            intent = invoker.detectIntent("PetMatchIntent size=mini");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            expect(intent.slots.size).toEqual("mini");
-
-            intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini");
-            expect(intent.slots.temperament).toEqual("guard");
-
-            intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard energy=low");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(3);
-            expect(intent.slots.size).toEqual("mini");
-            expect(intent.slots.temperament).toEqual("guard");
-            expect(intent.slots.energy).toEqual("low");
-
-            intent = invoker.detectIntent("PetMatchIntent size=\"mini\" temperament=guard");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini");
-            expect(intent.slots.temperament).toEqual("guard");
-
-            intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=guard");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini mini");
-            expect(intent.slots.temperament).toEqual("guard");
-            
-            intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=\"guard guard\"");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini mini");
-            expect(intent.slots.temperament).toEqual("guard guard");
-
-            intent = invoker.detectIntent("PetMatchIntent slot1=1");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            expect(intent.slots.slot1).toEqual("1");
-
-            // eslint-disable-next-line spellcheck/spell-checker
-            intent = invoker.detectIntent("PetMatchIntent slot=\"Prüfung\"");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            // eslint-disable-next-line spellcheck/spell-checker
-            expect(intent.slots.slot).toEqual("Prüfung");
-
-            // eslint-disable-next-line spellcheck/spell-checker
-            intent = invoker.detectIntent("PetMatchIntent slot=Prüfung");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            // eslint-disable-next-line spellcheck/spell-checker
-            expect(intent.slots.slot).toEqual("Prüfung");
-
-            intent = invoker.detectIntent("AMAZON.HelpIntent");
-            expect(intent.name).toBe("AMAZON.HelpIntent");
-            expect(intent.slots).toBeUndefined();
-            
         });
     });
 
