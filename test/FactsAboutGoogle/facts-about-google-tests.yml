@@ -7,9 +7,7 @@ configuration:
 - test: "Launches successfully" # Optional info about the test
 - I want to hear about Google's History: Sure, here's a history fact.
 - "Using intent slot":
-  - intent: tell_fact
-  - slots:
-      category: history
+- tell_fact category=history:
   - prompt == "Sure, here's a history fact"
 - I want to hear about Google's History: Sure, here's a history fact.
 - I want to hear about Google's History: Sure, here's a history fact.

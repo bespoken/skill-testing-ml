@@ -307,6 +307,36 @@ configuration:
         expect(testSuite.tests[0].interactions[2].assertions[0]._value._yaml.line).toBe(5);
     });
 
+    test("parses file with intent slots=slotValue format", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- Intent Slot=ValueSlot: Hi
+- Intent2 Slot2=ValueSlot2: 
+    - prompt == "Sure, here's a history fact"
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+
+        expect(testSuite.tests[0].interactions[0].utterance).toBe("Intent Slot=ValueSlot");
+
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+
+        expect(testSuite.tests[0].interactions[0].assertions[0].path).toBe("prompt");
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("Hi");
+        expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
+
+        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
+
+
+        expect(testSuite.tests[0].interactions[1].utterance).toBe("Intent2 Slot2=ValueSlot2");
+        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[1].assertions[0].path).toBe("prompt");
+        expect(testSuite.tests[0].interactions[1].assertions[0].value).toBe("Sure, here's a history fact");
+        expect(testSuite.tests[0].interactions[1].assertions[0].operator).toBe("==");
+
+    });
+
     test("parses file with only tests", () => {
         const parser = new TestParser("test/TestFiles/only-tests.yml");
         const testSuite = parser.parse();

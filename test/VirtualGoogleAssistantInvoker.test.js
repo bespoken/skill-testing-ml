@@ -4,8 +4,8 @@ const TestRunner = require("../lib/runner/TestRunner");
 
 describe("virtual google assistant runner", () => {
     describe("basic tests", () => {
-        beforeEach(() => {
-            Configuration.configure({
+        beforeEach(async () => {
+            await Configuration.configure({
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
@@ -32,12 +32,12 @@ describe("virtual google assistant runner", () => {
     });
 
     describe("basic tests with errors", () => {
-        beforeEach(() => {
-            Configuration.configure({
+        beforeEach(async () => {
+            await Configuration.configure({
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
-                locale: "en-US",
+                // locale: "en-US",
                 platform: CONSTANTS.PLATFORM.google,
             });
         });
@@ -57,8 +57,8 @@ describe("virtual google assistant runner", () => {
     });
 
     describe("Complex tests", () => {
-        beforeEach(() => {
-            Configuration.configure({
+        beforeEach(async () => {
+            await Configuration.configure({
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
@@ -109,7 +109,7 @@ describe("virtual google assistant runner", () => {
         });
 
         test("Internal code throws an exception", async () => {
-            Configuration.configure({
+            await Configuration.configure({
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,

@@ -63,7 +63,7 @@ const app = dialogflow({
  * @return {void}
  */
 app.intent('Unrecognized Deep Link Fallback', (conv) => {
-  const response = util.format(responses.general.unhandled, conv.query);
+  const response = util.concat(responses.general.unhandled, conv.query);
   const suggestions = responses.categories.map((c) => c.suggestion);
   conv.ask(response, new Suggestions(suggestions));
 });
@@ -79,6 +79,7 @@ app.intent('tell_fact', (conv, {category}) => {
     // close the conversation
     return conv.close(responses.general.heardItAll);
   }
+
   const categoryResponse =
     responses.categories.find((c) => c.category === category);
   const fact = randomPop(facts[categoryResponse.category]);
@@ -145,7 +146,7 @@ app.intent('tell_cat_fact', (conv) => {
   // a single response itself. The response will get sent at the end of
   // the function or if the function returns a promise, after the promise
   // is resolved.
-  const sound = util.format(audio, random(responses.cats.sounds));
+  const sound = util.concat(audio, random(responses.cats.sounds));
   conv.ask(new SimpleResponse({
     // <speak></speak> is needed here since factPrefix is a SSML string
     // and contains audio.
