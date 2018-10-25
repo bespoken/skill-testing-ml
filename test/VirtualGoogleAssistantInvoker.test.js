@@ -31,6 +31,30 @@ describe("virtual google assistant runner", () => {
         });
     });
 
+    describe("basic tests with actionURL", () => {
+        beforeEach(async () => {
+            await Configuration.configure({
+                actionURL: "http://httpbin.org/post",
+                dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("valid url", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/ExpressionSkill/skillURL-tests.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
     describe("basic tests with errors", () => {
         beforeEach(async () => {
             await Configuration.configure({
