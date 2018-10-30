@@ -56,6 +56,13 @@ function handleMessage(message) {
         }
     };
     if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";
+    else if (utterance.toLowerCase().includes("send error")) {
+        response.error = {
+            source: "error source",
+            message: "error message",
+            rawMessage: "error rawMessage"
+        };
+    }    
     else if (utterance.toLowerCase().includes("throw error")) {
         const error = new Error("Error");        
         error.error = utterance.includes("complex") ? ["Array", "error"] : "Error from virtual device";
