@@ -346,8 +346,9 @@ describe("virtual device runner", () => {
 
             expect(results[2].skipped).toBe(false);
             expect(results[2].interactionResults.length).toBe(1);
-            expect(results[2].interactionResults[0].error).toBe("Array, error");
-            expect(results[2].interactionResults[0].errorOnProcess).toBeDefined();            
+            expect(results[2].interactionResults[0].error).toBeDefined();
+            expect(results[2].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[2].interactionResults[0].errorOnProcess).toBe("error message");
         });
 
         test("response with errors", async () => {

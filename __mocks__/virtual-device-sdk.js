@@ -55,20 +55,34 @@ function handleMessage(message) {
             ]
         }
     };
-    if (utterance.toLowerCase().includes("help")) response.transcript = "you can say";
-    else if (utterance.toLowerCase().includes("send error")) {
+    if (utterance.toLowerCase().includes("help")) {
+        response.transcript = "you can say";
+    } else if (utterance.toLowerCase().includes("send error")) {
         response.error = {
             source: "error source",
             message: "error message",
             rawMessage: "error rawMessage"
         };
-    }    
-    else if (utterance.toLowerCase().includes("throw error")) {
-        const error = new Error("Error");        
-        error.error = utterance.includes("complex") ? ["Array", "error"] : "Error from virtual device";
+    } else if (utterance.toLowerCase().includes("throw error complex")){
+        const error = JSON.stringify({
+            results: [{
+                error: {
+                    source: "error source",
+                    message: "error message",
+                    rawMessage: "error rawMessage"
+                }
+            }],
+            error: "Error from virtual device on root"
+        });
         throw error;
+    } else if (utterance.toLowerCase().includes("throw error")) {
+        const error = JSON.stringify({
+            error: "Error from virtual device"
+        });
+        throw error;
+    } else {
+        response.transcript = "Here's your fact";
     }
-    else response.transcript = "Here's your fact";
     return response;
 }
 
