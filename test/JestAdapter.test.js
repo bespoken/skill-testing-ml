@@ -110,6 +110,30 @@ describe("JestAdapter", async () => {
         expect(jestResults.testResults[0].status).toBe("passed");
         expect(jestResults.testResults[1].status).toBe("pending");
     });
+
+    test("Runs a mock test that have only skips", async () => {
+        const testSuite = new TestSuite("MyTest.yml");
+        const test = new Test(testSuite, { description: "Test 1" });
+        test.skip = true;
+        const test2 = new Test(testSuite, { description: "Test 2" });
+        test2.skip = true;
+
+        const testResult = new TestResult(test);
+        const interaction = new TestInteraction("Hi");
+        const interactionResult = new InteractionResult(interaction)
+        testResult.addInteractionResult(interactionResult);
+
+        const testResult2 = new TestResult(test2);
+
+        const results = [testResult, testResult2];
+
+        const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
+        expect(jestResults.numPassingTests).toBe(0);
+        expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.numPendingTests).toBe(2);
+        expect(jestResults.testResults[0].status).toBe("pending");
+        expect(jestResults.testResults[1].status).toBe("pending");
+    });
 });
 
 class Runtime {
