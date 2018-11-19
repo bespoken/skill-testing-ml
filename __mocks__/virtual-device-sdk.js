@@ -52,8 +52,33 @@ function handleMessage(message) {
                 }, {
                     url: "this is a url 2"
                 }
-            ]
-        }
+            ],
+            messageBody:{
+                directives: [
+                    {
+                        namespace: "AudioPlayer",
+                        payload: {
+                            audioItem: {
+                                stream: {
+                                    url: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac",
+                                }
+                            }
+                        }
+                    },
+                    {
+                        namespace: "AudioPlayer",
+                        payload: {
+                            audioItem: {
+                                stream: {
+                                    url: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac",
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac"
     };
     if (utterance.toLowerCase().includes("help")) {
         response.transcript = "you can say";
