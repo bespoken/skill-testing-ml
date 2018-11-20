@@ -99,9 +99,16 @@ describe("virtual google assistant runner", () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/FactsAboutGoogle/facts-about-google-tests.yml");
+
             expect(results.length).toEqual(1);
             expect(results[0].test.description).toEqual("Launches successfully");
             expect(results[0].interactionResults[0].error).toBeUndefined();
+
+            // Generates an error instead of ignoring
+            expect(results[0].interactionResults[2].error).toContain("Expected value at [data.google.richResponse.items[0].simpleResponse.textToSpeech] to ==");
+            // JSON path real value contains correct data
+            expect(results[0].interactionResults[2].error).toContain("Sure, here's a history fact");
+
         }, 10000);
     });
 
