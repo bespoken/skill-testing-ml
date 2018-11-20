@@ -6,10 +6,11 @@ configuration:
 --- # The --- indicates the start of a new test, which is a self-contained YAML document
 - test: "Launches successfully" # Optional info about the test
 - I want to hear about Google's History: Sure, here's a history fact.
-- "Using intent slot":
+# "Using intent slot":
 - tell_fact category=history:
   - prompt == "Sure, here's a history fact"
-- I want to hear about Google's History: Sure, here's a history fact.
+- I want to hear about Google's History:
+  - data.google.richResponse.items[0].simpleResponse.textToSpeech == Sure, here's not a history fact.
 - I want to hear about Google's History: Sure, here's a history fact.
 # This example preserves context, after 4 random history facts, it prompt a different message
 - I want to hear about Google's History: Looks like you've heard all there is to know about
