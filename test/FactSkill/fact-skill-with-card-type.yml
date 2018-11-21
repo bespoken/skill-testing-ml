@@ -1,0 +1,12 @@
+# A simple example of skill test suite
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- Hi
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - prompt =~ .*Here's your fact* # A comment
+  - card.type: "anotherType"
+  - shouldEndSession: true
