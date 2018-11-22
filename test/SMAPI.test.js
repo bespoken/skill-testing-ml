@@ -12,7 +12,13 @@ describe("test suite", () => {
         const smapi = new SMAPI(token, skillID, "en-US");
         let result = await smapi.simulate("launch guess the gif", true);
         expect(result.status).toBe("SUCCESSFUL");
-        expect(result.result.skillExecutionInfo.invocationResponse.body.response.outputSpeech.type).toBe("SSML");
+        let skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
+        expect(skillResponse.response.outputSpeech.type).toBe("SSML");
+        if (skillResponse.response.outputSpeech.ssml.includes("Please say yes or no")) {
+            result = await smapi.simulate("yes");
+            skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
+            expect(skillResponse.response.outputSpeech.ssml).toBe("Guess");
+        }
         //result = await smapi.simulate("rabbit");
     });
 });
