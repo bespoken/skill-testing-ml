@@ -281,7 +281,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(1);
         });
 
-        test("support only cardContent and prompt when platform is google", async () => {
+        test.skip("support only cardContent and prompt when platform is google", async () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
@@ -373,6 +373,28 @@ describe("virtual device runner", () => {
             expect(results[1].interactionResults[1].error).toBeDefined();
             expect(results[1].interactionResults[1].error).toBe("error message");
             expect(results[1].interactionResults[1].errorOnProcess).toBeDefined();       
+        });
+
+        test("ignore properties on demand", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                ignoreProperties: {
+                    google: {
+                        paths: "streamURL, display.array[0].url",
+                        type: "e2e"
+                    }
+                },
+                platform: CONSTANTS.PLATFORM.google,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-ignore-props.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].error).toBeUndefined();
         });
     });
 });
