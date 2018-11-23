@@ -1,9 +1,42 @@
+require("dotenv").config();
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
 
 describe("test suite", () => {
     jest.setTimeout(30000);
-    beforeEach(() => {
+    beforeAll(() => {
+        // Create an ask config if it does not exist
+        const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
+        if (fs.existsSync(askConfigPath)) {
+            return;
+        }
         
+        // We get the key values for creating the ASK config from environment variables
+        if (!process.env.ASK_ACCESS_TOKEN ||
+            !process.env.ASK_REFRESH_TOKEN ||
+            !process.env.ASK_VENDOR_ID) {
+            throw new Error("Environment variables ASK_ACCESS_TOKEN, ASK_REFRESH_TOKEN and ASK_VENDOR_ID must all be set");
+        }
+
+        const askConfigJSON = {
+            profiles: {
+                default: {
+                    aws_profile: "__AWS_CREDENTIALS_IN_ENVIRONMENT_VARIABLE__",
+                    token: {
+                        access_token: process.env.ASK_ACCESS_TOKEN,
+                        expires_at: "2018-11-23T23:52:46.552Z",
+                        expires_in: 3600,
+                        refresh_token: process.env.ASK_REFRESH_TOKEN,
+                        token_type: "bearer"
+                    },
+                    vendor_id: process.env.ASK_VENDOR_ID,
+                }
+            }
+        }
+
+        fs.writeFileSync(askConfigPath, JSON.stringify(askConfigJSON));
     });
 
     test("simulate", async () => {
