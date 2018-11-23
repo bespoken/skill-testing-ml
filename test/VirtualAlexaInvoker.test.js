@@ -588,4 +588,34 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
         });
     });
+
+    describe("ignore properties on demand", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+            return Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                ignoreProperties: {
+                    alexa: {
+                        paths: "streamURL, display.array[0].url",
+                        type: "unit"
+                    }
+                },
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("ignore streamURL", async () => {
+            const runner = new TestRunner();
+    
+            const results = await runner.run("test/FactSkill/fact-skill-ignore-props.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+        });
+    })
 });
