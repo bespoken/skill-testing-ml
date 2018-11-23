@@ -1,5 +1,6 @@
 require("dotenv").config();
 const fs = require("fs");
+const nock = require("nock");
 const os = require("os");
 const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
@@ -7,6 +8,10 @@ const SMAPI = require("../lib/util/SMAPI");
 describe("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
+        // Because other tests use nock, we make sure to completely disable it here
+        nock.cleanAll();
+        nock.enableNetConnect();
+        
         // Create an ask config if it does not exist
         const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
         if (fs.existsSync(askConfigPath)) {

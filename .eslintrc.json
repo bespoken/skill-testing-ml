@@ -67,6 +67,7 @@
                     "lodash",
                     "lstat",
                     "metadata",
+                    "nock",
                     "num",
                     "os",
                     "rc",
