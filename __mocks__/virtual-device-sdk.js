@@ -30,6 +30,7 @@ function handleMessage(message) {
             imageURL: "imageURL",
             mainTitle: "mainTitle",
             textField: "textField",
+            type: "randomType"
         },
         display: {
             description: "display description",

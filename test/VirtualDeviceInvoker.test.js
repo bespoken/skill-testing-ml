@@ -281,7 +281,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(1);
         });
 
-        test.skip("support only cardContent and prompt when platform is google", async () => {
+        test("ignore card.type when platform is google", async () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
@@ -291,10 +291,10 @@ describe("virtual device runner", () => {
             });            
             const runner = new TestRunner();
 
-            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
-            expect(results.length).toEqual(3);
-            expect(results[1].interactionResults.length).toBe(2);
-            expect(results[1].interactionResults[1].error).toBeUndefined();
+            const results = await runner.run("test/FactSkill/fact-skill-with-card-type.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].error).toBeUndefined();
         });
 
         test("ignore external errors", async () => {

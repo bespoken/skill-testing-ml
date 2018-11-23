@@ -14,6 +14,7 @@ configuration:
   - raw.key: "some value"
   - raw.array[1].url: "this is a url 2"
   - reprompt == undefined
+  - card.type: "randomType"
   - shouldEndSession: true
 
 ---
