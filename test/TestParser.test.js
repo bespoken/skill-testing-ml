@@ -55,6 +55,22 @@ describe("test parser", () => {
         }
     });
 
+    test("parses simple test file with bad tabulation", (done) => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+\t- response == "Here's your fact:*"    
+        `)
+        try {
+            parser.parse();
+            throw new Error("Tab error wasn't thrown");
+        } catch (e) {
+            expect(e.message).toContain("A YAML file cannot contain tabs as indentation at line 4, column 1");
+            done();
+        }
+    });
+
     test("parses simple test file with object assertions", () => {
         const parser = new TestParser();
         parser.load(`
