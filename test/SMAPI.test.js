@@ -8,8 +8,6 @@ const SMAPI = require("../lib/util/SMAPI");
 describe("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
-        process.env.NOCK_OFF = "true";
-        
         // Create an ask config if it does not exist
         const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
         if (fs.existsSync(askConfigPath)) {
@@ -46,10 +44,6 @@ describe("test suite", () => {
             fs.mkdirSync(askDir);
         }
         fs.writeFileSync(askConfigPath, JSON.stringify(askConfigJSON));
-    });
-
-    afterAll(() => {
-        process.env.NOCK_OFF="false";
     });
 
     test("simulate", async () => {

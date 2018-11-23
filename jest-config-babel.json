@@ -17,6 +17,9 @@
   "testMatch": [
     "**/dist/test/**/*.test.js"
   ],
+  "testPathIgnorePatterns": [
+    "SMAPI"
+  ],
   "testResultsProcessor": "jest-junit",
   "testURL": "http://localhost/",
   "verbose": true
