@@ -8,9 +8,7 @@ const SMAPI = require("../lib/util/SMAPI");
 describe("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
-        // Because other tests use nock, we make sure to completely disable it here
-        nock.cleanAll();
-        nock.enableNetConnect();
+        process.env.NOCK_OFF = "true";
         
         // Create an ask config if it does not exist
         const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
@@ -48,6 +46,10 @@ describe("test suite", () => {
             fs.mkdirSync(askDir);
         }
         fs.writeFileSync(askConfigPath, JSON.stringify(askConfigJSON));
+    });
+
+    afterAll(() => {
+        process.env.NOCK_OFF="false";
     });
 
     test("simulate", async () => {
