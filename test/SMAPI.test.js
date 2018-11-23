@@ -11,7 +11,7 @@ describe("test suite", () => {
         const token = SMAPI.fetchAccessTokenFromConfig();
         // eslint-disable-next-line
         const skillID = "amzn1.ask.skill.2d19cb76-c064-4cf3-8eed-bad3bc9444e5"
-        const smapi = new SMAPI(token, skillID, "en-US");
+        const smapi = new SMAPI(token, skillID, "en-US", true);
         let result = await smapi.simulate("launch guess the gif", true);
         expect(result.status).toBe("SUCCESSFUL");
         let skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
