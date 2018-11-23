@@ -36,6 +36,10 @@ describe("test suite", () => {
             }
         }
 
+        const askDir = path.join(os.homedir(), ".ask");
+        if (!fs.existsSync(askDir)) {
+            fs.mkdirSync(askDir);
+        }
         fs.writeFileSync(askConfigPath, JSON.stringify(askConfigJSON));
     });
 
