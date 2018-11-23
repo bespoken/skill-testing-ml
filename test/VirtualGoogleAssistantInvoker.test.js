@@ -157,4 +157,36 @@ describe("virtual google assistant runner", () => {
             expect(results[0].interactionResults[2].error).toBeUndefined();
         });
     });
+
+    describe("ignore properties on demand", () => {
+        beforeEach(async () => {
+            await Configuration.configure({
+                dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
+                expressModule: "test/SillyNameMakerExpress/index",
+                expressPort: 3000,
+                ignoreProperties: {
+                    google: {
+                        paths: "prompt",
+                        type: "unit"
+                    }
+                },
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("ignore property", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/SillyNameMakerExpress/silly-name-maker-tests-with-errors.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].test.description).toEqual("Launches successfully");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
 });
