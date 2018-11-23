@@ -20,6 +20,7 @@ describe("test suite", () => {
             throw new Error("Environment variables ASK_ACCESS_TOKEN, ASK_REFRESH_TOKEN and ASK_VENDOR_ID must all be set");
         }
 
+        // Create the JSON, substituting environment variables for secret values
         const askConfigJSON = {
             profiles: {
                 default: {
@@ -36,6 +37,7 @@ describe("test suite", () => {
             }
         }
 
+        // Write the config to disk
         const askDir = path.join(os.homedir(), ".ask");
         if (!fs.existsSync(askDir)) {
             fs.mkdirSync(askDir);
