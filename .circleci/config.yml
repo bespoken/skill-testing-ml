@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - run: npm install ask-cli -g
+      - run: sudo npm install ask-cli -g
       - run: npm install
       - run:
           name: test
@@ -22,7 +22,7 @@ jobs:
         - image: circleci/node:8
       steps:
         - checkout
-        - run: npm install ask-cli -g
+        - run: sudo npm install ask-cli -g
         - run: npm install
         - run: npm run test.babel
 workflows:
