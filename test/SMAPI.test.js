@@ -1,6 +1,5 @@
 require("dotenv").config();
 const fs = require("fs");
-const nock = require("nock");
 const os = require("os");
 const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
