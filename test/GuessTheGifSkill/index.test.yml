@@ -1,0 +1,19 @@
+---
+- test.only: Launch request, play once with one player and stop. # Some metadata about this test sequence
+- ask guess the gif: 
+  - prompt: Take a look at this image # In the left part we have the utterance, in this case it's a reserved word
+  - cardTitle: Guess The Gif
+- phone: Nice try, but that is not correct. Guess again.
+- apple: That is not correct. One more guess.
+- mug: No more guesses! It was *
+- stop: Goodbye
+
+---
+- test.only: Launch again # Some metadata about this test sequence
+- ask guess the gif: 
+  - prompt: This is not right
+  - cardTitle: Guess The Gif
+- phone: Nice try, but that is not correct. Guess again.
+- apple: That is not correct. One more guess.
+- mug: No more guesses! It was *
+- stop: Goodbye

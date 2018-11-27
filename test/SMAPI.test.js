@@ -4,10 +4,13 @@ const os = require("os");
 const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
 
+// We only run tests if the ASK_ACCESS_TOKEN variable is set
+const describeIf = process.env.ASK_ACCESS_TOKEN ? describe : describe.skip;
+
 // These tests are configured to only be run for one job on Circle CI
 // If we run them on concurrent jobs, on Circle or AppVeyor, we are liable to get errors
 // This is because the Simulation API does not allow for concurrent calls
-describe("test suite", () => {
+describeIf("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
         // Create an ask config if it does not exist

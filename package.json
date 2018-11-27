@@ -47,7 +47,7 @@
     "lint": "eslint --config .eslintrc.json bin lib test",
     "pretest": "npm run lint",
     "preversion": "npm test && npm run test.babel",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
     "coverage": "codecov",
     "test.watch": "jest --watchAll"
