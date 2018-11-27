@@ -120,7 +120,7 @@ describe("JestAdapter", async () => {
 
         const testResult = new TestResult(test);
         const interaction = new TestInteraction("Hi");
-        const interactionResult = new InteractionResult(interaction)
+        const interactionResult = new InteractionResult(interaction);
         testResult.addInteractionResult(interactionResult);
 
         const testResult2 = new TestResult(test2);
@@ -129,7 +129,7 @@ describe("JestAdapter", async () => {
 
         const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
         expect(jestResults.numPassingTests).toBe(0);
-        expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.numFailingTests).toBe(0);
         expect(jestResults.numPendingTests).toBe(2);
         expect(jestResults.testResults[0].status).toBe("pending");
         expect(jestResults.testResults[1].status).toBe("pending");
