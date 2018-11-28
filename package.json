@@ -27,7 +27,6 @@
       "json",
       "node"
     ],
-    "resetModules": true,
     "silent": false,
     "testEnvironment": "node",
     "testMatch": [
