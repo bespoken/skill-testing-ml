@@ -14,6 +14,7 @@ describeIf("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
         delete require.cache[require.resolve("https")];
+        delete require.cache[require.resolve("http")];
         
         // Create an ask config if it does not exist
         const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
