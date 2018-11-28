@@ -2,9 +2,12 @@ require("dotenv").config();
 const Configuration = require("../lib/runner/Configuration");
 const TestRunner = require("../lib/runner/TestRunner");
 
+// Only run these tests when the SMAPI environment variable is set
+const describeIf = process.env.SMAPI ? describe : describe.skip;
+
 // See the note on SMAPI.test.js with regard to tests for SMAPI code
 // These are separated from other tests because of their complex setup
-describe("SMAPI Invoker Tests", () => {
+describeIf("SMAPI Invoker Tests", () => {
     describe("various simulation scenarios", async () => {
 
         test("runs guess the gif skill test configured via ASK CLI", async () => {

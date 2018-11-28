@@ -4,11 +4,13 @@ const os = require("os");
 const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
 
+const describeIf = process.env.SMAPI ? describe : describe.skip;
+
 // These tests are configured to be run separately from other tests. This is because:
 //  1) They are complex to setup, with a dependency on a particular skill
 //  2) The simulate API cannot be called concurrently, which interferes with the parallel Jest behavior
 //  3) When running on CI, we encounter an issue where the Virtual Alexa nock mocks do not appear to be cleaned up correctly
-describe("SMAPI tests", () => {
+describeIf("SMAPI tests", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
         // Create an ask config if it does not exist

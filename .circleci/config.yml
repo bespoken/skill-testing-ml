@@ -19,6 +19,8 @@ jobs:
   test-smapi:
     docker:
       - image: circleci/node:8
+    environment:
+      SMAPI: true
     steps:
       - checkout
       - run: npm install
