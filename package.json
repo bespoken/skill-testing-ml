@@ -27,6 +27,7 @@
       "json",
       "node"
     ],
+    "resetModules": true,
     "silent": false,
     "testEnvironment": "node",
     "testMatch": [
@@ -47,8 +48,9 @@
     "lint": "eslint --config .eslintrc.json bin lib test",
     "pretest": "npm run lint",
     "preversion": "npm test && npm run test.babel",
-    "test": "jest --runInBand",
+    "test": "jest",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
+    "test.smapi": "jest --runInBand SMAPI",
     "coverage": "codecov",
     "test.watch": "jest --watchAll"
   },

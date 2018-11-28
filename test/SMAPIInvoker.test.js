@@ -1,7 +1,7 @@
 require("dotenv").config();
 const TestRunner = require("../lib/runner/TestRunner");
 // We only run tests if the ASK_ACCESS_TOKEN variable is set
-const describeIf = process.env.ASK_ACCESS_TOKEN ? describe : describe.skip;
+const describeIf = process.env.SMAPI ? describe : describe.skip;
 
 describeIf("SMAPI Invoker Tests", () => {
     describe("various simulation scenarios", async () => {

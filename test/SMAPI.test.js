@@ -5,7 +5,7 @@ const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
 
 // We only run tests if the ASK_ACCESS_TOKEN variable is set
-const describeIf = process.env.ASK_ACCESS_TOKEN ? describe : describe.skip;
+const describeIf = process.env.SMAPI ? describe : describe.skip;
 
 // These tests are configured to only be run for one job on Circle CI
 // If we run them on concurrent jobs, on Circle or AppVeyor, we are liable to get errors
@@ -13,8 +13,6 @@ const describeIf = process.env.ASK_ACCESS_TOKEN ? describe : describe.skip;
 describeIf("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
-        require("nock")("https://api.amazonalexa.com").persist(false);
-        
         // Create an ask config if it does not exist
         const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
         if (fs.existsSync(askConfigPath)) {
