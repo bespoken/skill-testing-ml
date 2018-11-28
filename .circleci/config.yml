@@ -17,6 +17,12 @@ jobs:
           path: reports/junit
       - store_artifacts:
           path: reports/junit
+  test-smapi:
+    docker:
+      - image: circleci/node:8
+    environment:
+      SMAPI: true
+    steps:
       - run: npm run test.smapi # Run this after everything else, so we don't mess up code coverage
   test-babel:
       docker:
@@ -31,3 +37,4 @@ workflows:
     jobs:
       - test
       - test-babel
+      - test-smapi
