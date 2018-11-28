@@ -13,7 +13,7 @@ const describeIf = process.env.ASK_ACCESS_TOKEN ? describe : describe.skip;
 describeIf("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
-        delete require.cache[require.resolve("nock")];
+        delete require.cache[require.resolve("https")];
         
         // Create an ask config if it does not exist
         const askConfigPath = path.join(os.homedir(), ".ask/cli_config");
