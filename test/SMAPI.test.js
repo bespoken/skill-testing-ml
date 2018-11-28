@@ -4,12 +4,13 @@ const os = require("os");
 const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
 
-// We only run tests if the ASK_ACCESS_TOKEN variable is set
+// We only run tests if the SMAPI variable is set
 const describeIf = process.env.SMAPI ? describe : describe.skip;
 
-// These tests are configured to only be run for one job on Circle CI
-// If we run them on concurrent jobs, on Circle or AppVeyor, we are liable to get errors
-// This is because the Simulation API does not allow for concurrent calls
+// These tests are configured to be run separately from other tests. This is because:
+//  1) They are complex to setup, with a dependency on a particular skill
+//  2) The simulate API cannot be called concurrently, which interferes with the parallel Jest behavior
+//  3) When running on CI, we encounter an issue where the Virtual Alexa nock mocks do not appear to be cleaned up correctly
 describeIf("test suite", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
