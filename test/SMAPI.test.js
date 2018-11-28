@@ -4,14 +4,11 @@ const os = require("os");
 const path = require("path");
 const SMAPI = require("../lib/util/SMAPI");
 
-// We only run tests if the SMAPI variable is set
-const describeIf = process.env.SMAPI ? describe : describe.skip;
-
 // These tests are configured to be run separately from other tests. This is because:
 //  1) They are complex to setup, with a dependency on a particular skill
 //  2) The simulate API cannot be called concurrently, which interferes with the parallel Jest behavior
 //  3) When running on CI, we encounter an issue where the Virtual Alexa nock mocks do not appear to be cleaned up correctly
-describeIf("test suite", () => {
+describe("SMAPI tests", () => {
     jest.setTimeout(30000);
     beforeAll(() => {
         // Create an ask config if it does not exist
@@ -23,8 +20,10 @@ describeIf("test suite", () => {
         // We get the key values for creating the ASK config from environment variables
         if (!process.env.ASK_ACCESS_TOKEN ||
             !process.env.ASK_REFRESH_TOKEN ||
-            !process.env.ASK_VENDOR_ID) {
-            throw new Error("Environment variables ASK_ACCESS_TOKEN, ASK_REFRESH_TOKEN and ASK_VENDOR_ID must all be set");
+            !process.env.ASK_VENDOR_ID ||
+            !process.env.ASK_SKILL_ID ||
+            !process.env.VIRTUAL_DEVICE_TOKEN) {
+            throw new Error("Environment variables ASK_ACCESS_TOKEN, ASK_REFRESH_TOKEN, ASK_VENDOR_ID, ASK_SKILL_ID and VIRTUAL_DEVICE_TOKEN must all be set");
         }
 
         // Create the JSON, substituting environment variables for secret values
@@ -52,11 +51,9 @@ describeIf("test suite", () => {
         fs.writeFileSync(askConfigPath, JSON.stringify(askConfigJSON));
     });
 
-    test("simulate", async () => {
-        // eslint-disable-next-line
+    test("simulate with ASK CLI", async () => {
         const token = SMAPI.fetchAccessTokenFromConfig();
-        // eslint-disable-next-line
-        const skillID = "amzn1.ask.skill.2d19cb76-c064-4cf3-8eed-bad3bc9444e5"
+        const skillID = process.env.ASK_SKILL_ID;
         const smapi = new SMAPI(token, skillID, "en-US", true);
         let result = await smapi.simulate("launch guess the gif", true);
         expect(result.status).toBe("SUCCESSFUL");
@@ -67,6 +64,15 @@ describeIf("test suite", () => {
             skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
             expect(skillResponse.response.outputSpeech.ssml).toBe("Guess");
         }
-        //result = await smapi.simulate("rabbit");
+    });
+
+    test.skip("simulate with access token", async () => {
+        const token = await SMAPI.fetchAccessTokenFromServer(process.env.VIRTUAL_DEVICE_TOKEN);
+        const skillID = process.env.ASK_SKILL_ID;
+        const smapi = new SMAPI(token, skillID, "en-US", false);
+        let result = await smapi.simulate("launch guess the gif", true);
+        expect(result.status).toBe("SUCCESSFUL");
+        let skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
+        expect(skillResponse.response.outputSpeech.type).toBe("SSML");
     });
 });

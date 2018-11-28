@@ -1,5 +1,5 @@
 ---
-- test.only: Launch request, play once with one player and stop. # Some metadata about this test sequence
+- test: Launch request, play once with one player and stop. # Some metadata about this test sequence
 - ask guess the gif: 
   - prompt: Take a look at this image # In the left part we have the utterance, in this case it's a reserved word
   - cardTitle: Guess The Gif
@@ -9,7 +9,7 @@
 - stop: Goodbye
 
 ---
-- test.only: Launch again # Some metadata about this test sequence
+- test: Launch again # Some metadata about this test sequence
 - ask guess the gif: 
   - prompt: This is not right
   - cardTitle: Guess The Gif

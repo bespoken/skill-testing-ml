@@ -19,13 +19,11 @@ jobs:
   test-smapi:
     docker:
       - image: circleci/node:8
-    environment:
-      SMAPI: true
     steps:
       - checkout
       - run: npm install
       - run: sudo npm install ask-cli -g
-      - run: npm run test.smapi # Run this after everything else, so we don't mess up code coverage
+      - run: npm run test.smapi
   test-babel:
       docker:
         - image: circleci/node:8

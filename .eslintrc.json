@@ -60,6 +60,7 @@
                     "gif",
                     "goto",
                     "homedir",
+                    "hostname",
                     "http",
                     "https",
                     "invoker",
