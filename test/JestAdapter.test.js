@@ -17,7 +17,7 @@ describe("JestAdapter", async () => {
         testResult.addInteractionResult(interactionResult);
 
         const interaction2 = new TestInteraction("Hi");
-        const interactionResult2 = new InteractionResult(interaction2)
+        const interactionResult2 = new InteractionResult(interaction2);
         testResult.addInteractionResult(interactionResult2);
 
         const results = [testResult];
@@ -29,7 +29,7 @@ describe("JestAdapter", async () => {
         expect(jestResults.testFilePath).toBe("MyTest.yml");
 
         // Check the individual test result
-        const jestTestResult = jestResults.testResults[0]
+        const jestTestResult = jestResults.testResults[0];
         expect(jestTestResult.ancestorTitles[0]).toBe("en-US");
         expect(jestTestResult.ancestorTitles[1]).toBe("Test Description");
         expect(jestTestResult.status).toBe("passed");
@@ -96,7 +96,7 @@ describe("JestAdapter", async () => {
 
         const testResult = new TestResult(test);
         const interaction = new TestInteraction("Hi");
-        const interactionResult = new InteractionResult(interaction)
+        const interactionResult = new InteractionResult(interaction);
         testResult.addInteractionResult(interactionResult);
 
         const testResult2 = new TestResult(test2);
@@ -120,7 +120,7 @@ describe("JestAdapter", async () => {
 
         const testResult = new TestResult(test);
         const interaction = new TestInteraction("Hi");
-        const interactionResult = new InteractionResult(interaction)
+        const interactionResult = new InteractionResult(interaction);
         testResult.addInteractionResult(interactionResult);
 
         const testResult2 = new TestResult(test2);
@@ -129,7 +129,35 @@ describe("JestAdapter", async () => {
 
         const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
         expect(jestResults.numPassingTests).toBe(0);
+        expect(jestResults.numFailingTests).toBe(0);
+        expect(jestResults.numPendingTests).toBe(2);
+        expect(jestResults.skipped).toBe(true);
+        expect(jestResults.testResults[0].status).toBe("pending");
+        expect(jestResults.testResults[1].status).toBe("pending");
+    });
+
+    test("Runs a mock test that have only skips but have error messages", async () => {
+        const testSuite = new TestSuite("MyTest.yml");
+        const test = new Test(testSuite, { description: "Test 1" });
+        test.skip = true;
+        const test2 = new Test(testSuite, { description: "Test 2" });
+        test2.skip = true;
+
+        const testResult = new TestResult(test);
+        const interaction = new TestInteraction("Hi");
+        const interactionResult = new InteractionResult(interaction);
+        interactionResult._error = new Error("I am an error");
+        testResult.addInteractionResult(interactionResult);
+        testResult.locale = "en-US";
+
+        const testResult2 = new TestResult(test2);
+
+        const results = [testResult, testResult2];
+
+        const jestResults = await testRunner({}, { rootDir: "rootDir" }, {}, new Runtime(results), "MyTest.yml");
+        expect(jestResults.numPassingTests).toBe(0);
         expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.skipped).toBe(false);
         expect(jestResults.numPendingTests).toBe(2);
         expect(jestResults.testResults[0].status).toBe("pending");
         expect(jestResults.testResults[1].status).toBe("pending");
