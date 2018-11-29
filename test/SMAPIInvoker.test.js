@@ -39,7 +39,7 @@ describeIf("SMAPI Invoker Tests", () => {
             expect(results[0].passed).toBe(true);
         }, 20000);
 
-        test("exception when there is a bad virtual device token", async () => {
+        test.skip("exception when there is a bad virtual device token", async () => {
             // We need to make sure to reset the configuration before running this test
             Configuration.reset();
             expect.assertions(1);
