@@ -280,5 +280,121 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults.length).toBe(1);
         });
+
+        test("ignore card.type when platform is google", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                platform: CONSTANTS.PLATFORM.google,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });            
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-with-card-type.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+        });
+
+        test("ignore external errors", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                ignoreExternalErrors: true,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
+            expect(results.length).toEqual(4);
+
+            expect(results[0].skipped).toBe(false);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+
+            expect(results[1].skipped).toBe(true);
+            expect(results[1].interactionResults.length).toBe(1);
+            expect(results[1].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
+        });
+
+        test("fail on external error", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
+            expect(results.length).toEqual(4);
+
+            expect(results[0].skipped).toBe(false);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+            
+            expect(results[1].skipped).toBe(false);
+            expect(results[1].interactionResults.length).toBe(1);
+            expect(results[1].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].error).toBe("Error from virtual device");
+            expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
+
+            expect(results[2].skipped).toBe(false);
+            expect(results[2].interactionResults.length).toBe(1);
+            expect(results[2].interactionResults[0].error).toBeDefined();
+            expect(results[2].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[2].interactionResults[0].errorOnProcess).toBe("error message");
+        });
+
+        test("response with errors", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact"
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-with-error.yml");
+            expect(results.length).toEqual(2);
+
+            expect(results[0].skipped).toBe(false);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+            
+            expect(results[1].skipped).toBe(false);
+            expect(results[1].interactionResults.length).toBe(2);
+            expect(results[1].interactionResults[1].error).toBeDefined();
+            expect(results[1].interactionResults[1].error).toBe("error message");
+            expect(results[1].interactionResults[1].errorOnProcess).toBeDefined();       
+        });
+
+        test("ignore properties on demand", async () => {
+            Configuration.singleton = undefined;
+            
+            Configuration.configure({
+                ignoreProperties: {
+                    google: {
+                        paths: "streamURL, display.array[0].url",
+                        type: "e2e"
+                    }
+                },
+                platform: CONSTANTS.PLATFORM.google,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-ignore-props.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+        });
     });
 });

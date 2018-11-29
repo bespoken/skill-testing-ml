@@ -2,7 +2,6 @@ const Configuration = require("../lib/runner/Configuration");
 const path = require("path");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
-const VirtualAlexaInvoker = require("../lib/runner/VirtualAlexaInvoker");
 
 describe("virtual alexa runner", () => {
     describe("basic tests", () => {
@@ -491,76 +490,6 @@ describe("virtual alexa runner", () => {
         });
     });
 
-    describe("succinct intent", () => {
-        test("get intent", async () => {
-            const invoker = new VirtualAlexaInvoker();
-
-            let intent = invoker.detectIntent("PetMatchIntent");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(intent.slots).toBeUndefined();
-
-            intent = invoker.detectIntent("PetMatchIntent size=mini");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            expect(intent.slots.size).toEqual("mini");
-
-            intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini");
-            expect(intent.slots.temperament).toEqual("guard");
-
-            intent = invoker.detectIntent("PetMatchIntent size=mini temperament=guard energy=low");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(3);
-            expect(intent.slots.size).toEqual("mini");
-            expect(intent.slots.temperament).toEqual("guard");
-            expect(intent.slots.energy).toEqual("low");
-
-            intent = invoker.detectIntent("PetMatchIntent size=\"mini\" temperament=guard");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini");
-            expect(intent.slots.temperament).toEqual("guard");
-
-            intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=guard");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini mini");
-            expect(intent.slots.temperament).toEqual("guard");
-            
-            intent = invoker.detectIntent("PetMatchIntent size=\"mini mini\" temperament=\"guard guard\"");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(2);
-            expect(intent.slots.size).toEqual("mini mini");
-            expect(intent.slots.temperament).toEqual("guard guard");
-
-            intent = invoker.detectIntent("PetMatchIntent slot1=1");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            expect(intent.slots.slot1).toEqual("1");
-
-            // eslint-disable-next-line spellcheck/spell-checker
-            intent = invoker.detectIntent("PetMatchIntent slot=\"Prüfung\"");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            // eslint-disable-next-line spellcheck/spell-checker
-            expect(intent.slots.slot).toEqual("Prüfung");
-
-            // eslint-disable-next-line spellcheck/spell-checker
-            intent = invoker.detectIntent("PetMatchIntent slot=Prüfung");
-            expect(intent.name).toBe("PetMatchIntent");
-            expect(Object.keys(intent.slots).length).toBe(1);
-            // eslint-disable-next-line spellcheck/spell-checker
-            expect(intent.slots.slot).toEqual("Prüfung");
-
-            intent = invoker.detectIntent("AMAZON.HelpIntent");
-            expect(intent.name).toBe("AMAZON.HelpIntent");
-            expect(intent.slots).toBeUndefined();
-            
-        });
-    });
-
     describe("supportedInterfaces", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
@@ -568,11 +497,12 @@ describe("virtual alexa runner", () => {
 
         test("VideoApp", async () => {
             Configuration.configure({
+                deviceId: "device",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
-                supportedInterfaces: "VideoApp",
+                supportedInterfaces: "VideoApp"
             });
 
             const runner = new TestRunner();
@@ -613,4 +543,79 @@ describe("virtual alexa runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
         });
     });
+
+
+    describe("deviceId and userId", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("send deviceId and userId to virtual alexa", async () => {
+            Configuration.configure({
+                deviceId: "MyDeviceId",
+                filter: "test/FilterSkill/filter",
+                handler: "test/FilterSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                userId: "MyUserId"
+            });
+
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/TestFiles/deviceId-userId.yml");
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
+    describe("skillURL", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+            return Configuration.configure({
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+                skillURL: "http://httpbin.org/post"
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("valid url", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("test/ExpressionSkill/skillURL-tests.yml");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
+    describe("ignore properties on demand", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+            return Configuration.configure({
+                handler: "test/FactSkill/index.handler",
+                ignoreProperties: {
+                    alexa: {
+                        paths: "streamURL, display.array[0].url",
+                        type: "unit"
+                    }
+                },
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("ignore streamURL", async () => {
+            const runner = new TestRunner();
+    
+            const results = await runner.run("test/FactSkill/fact-skill-ignore-props.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+        });
+    })
 });

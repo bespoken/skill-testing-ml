@@ -1,6 +1,8 @@
 const Configuration = require("../lib/runner/Configuration");
 const ConfigurationKeys = require("../lib/runner/ConfigurationKeys");
+const fs = require("fs");
 const path = require("path");
+const {exec} = require("child_process");
 
 describe("configuration", () => {
     beforeEach(() => {
@@ -21,6 +23,26 @@ describe("configuration", () => {
         await Configuration.configure({}, "", cliOverrides);
         const jestConfiguration = Configuration.instance().value("jest");
         expect(jestConfiguration.collectCoverage).toBe(false);
+    });
+
+    describe("override configuration write a skill testing file", () => {
+        beforeEach(async () => {
+            return new Promise(resolve => {
+                exec("rm -rf " + Configuration.skillTestingConfigDirectory(), async function () {
+                    resolve();
+                });
+            });
+        });
+
+        test("generate file", async () => {
+            const cliOverrides = {
+                "jest.collectCoverage": "false"
+            };
+            await Configuration.configure({}, "", cliOverrides, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.collectCoverage).toBe(false);
+            expect(fs.existsSync(Configuration.skillTestingConfigPath())).toBe(true);
+        });
     });
 
     describe("test path", function () {
@@ -46,20 +68,28 @@ describe("configuration", () => {
 
         test("when testing.json exists", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/unit");
-            let jestConfiguration = Configuration.instance().value("jest");
+            const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/ConfigurationTestFiles/test/unit/coverage/"));
         });
     
         test("when testing.json is missing", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-GB");
-            let jestConfiguration = Configuration.instance().value("jest");
+            const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/coverage/"));
         });
 
         test("when testing.json overrides coverageDirectory", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/overrideCoverage");
-            let jestConfiguration = Configuration.instance().value("jest");
+            const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe("customFolder/coverage/");
+        });
+
+        test("when testing.json is on the root folder", async () => {
+            process.chdir("test/FactSkill");
+            await Configuration.configure(undefined, ".");
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("coverage/"));
+            process.chdir("../..");
         });
     });
 
@@ -73,6 +103,9 @@ describe("configuration", () => {
             "locales",
             "locale",
             "trace",
+            "runInBand",
+            "include",
+            "exclude",
             "virtualDeviceToken",
             "jest.collectCoverage",
             "jest.collectCoverageFrom",
@@ -88,7 +121,6 @@ describe("configuration", () => {
             const match = ConfigurationKeys.find(item => item.key === key);
             expect(match).toBeDefined();
             expect(match.key).toBeDefined();
-            expect(match.shortcut).toBeDefined();
             expect(match.text).toBeDefined();
         });
     });

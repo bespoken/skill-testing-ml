@@ -5,9 +5,10 @@ const mockRunCLI = jest.fn(() => {
 });
 
 let type;
+let defaultValue = true;
 const mockConfiguration = jest.fn(() => ({
     jestConfig: jest.fn(() => ({ collectCoverage: true })),
-    value: jest.fn(() => type),
+    value: jest.fn((first, second, third) => third? defaultValue : type),
 }));
 
 const mockConfigure = jest.fn();
@@ -47,6 +48,9 @@ describe("CLI", () => {
         expect(mockRunCLI).toHaveBeenCalledTimes(1);
         const configString = mockRunCLI.mock.calls[0][0].config;
         expect(configString).toBeDefined();
+
+        const runInBand = mockRunCLI.mock.calls[0][0].runInBand;
+        expect(runInBand).toBe(true);
 
         // We pass the config to Jest as a string of JSON - so we need to convert it back to JSON
         const config = JSON.parse(configString);
@@ -96,6 +100,21 @@ describe("CLI", () => {
         // We pass the config to Jest as a string of JSON - so we need to convert it back to JSON
         const config = JSON.parse(configString);
         expect(config.collectCoverage).toBe(false);
+    });
+
+    test("cli runs with runInBand setting", async () => {
+        type = undefined;
+        // This will return false for runInBand
+        defaultValue = false;
+        const cli = new CLI();
+        const success = await cli.run([]);
+        expect(success).toBe(true);
+        expect(mockRunCLI).toHaveBeenCalledTimes(1);
+
+        const configString = mockRunCLI.mock.calls[0][0].config;
+        expect(configString).toBeDefined();
+        const runInBand = mockRunCLI.mock.calls[0][0].runInBand;
+        expect(runInBand).toBe(false);
     });
 
     test("cli runs with path to test", async () => {

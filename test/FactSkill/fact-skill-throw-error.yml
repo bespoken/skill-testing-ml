@@ -8,13 +8,7 @@ configuration:
 - Hi
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - prompt =~ .*Here's your fact* # A comment
-  - display.description: "display description"
-  - display.array[0].url: "this is a url"
-  - streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac"
-  - raw.key: "some value"
-  - raw.array[1].url: "this is a url 2"
   - reprompt == undefined
-  - card.type: "randomType"
   - shouldEndSession: true
 
 ---
@@ -24,6 +18,22 @@ configuration:
     - /.*you can say.*/i
     - A phrase
   - shouldEndSession: false
+- "Throw error"
+- "Get New Facts":
+  - prompt == "here's your fact"
+  - transcript == "here's your fact"
+  - cardTitle  =~ maInTiTlE # Uppercase expected value
+  - cardTitle  =~ maintitle # Lowercase expected value
+  - cardContent != undefined
+
+---
+- test: "Gets a new fact intent"
+- "Help":
+  - prompt:
+    - /.*you can say.*/i
+    - A phrase
+  - shouldEndSession: false
+- "Throw error complex"
 - "Get New Facts":
   - prompt == "here's your fact"
   - transcript == "here's your fact"

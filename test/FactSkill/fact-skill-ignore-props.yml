@@ -1,0 +1,16 @@
+---
+configuration:
+  locale: en-US
+
+---
+- test: "Launches successfully" # Optional info about the test
+- Hi
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - prompt =~ .*Here's your fact* # A comment
+  - display.array[0].url: "this is a url2"
+  - streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac2"
+
+# Example with a one-line request and response
+---
+- "Help": /.*You can say.*/
+- "yes"

@@ -4,8 +4,8 @@ const TestRunner = require("../lib/runner/TestRunner");
 
 describe("virtual google assistant runner", () => {
     describe("basic tests", () => {
-        beforeEach(() => {
-            Configuration.configure({
+        beforeEach(async () => {
+            await Configuration.configure({
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
@@ -31,13 +31,37 @@ describe("virtual google assistant runner", () => {
         });
     });
 
+    describe("basic tests with actionURL", () => {
+        beforeEach(async () => {
+            await Configuration.configure({
+                actionURL: "http://httpbin.org/post",
+                dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("valid url", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/ExpressionSkill/skillURL-tests.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
     describe("basic tests with errors", () => {
-        beforeEach(() => {
-            Configuration.configure({
+        beforeEach(async () => {
+            await Configuration.configure({
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 expressModule: "test/SillyNameMakerExpress/index",
                 expressPort: 3000,
-                locale: "en-US",
+                // locale: "en-US",
                 platform: CONSTANTS.PLATFORM.google,
             });
         });
@@ -57,8 +81,8 @@ describe("virtual google assistant runner", () => {
     });
 
     describe("Complex tests", () => {
-        beforeEach(() => {
-            Configuration.configure({
+        beforeEach(async () => {
+            await Configuration.configure({
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
@@ -75,9 +99,16 @@ describe("virtual google assistant runner", () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/FactsAboutGoogle/facts-about-google-tests.yml");
+
             expect(results.length).toEqual(1);
             expect(results[0].test.description).toEqual("Launches successfully");
             expect(results[0].interactionResults[0].error).toBeUndefined();
+
+            // Generates an error instead of ignoring
+            expect(results[0].interactionResults[2].error).toContain("Expected value at [data.google.richResponse.items[0].simpleResponse.textToSpeech] to ==");
+            // JSON path real value contains correct data
+            expect(results[0].interactionResults[2].error).toContain("Sure, here's a history fact");
+
         }, 10000);
     });
 
@@ -109,7 +140,7 @@ describe("virtual google assistant runner", () => {
         });
 
         test("Internal code throws an exception", async () => {
-            Configuration.configure({
+            await Configuration.configure({
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
@@ -124,6 +155,38 @@ describe("virtual google assistant runner", () => {
             expect(results[0].test.description).toEqual("Throws an exception mid test");
             expect(results[0].interactionResults[1].error).toEqual("Invalid response: 500 Message: Internal Server Error");
             expect(results[0].interactionResults[2].error).toBeUndefined();
+        });
+    });
+
+    describe("ignore properties on demand", () => {
+        beforeEach(async () => {
+            await Configuration.configure({
+                dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
+                expressModule: "test/SillyNameMakerExpress/index",
+                expressPort: 3000,
+                ignoreProperties: {
+                    google: {
+                        paths: "prompt",
+                        type: "unit"
+                    }
+                },
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("ignore property", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/SillyNameMakerExpress/silly-name-maker-tests-with-errors.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].test.description).toEqual("Launches successfully");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
         });
     });
 });

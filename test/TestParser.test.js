@@ -7,7 +7,7 @@ describe("test parser", () => {
         const parser = new TestParser("test/TestFiles/simple-tests.yml");
         const testSuite = parser.parse();
         expect(testSuite.configuration.locale).toEqual("en-US");
-        expect(testSuite.tests.length).toEqual(2);
+        expect(testSuite.tests.length).toEqual(3);
 
         const firstTest = testSuite.tests[0];
         expect(firstTest.description).toEqual("Launches successfully");
@@ -32,6 +32,12 @@ describe("test parser", () => {
         expect(secondAssertion.path).toEqual("response.card.title");
         expect(secondAssertion.operator).toEqual("==");
         expect(secondAssertion.value).toEqual("Space Facts");
+
+        const thirdTest = testSuite.tests[2];
+        expect(thirdTest.description).toEqual("Launches successfully");
+        expect(thirdTest.interactions.length).toEqual(2);
+        expect(thirdTest.interactions[0].requestType).toBeUndefined();
+        expect(thirdTest.interactions[0].utterance).toEqual("Hi");
     });
 
     test("parses simple test file with bad assertion", (done) => {
@@ -45,6 +51,22 @@ describe("test parser", () => {
             parser.parse();
         } catch (e) {
             expect(e.message).toBe("Test Syntax Error:\n\tInvalid operator: ===");
+            done();
+        }
+    });
+
+    test("parses simple test file with bad tabulation", (done) => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+\t- response == "Here's your fact:*"    
+        `)
+        try {
+            parser.parse();
+            throw new Error("Tab error wasn't thrown");
+        } catch (e) {
+            expect(e.message).toContain("A YAML file cannot contain tabs as indentation at line 4, column 1");
             done();
         }
     });
@@ -301,6 +323,36 @@ configuration:
         expect(testSuite.tests[0].interactions[2].assertions[0]._value._yaml.line).toBe(5);
     });
 
+    test("parses file with intent slots=slotValue format", async () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- Intent Slot=ValueSlot: Hi
+- Intent2 Slot2=ValueSlot2: 
+    - prompt == "Sure, here's a history fact"
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+
+        expect(testSuite.tests[0].interactions[0].utterance).toBe("Intent Slot=ValueSlot");
+
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+
+        expect(testSuite.tests[0].interactions[0].assertions[0].path).toBe("prompt");
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("Hi");
+        expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("==");
+
+        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
+
+
+        expect(testSuite.tests[0].interactions[1].utterance).toBe("Intent2 Slot2=ValueSlot2");
+        expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[1].assertions[0].path).toBe("prompt");
+        expect(testSuite.tests[0].interactions[1].assertions[0].value).toBe("Sure, here's a history fact");
+        expect(testSuite.tests[0].interactions[1].assertions[0].operator).toBe("==");
+
+    });
+
     test("parses file with only tests", () => {
         const parser = new TestParser("test/TestFiles/only-tests.yml");
         const testSuite = parser.parse();
@@ -332,6 +384,21 @@ configuration:
         expect(testSuite.tests[2].skip).toBe(false);
         expect(testSuite.tests[2].only).toBe(false);
     });
+
+    test("parses file with tag tests", () => {
+        const parser = new TestParser("test/TestFiles/tag-tests.yml");
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].tags).toBe(undefined);
+
+        expect(testSuite.tests[1].tags).toEqual(["alexa"]);
+        expect(testSuite.tests[1].description).toEqual("Test 2");
+
+        expect(testSuite.tests[2].tags).toEqual(["alexa", "broken"]);
+        expect(testSuite.tests[2].description).toEqual("Test 3");
+
+        expect(testSuite.tests[3].tags).toBe(undefined);
+    });
+
 
     describe("findReplace", () => {
         beforeEach(() => {

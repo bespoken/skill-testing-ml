@@ -1,0 +1,11 @@
+# Test created by Bespoken - to use this test, go to https://bespoken.io/testing
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+---
+- test: "Has postal code"
+- LaunchRequest:
+  - userId: "MyUserId"
+  - deviceId: "MyDeviceId"
+
