@@ -53,7 +53,7 @@
     "preversion": "npm test && npm run test.babel",
     "test": "jest",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
-    "test.smapi": "jest --runInBand SMAPI",
+    "test.smapi": "jest --runInBand SMAPI.test",
     "coverage": "codecov",
     "test.watch": "jest --watchAll"
   },
