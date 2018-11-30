@@ -9,7 +9,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/FactSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -51,7 +51,7 @@ describe("virtual alexa runner", () => {
             Configuration.configure({
                 handler: "test/FactSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
 
             const runner = new TestRunner();
@@ -88,7 +88,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/ExpressionSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -109,7 +109,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/AddressSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -157,7 +157,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/AddressSkill/postal-only-index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -210,7 +210,7 @@ describe("virtual alexa runner", () => {
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
 
             const runner = new TestRunner();
@@ -226,7 +226,7 @@ describe("virtual alexa runner", () => {
                 filter: "test/FilterSkill/filter-typo",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
 
             const runner = new TestRunner();
@@ -235,7 +235,6 @@ describe("virtual alexa runner", () => {
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults[0].error).toBeDefined();
         });
-
     });
 
     describe("control flow tests", () => {
@@ -243,7 +242,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/FactSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -307,7 +306,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/FactSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -332,7 +331,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/FactSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -367,7 +366,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 handler: "test/ExceptionSkill/index.handler",
                 interactionModel: "test/ExceptionSkill/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -400,56 +399,53 @@ describe("virtual alexa runner", () => {
             Configuration.configure({
                 configurationPath: "test/ExceptionSkill/testing.json",
                 handler: "test/ExceptionSkill/index.handler",
-                locale: "en-US"
+                locale: "en-US",
             });
 
             try {
                 const runner = new TestRunner();
                 await runner.run("test/ExceptionSkill/no-utterance-test.yml");
-                    
             } catch (error) {
                 const defaultPath = path.normalize("./models/en-US.json");
                 const errorPath = path.normalize(error.path);
                 expect(errorPath.includes(defaultPath)).toBe(true);
             }
         });
-
     });
 
     describe("locales", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
         });
-        
-        
+
         test("run all locales, localized slot values", async () => {
-            const getSlotSize = locale => {
+            const getSlotSize = (locale) => {
                 let value = "";
                 switch (locale) {
+                // eslint-disable-next-line spellcheck/spell-checker
+                case "de-DE":
+                    value = "miniature";
+                    break;
+                case "en-GB":
+                    value = "tiddly";
+                    break;
+                case "en-US":
+                    value = "mini";
+                    break;
+                case "es-ES":
                     // eslint-disable-next-line spellcheck/spell-checker
-                    case "de-DE":
-                        value = "miniature";
-                        break;
-                    case "en-GB":
-                        value = "tiddly";
-                        break;
-                    case "en-US":
-                        value = "mini";
-                        break;
-                    case "es-ES":
-                        // eslint-disable-next-line spellcheck/spell-checker
-                        value = "minúsculo";
-                        break;
+                    value = "minúsculo";
+                    break;
                 }
                 return { size: value };
             };
-            
+
             const runner = new TestRunner({
                 configurationPath: "test/PetMatchSkill/testing.json",
-                testDirectory: "test/PetMatchSkill"
+                testDirectory: "test/PetMatchSkill",
             });
             const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");
-            
+
             expect(results.length).toEqual(4);
             expect(results[0].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[0].locale));
             expect(results[1].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[1].locale));
@@ -459,9 +455,9 @@ describe("virtual alexa runner", () => {
 
         test("localization files", async () => {
             const runner = new TestRunner({
-                testDirectory: "test/MultiLocaleFactSkill"
+                testDirectory: "test/MultiLocaleFactSkill",
             });
-            const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");                    
+            const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");
             expect(results.length).toEqual(4);
 
             expect(results[0].test.description).toEqual("Multi locale skill");
@@ -502,7 +498,7 @@ describe("virtual alexa runner", () => {
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
-                supportedInterfaces: "VideoApp"
+                supportedInterfaces: "VideoApp",
             });
 
             const runner = new TestRunner();
@@ -544,7 +540,6 @@ describe("virtual alexa runner", () => {
         });
     });
 
-
     describe("deviceId and userId", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
@@ -557,7 +552,7 @@ describe("virtual alexa runner", () => {
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
-                userId: "MyUserId"
+                userId: "MyUserId",
             });
 
             const runner = new TestRunner();
@@ -574,7 +569,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
-                skillURL: "http://httpbin.org/post"
+                skillURL: "http://httpbin.org/post",
             });
         });
 
@@ -597,8 +592,8 @@ describe("virtual alexa runner", () => {
                 ignoreProperties: {
                     alexa: {
                         paths: "streamURL, display.array[0].url",
-                        type: "unit"
-                    }
+                        type: "unit",
+                    },
                 },
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
@@ -611,11 +606,11 @@ describe("virtual alexa runner", () => {
 
         test("ignore streamURL", async () => {
             const runner = new TestRunner();
-    
+
             const results = await runner.run("test/FactSkill/fact-skill-ignore-props.yml");
             expect(results.length).toEqual(2);
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[1].error).toBeUndefined();
         });
-    })
+    });
 });

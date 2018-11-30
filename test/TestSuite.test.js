@@ -10,7 +10,7 @@ describe("test suite", () => {
     describe("supportedInterfaces", () => {
         test("only videoAppSupported", async () => {
             Configuration.configure({
-                supportedInterfaces: "VideoApp"
+                supportedInterfaces: "VideoApp",
             });
     
             const testSuite = new TestSuite();
@@ -22,7 +22,7 @@ describe("test suite", () => {
 
         test("audioPlayerSupported and displaySupported", async () => {
             Configuration.configure({
-                supportedInterfaces: "AudioPlayer, Display"
+                supportedInterfaces: "AudioPlayer, Display",
             });
     
             const testSuite = new TestSuite();
@@ -66,7 +66,7 @@ describe("test suite", () => {
         test("defaultValue", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
-                locale: "en-GB"
+                locale: "en-GB",
             });
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
@@ -78,7 +78,7 @@ describe("test suite", () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
                 interactionModel: "../models/en-GB.json",
-                locale: "en-GB"
+                locale: "en-GB",
             });
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");

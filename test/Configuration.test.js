@@ -18,7 +18,7 @@ describe("configuration", () => {
 
     test("override configuration with cli", async () => {
         const cliOverrides = {
-            "jest.collectCoverage": "false"
+            "jest.collectCoverage": "false",
         };
         await Configuration.configure({}, "", cliOverrides);
         const jestConfiguration = Configuration.instance().value("jest");
@@ -27,7 +27,7 @@ describe("configuration", () => {
 
     describe("override configuration write a skill testing file", () => {
         beforeEach(async () => {
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 exec("rm -rf " + Configuration.skillTestingConfigDirectory(), async function () {
                     resolve();
                 });
@@ -36,7 +36,7 @@ describe("configuration", () => {
 
         test("generate file", async () => {
             const cliOverrides = {
-                "jest.collectCoverage": "false"
+                "jest.collectCoverage": "false",
             };
             await Configuration.configure({}, "", cliOverrides, true);
             const jestConfiguration = Configuration.instance().value("jest");
@@ -117,7 +117,7 @@ describe("configuration", () => {
             "jest.verbose",
         ];
 
-        keys.forEach(key => {
+        keys.forEach((key) => {
             const match = ConfigurationKeys.find(item => item.key === key);
             expect(match).toBeDefined();
             expect(match.key).toBeDefined();

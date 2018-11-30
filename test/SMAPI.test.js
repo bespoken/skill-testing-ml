@@ -18,14 +18,18 @@ describeIf("SMAPI tests", () => {
         if (fs.existsSync(askConfigPath)) {
             return;
         }
-        
+
         // We get the key values for creating the ASK config from environment variables
-        if (!process.env.ASK_ACCESS_TOKEN ||
-            !process.env.ASK_REFRESH_TOKEN ||
-            !process.env.ASK_VENDOR_ID ||
-            !process.env.ASK_SKILL_ID ||
-            !process.env.VIRTUAL_DEVICE_TOKEN) {
-            throw new Error("Environment variables ASK_ACCESS_TOKEN, ASK_REFRESH_TOKEN, ASK_VENDOR_ID, ASK_SKILL_ID and VIRTUAL_DEVICE_TOKEN must all be set");
+        if (
+            !process.env.ASK_ACCESS_TOKEN ||
+			!process.env.ASK_REFRESH_TOKEN ||
+			!process.env.ASK_VENDOR_ID ||
+			!process.env.ASK_SKILL_ID ||
+			!process.env.VIRTUAL_DEVICE_TOKEN
+        ) {
+            throw new Error(
+                "Environment variables ASK_ACCESS_TOKEN, ASK_REFRESH_TOKEN, ASK_VENDOR_ID, ASK_SKILL_ID and VIRTUAL_DEVICE_TOKEN must all be set"
+            );
         }
 
         // Create the JSON, substituting environment variables for secret values
@@ -38,12 +42,12 @@ describeIf("SMAPI tests", () => {
                         expires_at: "2018-11-23T23:52:46.552Z",
                         expires_in: 3600,
                         refresh_token: process.env.ASK_REFRESH_TOKEN,
-                        token_type: "bearer"
+                        token_type: "bearer",
                     },
                     vendor_id: process.env.ASK_VENDOR_ID,
-                }
-            }
-        }
+                },
+            },
+        };
 
         // Write the config to disk
         const askDir = path.join(os.homedir(), ".ask");
@@ -59,22 +63,31 @@ describeIf("SMAPI tests", () => {
         const smapi = new SMAPI(token, skillID, "en-US", true);
         let result = await smapi.simulate("launch guess the gif", true);
         expect(result.status).toBe("SUCCESSFUL");
-        let skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
+        let skillResponse =
+			result.result.skillExecutionInfo.invocationResponse.body;
         expect(skillResponse.response.outputSpeech.type).toBe("SSML");
-        if (skillResponse.response.outputSpeech.ssml.includes("Please say yes or no")) {
+        if (
+            skillResponse.response.outputSpeech.ssml.includes(
+                "Please say yes or no"
+            )
+        ) {
             result = await smapi.simulate("yes");
-            skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
+            skillResponse =
+				result.result.skillExecutionInfo.invocationResponse.body;
             expect(skillResponse.response.outputSpeech.ssml).toBe("Guess");
         }
     });
 
     test.skip("simulate with access token", async () => {
-        const token = await SMAPI.fetchAccessTokenFromServer(process.env.VIRTUAL_DEVICE_TOKEN);
+        const token = await SMAPI.fetchAccessTokenFromServer(
+            process.env.VIRTUAL_DEVICE_TOKEN
+        );
         const skillID = process.env.ASK_SKILL_ID;
         const smapi = new SMAPI(token, skillID, "en-US", false);
         let result = await smapi.simulate("launch guess the gif", true);
         expect(result.status).toBe("SUCCESSFUL");
-        let skillResponse = result.result.skillExecutionInfo.invocationResponse.body;
+        let skillResponse =
+			result.result.skillExecutionInfo.invocationResponse.body;
         expect(skillResponse.response.outputSpeech.type).toBe("SSML");
     });
 });

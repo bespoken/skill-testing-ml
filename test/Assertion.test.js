@@ -55,7 +55,7 @@ describe("assertion", () => {
         const obj = new MockResponse({
             notNumber: "notNumber",
             number: 100,
-            numberString: "100"
+            numberString: "100",
         });
 
         // Core operator tests

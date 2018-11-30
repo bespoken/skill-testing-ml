@@ -14,7 +14,7 @@ describeIf("SMAPI Invoker Tests", () => {
             const runner = new TestRunner({
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
-                type: "simulation"
+                type: "simulation",
             });
             const results = await runner.run("test/GuessTheGifSkill/index.test.yml");
             expect(results.length).toEqual(2);
@@ -32,7 +32,7 @@ describeIf("SMAPI Invoker Tests", () => {
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
                 type: "simulation",
-                virtualDeviceToken: process.env.VIRTUAL_DEVICE_TOKEN
+                virtualDeviceToken: process.env.VIRTUAL_DEVICE_TOKEN,
             });
             const results = await runner.run("test/GuessTheGifSkill/simple.test.yml");
             expect(results.length).toEqual(1);
@@ -47,7 +47,7 @@ describeIf("SMAPI Invoker Tests", () => {
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
                 type: "simulation",
-                virtualDeviceToken: "nonsense"
+                virtualDeviceToken: "nonsense",
             });
 
             try {
@@ -63,7 +63,7 @@ describeIf("SMAPI Invoker Tests", () => {
             expect.assertions(1);
             const runner = new TestRunner({
                 locale: "en-US",
-                type: "simulation"
+                type: "simulation",
             });
 
             try {

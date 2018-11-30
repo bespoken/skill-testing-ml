@@ -13,8 +13,13 @@
         "jest", "sort-class-members", "sort-requires", "spellcheck"
     ],
     "rules": {
+        "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }],
+        "comma-dangle": ["error", "always-multiline"],
+        "indent": ["error", 4],
+        "max-len": ["error", 200],
         "no-console": "error",
         "quotes": ["error", "double"],
+        "semi": ["error", "always"],
         "sort-class-members/sort-class-members": [2, {
             "order": [
                 "[static-properties]",
