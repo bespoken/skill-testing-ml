@@ -16,6 +16,16 @@ jobs:
           path: reports/junit
       - store_artifacts:
           path: reports/junit
+  test-smapi:
+    docker:
+      - image: circleci/node:8
+    environment:
+      SMAPI: true
+    steps:
+      - checkout
+      - run: npm install
+      - run: sudo npm install ask-cli -g
+      - run: npm run test.smapi
   test-babel:
       docker:
         - image: circleci/node:8
@@ -29,3 +39,4 @@ workflows:
     jobs:
       - test
       - test-babel
+      - test-smapi

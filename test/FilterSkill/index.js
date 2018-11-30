@@ -14,4 +14,4 @@ exports.handler = function(event, context) {
     response.userId = event.session.user.userId;
     response.deviceId = event.context.System.device.deviceId;
     context.done(null, response);
-}
+};

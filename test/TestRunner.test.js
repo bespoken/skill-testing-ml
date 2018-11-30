@@ -14,7 +14,7 @@ describe("test runner", () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -40,7 +40,7 @@ describe("test runner", () => {
             handler: "test/FactSkill/index.handler",
             include: ["alexa"],
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -67,7 +67,7 @@ describe("test runner", () => {
             exclude: ["alexa"],
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -95,7 +95,7 @@ describe("test runner", () => {
             handler: "test/FactSkill/index.handler",
             include: ["alexa"],
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -122,7 +122,7 @@ describe("test runner", () => {
             exclude: "broken",
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -149,7 +149,7 @@ describe("test runner", () => {
             handler: "test/FactSkill/index.handler",
             include: "alexa",
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -175,7 +175,7 @@ describe("test runner", () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
             interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US"
+            locale: "en-US",
         });
         const messageCallback = (error, test) => {
             expect(error).toBeUndefined();
@@ -225,7 +225,7 @@ describe("test runner", () => {
     test("batchEnabled true", async () => {
         const runner = new TestRunner({
             type: CONSTANTS.TYPE.e2e,
-            virtualDeviceToken: "123"
+            virtualDeviceToken: "123",
         });
   
         await runner.run("test/FactSkill/fact-skill-tests.yml");
@@ -236,7 +236,7 @@ describe("test runner", () => {
         const runner = new TestRunner({
             batchEnabled: false,
             type: CONSTANTS.TYPE.e2e,
-            virtualDeviceToken: "123"
+            virtualDeviceToken: "123",
         });
   
         await runner.run("test/FactSkill/fact-skill-tests.yml");
@@ -254,7 +254,7 @@ describe("test runner", () => {
 
     test("getInvoker when invoker is defined", async () => {
         Configuration.configure({
-            invoker: "VirtualDeviceInvoker"
+            invoker: "VirtualDeviceInvoker",
         });
 
         const testSuite = new TestSuite();
@@ -266,7 +266,7 @@ describe("test runner", () => {
     test("getInvoker when platform and type are defined", async () => {
         Configuration.configure({
             platform: "alexa",
-            type: "e2e"
+            type: "e2e",
         });
 
         const testSuite = new TestSuite();

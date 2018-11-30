@@ -4,7 +4,7 @@ exports.handler = function(event, context) {
     callAddressAPI(event.context.System.apiAccessToken, event.context.System.device.deviceId).then((response) => {
         context.done(null, response);
     });
-}
+};
 
 function callAddressAPI(apiAccessToken, deviceID) {
     const authorization = "Bearer " + apiAccessToken;

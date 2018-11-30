@@ -87,7 +87,7 @@ describe("virtual google assistant runner", () => {
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
                 locale: "en-US",
-                platform: CONSTANTS.PLATFORM.google
+                platform: CONSTANTS.PLATFORM.google,
             });
         });
 
@@ -126,7 +126,7 @@ describe("virtual google assistant runner", () => {
                 dialogFlowDirectory: "test/FactsAboutGoogle/dialogFlow",
                 expressModule: "test/FactsAboutGoogle/index",
                 locale: "en-US",
-                platform: CONSTANTS.PLATFORM.google
+                platform: CONSTANTS.PLATFORM.google,
             });
             const runner = new TestRunner();
 
@@ -145,7 +145,7 @@ describe("virtual google assistant runner", () => {
                 expressModule: "test/FactsAboutGoogle/index",
                 expressPort: 3000,
                 locale: "en-US",
-                platform: CONSTANTS.PLATFORM.google
+                platform: CONSTANTS.PLATFORM.google,
             });
             const runner = new TestRunner();
 
@@ -167,8 +167,8 @@ describe("virtual google assistant runner", () => {
                 ignoreProperties: {
                     google: {
                         paths: "prompt",
-                        type: "unit"
-                    }
+                        type: "unit",
+                    },
                 },
                 locale: "en-US",
                 platform: CONSTANTS.PLATFORM.google,

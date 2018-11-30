@@ -23,7 +23,7 @@ jest.mock("jest", () => {
 jest.mock("../lib/runner/Configuration", () => {
     return {
         configure: mockConfigure,
-        instance: mockConfiguration
+        instance: mockConfiguration,
     };
 });
 

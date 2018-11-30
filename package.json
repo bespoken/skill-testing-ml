@@ -39,16 +39,21 @@
     "testURL": "http://localhost/",
     "verbose": true
   },
+  "prettier": {
+    "tabWidth": 4
+  },
   "scripts": {
     "babel": "npm run babel.lib && npm run babel.test && npm run babel.bin",
     "babel.lib": "babel lib -d dist/lib",
     "babel.test": "babel test -D -d dist/test",
     "babel.bin": "babel bin -d dist/bin",
     "lint": "eslint --config .eslintrc.json bin lib test",
+    "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
     "pretest": "npm run lint",
     "preversion": "npm test && npm run test.babel",
     "test": "jest",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
+    "test.smapi": "jest --runInBand SMAPI",
     "coverage": "codecov",
     "test.watch": "jest --watchAll"
   },
@@ -78,6 +83,7 @@
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "body-parser": "^1.18.3",
     "codecov": "^3.0.2",
+    "dotenv": "^6.1.0",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "eslint-config-standard": "^11.0.0",

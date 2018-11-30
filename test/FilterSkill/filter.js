@@ -8,5 +8,5 @@ module.exports = {
 
     onResponse: (test, response) => {
         response.responseFiltered = true;
-    }
-}
+    },
+};

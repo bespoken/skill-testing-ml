@@ -46,7 +46,7 @@ describe("test parser", () => {
 --- 
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
   - response === "Here's your fact:*"    
-        `)
+        `);
         try {
             parser.parse();
         } catch (e) {
@@ -61,7 +61,7 @@ describe("test parser", () => {
 --- 
 - LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
 \t- response == "Here's your fact:*"    
-        `)
+        `);
         try {
             parser.parse();
             throw new Error("Tab error wasn't thrown");
@@ -81,7 +81,7 @@ describe("test parser", () => {
   - response.outputSpeech.ssml: "/Here's your fact: .*/" 
   - response.outputSpeech.ssml: 15
   - response: undefined 
-        `)
+        `);
         const testSuite = parser.parse();
         const assertion = testSuite.tests[0].interactions[0].assertions[0];
         expect(assertion.path).toEqual("response.outputSpeech.ssml");
@@ -118,7 +118,7 @@ describe("test parser", () => {
 --- 
 - LaunchRequest:
 - LaunchRequest: "*"
-        `)
+        `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(2);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(0);
@@ -134,7 +134,7 @@ describe("test parser", () => {
 - LaunchRequest:
   - request.test.value: A value
   - request.test.value2: Another value
-        `)
+        `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(1);
         expect(testSuite.tests[0].interactions[0].expressions.length).toBe(2);
@@ -344,13 +344,11 @@ configuration:
 
         expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
 
-
         expect(testSuite.tests[0].interactions[1].utterance).toBe("Intent2 Slot2=ValueSlot2");
         expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
         expect(testSuite.tests[0].interactions[1].assertions[0].path).toBe("prompt");
         expect(testSuite.tests[0].interactions[1].assertions[0].value).toBe("Sure, here's a history fact");
         expect(testSuite.tests[0].interactions[1].assertions[0].operator).toBe("==");
-
     });
 
     test("parses file with only tests", () => {
@@ -399,7 +397,6 @@ configuration:
         expect(testSuite.tests[3].tags).toBe(undefined);
     });
 
-
     describe("findReplace", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
@@ -408,8 +405,8 @@ configuration:
         test("replace values", () => {
             Configuration.configure({
                 findReplace: {
-                    "INVOCATION_NAME": "my skill"
-                 }
+                    INVOCATION_NAME: "my skill",
+                },
             });
 
             const parser = new TestParser();
@@ -418,7 +415,7 @@ configuration:
 - open INVOCATION_NAME:
   - request.test.value: A value
   - request.test.value2: Another value
-        `)
+        `);
             const testSuite = parser.parse();
             expect(testSuite.tests[0].interactions.length).toBe(1);
             expect(testSuite.tests[0].interactions[0].utterance).toBe("open my skill");

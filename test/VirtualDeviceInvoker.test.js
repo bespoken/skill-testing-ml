@@ -21,9 +21,9 @@ describe("virtual device integration", () => {
                 test: {
                     testSuite: {
                         invocationName: "space fact",
-                        virtualDeviceToken: "123"
-                    }
-                }
+                        virtualDeviceToken: "123",
+                    },
+                },
             };
             message.mockClear();
         });
@@ -118,7 +118,7 @@ describe("virtual device runner", () => {
                 type: CONSTANTS.TYPE.e2e,
                 // eslint-disable-next-line spellcheck/spell-checker
                 virtualDeviceToken: "space fact",
-                voiceId: "voiceId"
+                voiceId: "voiceId",
             });
             mockVirtualDevice.mockClear();
         });
@@ -177,7 +177,7 @@ describe("virtual device runner", () => {
         });
 
         test("one token", async () => {
-            config.virtualDeviceToken = "space fact"
+            config.virtualDeviceToken = "space fact";
             Configuration.configure(config);
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
@@ -219,8 +219,8 @@ describe("virtual device runner", () => {
                     // eslint-disable-next-line spellcheck/spell-checker
                     "de-DE": "alexaTokenDE",
                     // eslint-disable-next-line spellcheck/spell-checker
-                    "en-US": "alexaTokenUS"
-                }
+                    "en-US": "alexaTokenUS",
+                },
             };
             Configuration.configure(config);
             const runner = new TestRunner();
@@ -240,7 +240,7 @@ describe("virtual device runner", () => {
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 // eslint-disable-next-line spellcheck/spell-checker
-                virtualDeviceToken: "space fact"
+                virtualDeviceToken: "space fact",
             });
         });
 
@@ -269,7 +269,7 @@ describe("virtual device runner", () => {
             return Configuration.configure({
                 handler: "test/ExceptionSkill/index.handler",
                 interactionModel: "test/ExceptionSkill/en-US.json",
-                locale: "en-US"
+                locale: "en-US",
             });
         });
 
@@ -287,7 +287,7 @@ describe("virtual device runner", () => {
             Configuration.configure({
                 platform: CONSTANTS.PLATFORM.google,
                 type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact"
+                virtualDeviceToken: "space fact",
             });            
             const runner = new TestRunner();
 
@@ -303,7 +303,7 @@ describe("virtual device runner", () => {
             Configuration.configure({
                 ignoreExternalErrors: true,
                 type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact"
+                virtualDeviceToken: "space fact",
             });
             const runner = new TestRunner();
 
@@ -326,7 +326,7 @@ describe("virtual device runner", () => {
             
             Configuration.configure({
                 type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact"
+                virtualDeviceToken: "space fact",
             });
             const runner = new TestRunner();
 
@@ -356,7 +356,7 @@ describe("virtual device runner", () => {
             
             Configuration.configure({
                 type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact"
+                virtualDeviceToken: "space fact",
             });
             const runner = new TestRunner();
 
@@ -382,8 +382,8 @@ describe("virtual device runner", () => {
                 ignoreProperties: {
                     google: {
                         paths: "streamURL, display.array[0].url",
-                        type: "e2e"
-                    }
+                        type: "e2e",
+                    },
                 },
                 platform: CONSTANTS.PLATFORM.google,
                 type: CONSTANTS.TYPE.e2e,
