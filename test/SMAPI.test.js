@@ -84,7 +84,8 @@ describeIf("SMAPI tests", () => {
     });
 
     test("Gets a non-default token when environment variable is set", () => {
-        // In order to run this test locally, need to set a "nonDefault" profile in .ask/cli_config
+        // In order to run this test locally, need to create a "nonDefault" profile in .ask/cli_config
+        // See the JSON above for what that should look like
         process.env.ASK_DEFAULT_PROFILE = "nonDefault";
         const token = SMAPI.fetchAccessTokenFromConfig();
         expect(token).toBe("TEST");
