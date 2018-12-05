@@ -46,6 +46,11 @@ describeIf("SMAPI tests", () => {
                     },
                     vendor_id: process.env.ASK_VENDOR_ID,
                 },
+                nonDefault: {
+                    token: {
+                        access_token: "TEST",
+                    },
+                },
             },
         };
 
@@ -76,6 +81,15 @@ describeIf("SMAPI tests", () => {
 				result.result.skillExecutionInfo.invocationResponse.body;
             expect(skillResponse.response.outputSpeech.ssml).toBe("Guess");
         }
+    });
+
+    test("Gets a non-default token when environment variable is set", () => {
+        // In order to run this test locally, need to create a "nonDefault" profile in .ask/cli_config
+        // See the JSON above for what that should look like
+        process.env.ASK_DEFAULT_PROFILE = "nonDefault";
+        const token = SMAPI.fetchAccessTokenFromConfig();
+        expect(token).toBe("TEST");
+        delete process.env.ASK_DEFAULT_PROFILE;
     });
 
     test.skip("simulate with access token", async () => {
