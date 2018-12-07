@@ -119,7 +119,9 @@ describe("JestAdapter", async () => {
         test2.skip = true;
 
         const testResult = new TestResult(test);
+        testResult.locale = "en-US";
         const testResult2 = new TestResult(test2);
+        testResult2.locale = "en-US";
 
         const results = [testResult, testResult2];
 
@@ -130,6 +132,9 @@ describe("JestAdapter", async () => {
         expect(jestResults.numPendingTests).toBe(2);
         expect(jestResults.skipped).toBe(true);
 
+
+        expect(jestResults.testResults[0].ancestorTitles[0]).toBe("en-US");
+        expect(jestResults.testResults[1].ancestorTitles[0]).toBe("en-US");
         expect(jestResults.testResults[0].ancestorTitles[1]).toBe("Test 1");
         expect(jestResults.testResults[1].ancestorTitles[1]).toBe("Test 2");
 
