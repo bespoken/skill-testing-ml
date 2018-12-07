@@ -109,4 +109,17 @@ describe("test suite", () => {
             expect(testSuite.handler).toBe(path.normalize("test/index.handler"));
         });
     });
+
+    describe("filter", () => {
+        test("relative path", async () => {
+            Configuration.configure({
+                configurationPath: "test/TestFiles/testing.json",
+                filter: "../Filters/testFilter.js",
+            });
+
+            const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
+
+            expect(testSuite.filterObject().onRequest).toBeDefined();
+        });
+    });
 });
