@@ -119,19 +119,28 @@ describe("JestAdapter", async () => {
         test2.skip = true;
 
         const testResult = new TestResult(test);
-        const interaction = new TestInteraction("Hi");
-        const interactionResult = new InteractionResult(interaction);
-        testResult.addInteractionResult(interactionResult);
-
+        testResult.locale = "en-US";
         const testResult2 = new TestResult(test2);
+        testResult2.locale = "en-US";
 
         const results = [testResult, testResult2];
 
         const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
+
         expect(jestResults.numPassingTests).toBe(0);
         expect(jestResults.numFailingTests).toBe(0);
         expect(jestResults.numPendingTests).toBe(2);
         expect(jestResults.skipped).toBe(true);
+
+
+        expect(jestResults.testResults[0].ancestorTitles[0]).toBe("en-US");
+        expect(jestResults.testResults[1].ancestorTitles[0]).toBe("en-US");
+        expect(jestResults.testResults[0].ancestorTitles[1]).toBe("Test 1");
+        expect(jestResults.testResults[1].ancestorTitles[1]).toBe("Test 2");
+
+        expect(jestResults.testResults[0].title).toBe("");
+        expect(jestResults.testResults[1].title).toBe("");
+
         expect(jestResults.testResults[0].status).toBe("pending");
         expect(jestResults.testResults[1].status).toBe("pending");
     });
