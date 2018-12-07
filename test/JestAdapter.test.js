@@ -119,10 +119,6 @@ describe("JestAdapter", async () => {
         test2.skip = true;
 
         const testResult = new TestResult(test);
-        const interaction = new TestInteraction("Hi");
-        const interactionResult = new InteractionResult(interaction);
-        testResult.addInteractionResult(interactionResult);
-
         const testResult2 = new TestResult(test2);
 
         const results = [testResult, testResult2];
