@@ -124,10 +124,18 @@ describe("JestAdapter", async () => {
         const results = [testResult, testResult2];
 
         const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
+
         expect(jestResults.numPassingTests).toBe(0);
         expect(jestResults.numFailingTests).toBe(0);
         expect(jestResults.numPendingTests).toBe(2);
         expect(jestResults.skipped).toBe(true);
+
+        expect(jestResults.testResults[0].ancestorTitles[1]).toBe("Test 1");
+        expect(jestResults.testResults[1].ancestorTitles[1]).toBe("Test 2");
+
+        expect(jestResults.testResults[0].title).toBe("");
+        expect(jestResults.testResults[1].title).toBe("");
+
         expect(jestResults.testResults[0].status).toBe("pending");
         expect(jestResults.testResults[1].status).toBe("pending");
     });
