@@ -2,36 +2,41 @@
   "description": "",
   "language": "en",
   "disableInteractionLogs": false,
+  "disableStackdriverLogs": true,
   "googleAssistant": {
     "googleAssistantCompatible": true,
+    "project": "guesstheprice-dc835",
     "welcomeIntentSignInRequired": false,
     "startIntents": [],
     "systemIntents": [],
-    "endIntentIds": [
-      "01c9e176-80f8-4f63-a661-9efb715f847e"
-    ],
+    "endIntentIds": [],
     "oAuthLinking": {
       "required": false,
       "grantType": "AUTH_CODE_GRANT"
     },
     "voiceType": "MALE_1",
     "capabilities": [],
-    "protocolVersion": "V2"
+    "protocolVersion": "V2",
+    "isDeviceAgent": false
   },
   "defaultTimezone": "America/New_York",
   "webhook": {
-    "url": "https://us-central1-[PROJECT_ID].cloudfunctions.net/sillyNameMaker",
+    "url": "https://grave-orwell-00tYQ4.bespoken.link/",
     "headers": {
       "": ""
     },
     "available": true,
-    "useForDomains": false,
+    "useForDomains": true,
     "cloudFunctionsEnabled": false,
     "cloudFunctionsInitialized": false
   },
   "isPrivate": true,
   "customClassifierMode": "use.after",
-  "mlMinConfidence": 0.2,
+  "mlMinConfidence": 0.3,
   "supportedLanguages": [],
-  "enableOnePlatformApi": true
+  "onePlatformApiVersion": "v2",
+  "analyzeQueryTextSentiment": false,
+  "enabledKnowledgeBaseNames": [],
+  "knowledgeServiceConfidenceAdjustment": -0.4,
+  "dialogBuilderMode": false
 }
