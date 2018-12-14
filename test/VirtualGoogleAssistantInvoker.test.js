@@ -80,6 +80,32 @@ describe("virtual google assistant runner", () => {
         });
     });
 
+    describe("Google Assistant with .https.onRequest tests", () => {
+        beforeEach(async () => {
+            await Configuration.configure({
+                dialogFlowDirectory: "test/FirebaseFunctionAndGoogleAssistant/GuessThePrice",
+                handler: "test/FirebaseFunctionAndGoogleAssistant/functions/index.myFunction",
+                locale: "en-US",
+                platform: CONSTANTS.PLATFORM.google,
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("runs fact skill test", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FirebaseFunctionAndGoogleAssistant/test/test.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].test.description).toEqual("Launch request");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+
+        }, 10000);
+    });
+
     describe("Complex tests", () => {
         beforeEach(async () => {
             await Configuration.configure({
