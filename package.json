@@ -42,6 +42,10 @@
   "prettier": {
     "tabWidth": 4
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bespoken/skill-testing-ml.git"
+  },
   "scripts": {
     "babel": "npm run babel.lib && npm run babel.test && npm run babel.bin",
     "babel.lib": "babel lib -d dist/lib",
@@ -66,7 +70,7 @@
     "jest": "^22.4.4",
     "jest-message-util": "^22.4.3",
     "js-yaml-bespoken": "^3.11.5",
-    "jsonpath": "^1.0.0",
+    "jsonpath-bespoken": "^1.0.1",
     "lodash": "^4.17.5",
     "virtual-alexa": "^0.6.14",
     "virtual-device-sdk": "^1.5.1",
