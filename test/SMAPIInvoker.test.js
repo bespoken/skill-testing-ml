@@ -89,7 +89,7 @@ describeIf("SMAPI Invoker Tests", () => {
             try {
                 await runner.run("test/GuessTheGifSkill/index.test.yml");
             } catch (e) {
-                expect(e.message).toContain("stage must be specified");
+                expect(e.message).toContain("stage must be set");
             }
         }, 10000);
 
@@ -107,7 +107,7 @@ describeIf("SMAPI Invoker Tests", () => {
             try {
                 await runner.run("test/GuessTheGifSkill/index.test.yml");
             } catch (e) {
-                expect(e.message).toContain("stage accepted values are development and live");
+                expect(e.message).toContain("Invalid value for stage");
             }
         }, 10000);
     });
