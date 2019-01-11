@@ -25,7 +25,8 @@ jobs:
       - checkout
       - run: npm install
       - run: sudo npm install ask-cli -g
-      - run: npm run test.smapi
+      - run: npm run test.smapi.1
+      - run: npm run test.smapi.2
   test-babel:
       docker:
         - image: circleci/node:8

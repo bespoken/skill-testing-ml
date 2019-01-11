@@ -122,4 +122,17 @@ describe("test suite", () => {
             expect(testSuite.filterObject().onRequest).toBeDefined();
         });
     });
+
+    describe("stage", () => {
+        test("get", async () => {
+            Configuration.configure({
+                configurationPath: "test/TestFiles/testing.json",
+                filter: "../Filters/testFilter.js",                
+                stage: "live",
+            });
+
+            const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
+            expect(testSuite.stage).toBe("live");
+        });
+    });
 });
