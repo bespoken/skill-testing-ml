@@ -14,6 +14,7 @@ describeIf("SMAPI Invoker Tests", () => {
             const runner = new TestRunner({
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
+                stage: "live",
                 type: "simulation",
             });
             const results = await runner.run("test/GuessTheGifSkill/index.test.yml");
@@ -31,6 +32,7 @@ describeIf("SMAPI Invoker Tests", () => {
             const runner = new TestRunner({
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
+                stage: "live",
                 type: "simulation",
                 virtualDeviceToken: process.env.VIRTUAL_DEVICE_TOKEN,
             });
@@ -46,6 +48,7 @@ describeIf("SMAPI Invoker Tests", () => {
             const runner = new TestRunner({
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
+                stage: "live",
                 type: "simulation",
                 virtualDeviceToken: "nonsense",
             });
@@ -70,6 +73,41 @@ describeIf("SMAPI Invoker Tests", () => {
                 await runner.run("test/GuessTheGifSkill/index.test.yml");
             } catch (e) {
                 expect(e.message).toContain("skillId must be specified");
+            }
+        }, 10000);
+
+        test("exception when there is no stage", async () => {
+            // We need to make sure to reset the configuration before running this test
+            Configuration.reset();
+            expect.assertions(1);
+            const runner = new TestRunner({
+                locale: "en-US",
+                skillId: "SKILL_ID",
+                type: "simulation",
+            });
+
+            try {
+                await runner.run("test/GuessTheGifSkill/index.test.yml");
+            } catch (e) {
+                expect(e.message).toContain("stage must be set");
+            }
+        }, 10000);
+
+        test("exception when stage is invalid", async () => {
+            // We need to make sure to reset the configuration before running this test
+            Configuration.reset();
+            expect.assertions(1);
+            const runner = new TestRunner({
+                locale: "en-US",
+                skillId: "SKILL_ID",
+                stage: "invalid",
+                type: "simulation",
+            });
+
+            try {
+                await runner.run("test/GuessTheGifSkill/index.test.yml");
+            } catch (e) {
+                expect(e.message).toContain("Invalid value for stage");
             }
         }, 10000);
     });
