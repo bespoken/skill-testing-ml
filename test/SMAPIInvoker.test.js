@@ -2,6 +2,7 @@ require("dotenv").config();
 const Configuration = require("../lib/runner/Configuration");
 const nock = require("nock");
 const TestRunner = require("../lib/runner/TestRunner");
+const Util = require("../lib/util/Util");
 
 // Only run these tests when the SMAPI environment variable is set
 const describeIf = process.env.SMAPI ? describe : describe.skip;
@@ -23,6 +24,10 @@ describeMock("SMAPI test with mock calls", () => {
             }],
         },
     });
+    beforeAll(() => {
+        // Create an ask config if it does not exist
+        Util.createAskCliConfig();
+    });    
     beforeEach(() => {
         Configuration.reset();
         nock.cleanAll();
@@ -77,12 +82,22 @@ describeMock("SMAPI test with mock calls", () => {
         expect(results[0].interactionResults[0].error).toContain("Skill is currently disabled in development stage.");
     });    
 
+    afterEach(() => {
+        if(!nock.isDone()) {
+            nock.cleanAll();
+        }
+    });
 });
 
 // See the note on SMAPI.test.js with regard to tests for SMAPI code
 // These are separated from other tests because of their complex setup
 describeIf("SMAPI Invoker Tests", () => {
     describe("various simulation scenarios", async () => {
+        beforeAll(() => {
+            // Create an ask config if it does not exist
+            Util.createAskCliConfig();
+            nock.cleanAll();
+        });
 
         test("runs guess the gif skill test configured via ASK CLI", async () => {
             const runner = new TestRunner({
