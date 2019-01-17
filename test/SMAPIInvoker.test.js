@@ -1,14 +1,103 @@
 require("dotenv").config();
 const Configuration = require("../lib/runner/Configuration");
+const nock = require("nock");
 const TestRunner = require("../lib/runner/TestRunner");
+const Util = require("../lib/util/Util");
 
 // Only run these tests when the SMAPI environment variable is set
 const describeIf = process.env.SMAPI ? describe : describe.skip;
+const describeMock = process.env.SMAPI ? describe.skip : describe;
+
+describeMock("SMAPI test with mock calls", () => {
+    const getResult = () => ({
+        skillExecutionInfo: {
+            invocations: [{
+                invocationResponse: {
+                    body: {
+                        response: {
+                            outputSpeech: {
+                                text: "Take a look at this image",
+                            },
+                        },
+                    },
+                },
+            }],
+        },
+    });
+    beforeAll(() => {
+        // Create an ask config if it does not exist
+        Util.createAskCliConfig();
+    });    
+    beforeEach(() => {
+        Configuration.reset();
+        nock.cleanAll();
+        nock("https://api.amazonalexa.com")
+            .post("/v2/skills/skillId/stages/live/simulations")
+            .reply(200, {
+                id: "simulationId",
+            });
+    });
+    
+    test("simple successful test", async () => {
+        nock("https://api.amazonalexa.com")
+            .get("/v2/skills/skillId/stages/live/simulations/simulationId")
+            .reply(200, {
+                id: "simulationId",
+                result: getResult(),
+                status: "SUCCESSFUL",
+            });
+        const runner = new TestRunner({
+            locale: "en-US",
+            skillId: "skillId",
+            stage: "live",
+            type: "simulation",
+        });            
+        const results = await runner.run("test/GuessTheGifSkill/simple.test.yml");
+        expect(results.length).toEqual(1);
+        expect(results[0].passed).toBe(true);
+    });
+
+    test("simple failed test", async () => {
+        const result = {
+            error: {
+                message : "Skill is currently disabled in development stage.",
+            },
+        };
+        nock("https://api.amazonalexa.com")
+            .get("/v2/skills/skillId/stages/live/simulations/simulationId")
+            .reply(200, {
+                id: "simulationId",
+                result: result,
+                status: "FAILED",
+            });
+        const runner = new TestRunner({
+            locale: "en-US",
+            skillId: "skillId",
+            stage: "live",
+            type: "simulation",
+        });            
+        const results = await runner.run("test/GuessTheGifSkill/simple.test.yml");
+        expect(results.length).toEqual(1);
+        expect(results[0].passed).toBe(false);
+        expect(results[0].interactionResults[0].error).toContain("Skill is currently disabled in development stage.");
+    });    
+
+    afterEach(() => {
+        if(!nock.isDone()) {
+            nock.cleanAll();
+        }
+    });
+});
 
 // See the note on SMAPI.test.js with regard to tests for SMAPI code
 // These are separated from other tests because of their complex setup
 describeIf("SMAPI Invoker Tests", () => {
     describe("various simulation scenarios", async () => {
+        beforeAll(() => {
+            // Create an ask config if it does not exist
+            Util.createAskCliConfig();
+            nock.cleanAll();
+        });
 
         test("runs guess the gif skill test configured via ASK CLI", async () => {
             const runner = new TestRunner({

@@ -100,6 +100,7 @@
     "firebase-admin": "^5.12.1",
     "firebase-functions": "^1.1.0",
     "jest-junit": "^3.7.0",
+    "nock": "^10.0.6",
     "sprintf-js": "^1.1.1"
   }
 }
