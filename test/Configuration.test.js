@@ -45,6 +45,46 @@ describe("configuration", () => {
         });
     });
 
+    describe("Reporter jest property is setup correctly", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("no reporters present", async () => {
+            await Configuration.configure({}, "", null, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.reporters).toEqual(["default", "jest-html-reporters"]);
+        });
+
+        test("reporters present in configuration (console)", async () => {
+            await Configuration.configure({
+                reporters: ["console"],
+            }, "", null, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.reporters).toEqual(["default"]);
+        });
+
+
+        test("reporters present in configuration (html)", async () => {
+            await Configuration.configure({
+                reporters: ["html"],
+            }, "", null, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.reporters).toEqual(["jest-html-reporters"]);
+        });
+
+
+        test("reporters present in overwrite from CLI (html)", async () => {
+            const cliOverrides = {
+                "reporters": "console,somethingElse",
+            };
+            await Configuration.configure({
+            }, "", cliOverrides, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.reporters).toEqual(["default"]);
+        });
+    });
+
     describe("test path", function () {
         test("testing.json same folder of test file", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e");
@@ -103,6 +143,7 @@ describe("configuration", () => {
             "locales",
             "locale",
             "trace",
+            "reporters",
             "runInBand",
             "include",
             "exclude",
