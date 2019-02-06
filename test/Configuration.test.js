@@ -4,6 +4,13 @@ const fs = require("fs");
 const path = require("path");
 const {exec} = require("child_process");
 
+const HTML_REPORTER = [
+    "jest-html-reporters",
+    {
+        filename: "html_report.html",
+    },
+];
+
 describe("configuration", () => {
     beforeEach(() => {
         Configuration.singleton = undefined;
@@ -53,7 +60,7 @@ describe("configuration", () => {
         test("no reporters present", async () => {
             await Configuration.configure({}, "", null, true);
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.reporters).toEqual(["default", "jest-html-reporters"]);
+            expect(jestConfiguration.reporters).toEqual(["default", HTML_REPORTER]);
         });
 
         test("reporters present in configuration (console)", async () => {
@@ -70,7 +77,7 @@ describe("configuration", () => {
                 reporters: ["html"],
             }, "", null, true);
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.reporters).toEqual(["jest-html-reporters"]);
+            expect(jestConfiguration.reporters).toEqual([HTML_REPORTER]);
         });
 
 
