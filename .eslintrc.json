@@ -67,6 +67,7 @@
                     "goto",
                     "homedir",
                     "hostname",
+                    "html",
                     "http",
                     "https",
                     "invoker",
