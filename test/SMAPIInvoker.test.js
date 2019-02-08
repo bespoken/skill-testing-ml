@@ -38,7 +38,7 @@ describeMock("SMAPI test with mock calls", () => {
             });
     });
     
-    test("simple successful test", async () => {
+    test.skip("simple successful test", async () => {
         nock("https://api.amazonalexa.com")
             .get("/v2/skills/skillId/stages/live/simulations/simulationId")
             .reply(200, {
@@ -57,7 +57,7 @@ describeMock("SMAPI test with mock calls", () => {
         expect(results[0].passed).toBe(true);
     });
 
-    test("simple failed test", async () => {
+    test.skip("simple failed test", async () => {
         const result = {
             error: {
                 message : "Skill is currently disabled in development stage.",
