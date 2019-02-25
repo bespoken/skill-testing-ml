@@ -18,7 +18,7 @@ describeIf("SMAPI tests", () => {
     test("simulate with ASK CLI", async () => {
         const token = SMAPI.fetchAccessTokenFromConfig();
         const skillID = process.env.ASK_SKILL_ID;
-        const smapi = new SMAPI(token, skillID, "live", "en-US", true);
+        const smapi = new SMAPI(token, skillID, "development", "en-US", true);
         let result = await smapi.simulate("launch guess the gif", true);
         expect(result.status).toBe("SUCCESSFUL");
         let skillResponse =
