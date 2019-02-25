@@ -74,6 +74,7 @@
                     "invoker",
                     "js",
                     "jsonpath",
+                    "lcov",
                     "lodash",
                     "lstat",
                     "metadata",
