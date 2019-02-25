@@ -64,6 +64,7 @@
                     "fn",
                     "fs",
                     "gif",
+                    "globals",
                     "goto",
                     "homedir",
                     "hostname",
