@@ -103,7 +103,7 @@ describeIf("SMAPI Invoker Tests", () => {
             const runner = new TestRunner({
                 locale: "en-US",
                 skillId: process.env.ASK_SKILL_ID,
-                stage: "live",
+                stage: "development",
                 type: "simulation",
             });
             const results = await runner.run("test/GuessTheGifSkill/index.test.yml");
