@@ -1,15 +1,6 @@
 const Configuration = require("../lib/runner/Configuration");
 const ConfigurationKeys = require("../lib/runner/ConfigurationKeys");
-const fs = require("fs");
 const path = require("path");
-const {exec} = require("child_process");
-
-const HTML_REPORTER = [
-    "jest-html-reporters",
-    {
-        filename: "html_report.html",
-    },
-];
 
 describe("configuration", () => {
     beforeEach(() => {
@@ -33,14 +24,6 @@ describe("configuration", () => {
     });
 
     describe("override configuration write a skill testing file", () => {
-        beforeEach(async () => {
-            return new Promise((resolve) => {
-                exec("rm -rf " + Configuration.skillTestingConfigDirectory(), async function () {
-                    resolve();
-                });
-            });
-        });
-
         test("generate file", async () => {
             const cliOverrides = {
                 "jest.collectCoverage": "false",
@@ -48,7 +31,6 @@ describe("configuration", () => {
             await Configuration.configure({}, "", cliOverrides, true);
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.collectCoverage).toBe(false);
-            expect(fs.existsSync(Configuration.skillTestingConfigPath())).toBe(true);
         });
     });
 
@@ -60,12 +42,14 @@ describe("configuration", () => {
         test("no reporters present", async () => {
             await Configuration.configure({}, "", null, true);
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.reporters).toEqual(["default", HTML_REPORTER]);
+            expect(jestConfiguration.reporters.length).toBe(2);
+            expect(jestConfiguration.reporters[0]).toEqual("default");
+            expect(jestConfiguration.reporters[1]).toContain(path.normalize("jest-stare"));
         });
 
         test("reporters present in configuration (console)", async () => {
             await Configuration.configure({
-                reporters: ["console"],
+                html: false,
             }, "", null, true);
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.reporters).toEqual(["default"]);
@@ -74,21 +58,10 @@ describe("configuration", () => {
 
         test("reporters present in configuration (html)", async () => {
             await Configuration.configure({
-                reporters: ["html"],
+                html: true,
             }, "", null, true);
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.reporters).toEqual([HTML_REPORTER]);
-        });
-
-
-        test("reporters present in overwrite from CLI (html)", async () => {
-            const cliOverrides = {
-                "reporters": "console,somethingElse",
-            };
-            await Configuration.configure({
-            }, "", cliOverrides, true);
-            const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.reporters).toEqual(["default"]);
+            expect(jestConfiguration.reporters.length).toEqual(2);
         });
     });
 
@@ -116,13 +89,13 @@ describe("configuration", () => {
         test("when testing.json exists", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/unit");
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/ConfigurationTestFiles/test/unit/coverage/"));
+            expect(jestConfiguration.coverageDirectory).toContain(path.normalize("test_output/coverage"));
         });
     
         test("when testing.json is missing", async () => {
             await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-GB");
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("test/coverage/"));
+            expect(jestConfiguration.coverageDirectory).toContain(path.normalize("test_output/coverage"));
         });
 
         test("when testing.json overrides coverageDirectory", async () => {
@@ -135,7 +108,7 @@ describe("configuration", () => {
             process.chdir("test/FactSkill");
             await Configuration.configure(undefined, ".");
             const jestConfiguration = Configuration.instance().value("jest");
-            expect(jestConfiguration.coverageDirectory).toBe(path.normalize("coverage/"));
+            expect(jestConfiguration.coverageDirectory).toContain(path.normalize("test_output/coverage"));
             process.chdir("../..");
         });
     });
