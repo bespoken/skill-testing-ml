@@ -70,10 +70,11 @@
     "debug": "^3.1.0",
     "jest": "^22.4.4",
     "jest-message-util": "^22.4.3",
+    "jest-stare": "^1.11.2",
     "js-yaml-bespoken": "^3.11.5",
     "jsonpath-bespoken": "^1.0.1",
     "lodash": "^4.17.5",
-    "virtual-alexa": "^0.6.14",
+    "virtual-alexa": "^0.7.0",
     "virtual-device-sdk": "^1.5.1",
     "virtual-google-assistant": "0.3.0"
   },

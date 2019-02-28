@@ -6,4 +6,4 @@ configuration:
 - test: "Expression Test"
 - LaunchRequest:
   - request.test.numberValue: 1
-  - url: http://httpbin.org/post
+  - url: https://httpbin.org/post
