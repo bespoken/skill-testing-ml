@@ -73,7 +73,7 @@
     "jest-stare": "^1.11.2",
     "js-yaml-bespoken": "^3.11.5",
     "jsonpath-bespoken": "^1.0.1",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.11",
     "virtual-alexa": "^0.7.0",
     "virtual-device-sdk": "^1.5.1",
     "virtual-google-assistant": "0.3.0"
