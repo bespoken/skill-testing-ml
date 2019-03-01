@@ -54,7 +54,7 @@
     "lint": "eslint --config .eslintrc.json bin lib test",
     "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
     "pretest": "npm run lint",
-    "xpreversion": "npm test && npm run test.babel",
+    "preversion": "npm test && npm run test.babel",
     "test": "jest",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
     "test.smapi.1": "jest --runInBand test/SMAPI.test.js",
