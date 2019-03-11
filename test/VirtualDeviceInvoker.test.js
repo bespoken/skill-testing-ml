@@ -1,11 +1,14 @@
 const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
+const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const message = require("virtual-device-sdk").mockMessage;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
 const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
+
+let loggerSpy;
 
 describe("virtual device integration", () => {
     let _invoker;
@@ -25,6 +28,7 @@ describe("virtual device integration", () => {
                     },
                 },
             };
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
             message.mockClear();
         });
 
@@ -121,6 +125,7 @@ describe("virtual device runner", () => {
                 voiceId: "voiceId",
             });
             mockVirtualDevice.mockClear();
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
         });
 
         afterEach(() => {
@@ -170,10 +175,12 @@ describe("virtual device runner", () => {
                 type: CONSTANTS.TYPE.e2e,
             };
             mockVirtualDevice.mockClear ();
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
         });
 
         afterEach(() => {
             Configuration.singleton = undefined;
+            loggerSpy.mockRestore();
         });
 
         test("one token", async () => {
@@ -235,6 +242,8 @@ describe("virtual device runner", () => {
 
     describe("control flow tests", () => {
         beforeAll(() => {
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+
             return Configuration.configure({
                 invocationName: "space fact",
                 locale: "en-US",
@@ -266,6 +275,8 @@ describe("virtual device runner", () => {
 
     describe("edge case tests", () => {
         beforeAll(() => {
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+
             return Configuration.configure({
                 handler: "test/ExceptionSkill/index.handler",
                 interactionModel: "test/ExceptionSkill/en-US.json",
@@ -323,7 +334,7 @@ describe("virtual device runner", () => {
 
         test("fail on external error", async () => {
             Configuration.singleton = undefined;
-            
+
             Configuration.configure({
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
@@ -332,12 +343,14 @@ describe("virtual device runner", () => {
 
             const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
             expect(results.length).toEqual(4);
+            // twice for each error
+            expect(loggerSpy).toHaveBeenCalledTimes(4);
 
             expect(results[0].skipped).toBe(false);
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].error).toBeUndefined();
             expect(results[0].interactionResults[1].error).toBeUndefined();
-            
+
             expect(results[1].skipped).toBe(false);
             expect(results[1].interactionResults.length).toBe(1);
             expect(results[1].interactionResults[0].error).toBeDefined();
