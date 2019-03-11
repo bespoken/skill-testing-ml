@@ -1,5 +1,6 @@
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
+const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const TestRunner = require("../lib/runner/TestRunner");
 
 describe("virtual google assistant runner", () => {
@@ -155,11 +156,13 @@ describe("virtual google assistant runner", () => {
                 platform: CONSTANTS.PLATFORM.google,
             });
             const runner = new TestRunner();
+            const loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
 
             try {
                 await runner.run("test/FactsAboutGoogle/facts-about-google-tests.yml");
                 throw new Error("We should not reach here");
             } catch (error) {
+                expect(loggerSpy).toHaveBeenCalledTimes(2);
                 expect(error.message).toEqual("Port required when using express handler");
             }
 

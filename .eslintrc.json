@@ -81,6 +81,7 @@
                     "nock",
                     "num",
                     "os",
+                    "printf",
                     "rc",
                     "readdir",
                     "reprompt",
@@ -99,6 +100,7 @@
                     "utf8",
                     "util",
                     "Veyor",
+                    "winston",
                     "yaml",
                     "yml"
                 ],

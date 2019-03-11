@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Configuration = require("../lib/runner/Configuration");
+const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const nock = require("nock");
 const TestRunner = require("../lib/runner/TestRunner");
 const Util = require("../lib/util/Util");
@@ -7,6 +8,8 @@ const Util = require("../lib/util/Util");
 // Only run these tests when the SMAPI environment variable is set
 const describeIf = process.env.SMAPI ? describe : describe.skip;
 const describeMock = process.env.SMAPI ? describe.skip : describe;
+
+let loggerSpy;
 
 describeMock("SMAPI test with mock calls", () => {
     const getResult = () => ({
@@ -26,6 +29,7 @@ describeMock("SMAPI test with mock calls", () => {
     });
     beforeAll(() => {
         // Create an ask config if it does not exist
+        loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
         Util.createAskCliConfig();
     });    
     beforeEach(() => {
@@ -96,7 +100,12 @@ describeIf("SMAPI Invoker Tests", () => {
         beforeAll(() => {
             // Create an ask config if it does not exist
             Util.createAskCliConfig();
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
             nock.cleanAll();
+        });
+
+        afterEach(() => {
+            loggerSpy.mockRestore();
         });
 
         test("runs guess the gif skill test configured via ASK CLI", async () => {

@@ -1,4 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
+const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const path = require("path");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
@@ -402,6 +403,8 @@ describe("virtual alexa runner", () => {
                 locale: "en-US",
             });
 
+            const loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+
             try {
                 const runner = new TestRunner();
                 await runner.run("test/ExceptionSkill/no-utterance-test.yml");
@@ -409,6 +412,7 @@ describe("virtual alexa runner", () => {
                 const defaultPath = path.normalize("./models/en-US.json");
                 const errorPath = path.normalize(error.path);
                 expect(errorPath.includes(defaultPath)).toBe(true);
+                expect(loggerSpy).toHaveBeenCalledTimes(2);
             }
         });
     });

@@ -1,5 +1,6 @@
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
+const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const mockMessage = require("virtual-device-sdk").mockMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
@@ -212,13 +213,15 @@ describe("test runner", () => {
         const resultCallbackMock = jest.fn(resultCallback);
         runner.subscribe("message", messageCallbackMock);
         runner.subscribe("result", resultCallbackMock);
-  
+        const loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+
         try {
             await runner.run("test/FactSkill/fact-skill-tests.yml");
         } catch (error) {
             expect(error).toBeDefined();
         }
 
+        expect(loggerSpy).toHaveBeenCalledTimes(2);
         expect(resultCallbackMock).toHaveBeenCalledTimes(1);
     });
 
