@@ -12,14 +12,25 @@ const spaceFactMessage = jest.fn((messages)=> {
         responses.push(handleMessage(message));
     }
     return responses;
-});
+}) ;
 
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {
     if(token === "space fact") return {batchMessage: spaceFactMessage};
+    if(token === "async token") return {
+        batchMessage: jest.fn(() => {
+            return {
+                conversation_id: "dummy-id",
+            };
+        }),
+        getConversationResults: jest.fn()
+            .mockReturnValueOnce([])
+            .mockReturnValue(spaceFactMessage([{ phrases: [], text: "Hi" },
+                { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ])),
+    };
     return {
         addHomophones: mockAddHomophones,
         batchMessage: mockMessage,
-        waitForSessionToEnd: mockWaitForSessionToEnd
+        waitForSessionToEnd: mockWaitForSessionToEnd,
     };
 });
 
@@ -43,7 +54,7 @@ function handleMessage(message) {
                 }, {
                     url: "this is a url 2"
                 }
-            ]            
+            ]
         },
         raw: {
             key: "some value",

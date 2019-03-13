@@ -75,7 +75,7 @@
     "jsonpath-bespoken": "^1.0.1",
     "lodash": "^4.17.11",
     "virtual-alexa": "^0.7.0",
-    "virtual-device-sdk": "^1.5.1",
+    "virtual-device-sdk": "^1.5.9",
     "virtual-google-assistant": "0.3.0",
     "winston": "^3.2.1"
   },

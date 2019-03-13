@@ -273,6 +273,34 @@ describe("virtual device runner", () => {
         });
     });
 
+    describe("virtual device async mode", () => {
+        beforeAll(() => {
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+            Configuration.reset();
+            return Configuration.configure({
+                batchEnabled: false,
+                invocationName: "space fact",
+                locale: "en-US",
+                maxResponseWaitTime: 4,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token",
+                waitInterval: 1,
+            });
+        });
+
+        test("Test flow with async", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+            expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+
+        }, 15000);
+    });
+
     describe("edge case tests", () => {
         beforeAll(() => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
