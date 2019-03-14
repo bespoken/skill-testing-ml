@@ -278,13 +278,13 @@ describe("virtual device runner", () => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
             Configuration.reset();
             return Configuration.configure({
+                asyncE2EWaitInterval: 1,
                 batchEnabled: false,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxResponseWaitTime: 4,
+                maxAsyncE2EResponseWaitTime: 4,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token",
-                waitInterval: 1,
             });
         });
 
@@ -298,7 +298,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
             expect(results[0].interactionResults[1].error).toBeUndefined();
 
-        }, 15000);
+        });
     });
 
     describe("edge case tests", () => {
