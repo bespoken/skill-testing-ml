@@ -14,6 +14,11 @@ const spaceFactMessage = jest.fn((messages)=> {
     return responses;
 }) ;
 
+const mockGetConversationResults = jest.fn()
+    .mockReturnValueOnce([])
+    .mockReturnValue(spaceFactMessage([{ phrases: [], text: "Hi" },
+        { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ]));
+
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {
     if(token === "space fact") return {batchMessage: spaceFactMessage};
     if(token === "async token") return {
@@ -22,10 +27,7 @@ const mockVirtualDevice = jest.fn().mockImplementation((token) => {
                 conversation_id: "dummy-id",
             };
         }),
-        getConversationResults: jest.fn()
-            .mockReturnValueOnce([])
-            .mockReturnValue(spaceFactMessage([{ phrases: [], text: "Hi" },
-                { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ])),
+        getConversationResults: mockGetConversationResults,
     };
     return {
         addHomophones: mockAddHomophones,
@@ -126,5 +128,6 @@ function handleMessage(message) {
 exports.spaceFactMessage = spaceFactMessage;
 exports.mockMessage = mockMessage;
 exports.mockAddHomophones = mockAddHomophones;
+exports.mockGetConversationResults = mockGetConversationResults;
 exports.mockVirtualDevice = mockVirtualDevice;
 exports.VirtualDevice = mockVirtualDevice;

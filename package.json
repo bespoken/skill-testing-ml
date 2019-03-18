@@ -74,8 +74,8 @@
     "js-yaml-bespoken": "^3.11.5",
     "jsonpath-bespoken": "^1.0.1",
     "lodash": "^4.17.11",
-    "virtual-alexa": "^0.7.0",
-    "virtual-device-sdk": "^1.5.9",
+    "virtual-alexa": "^0.7.2",
+    "virtual-device-sdk": "^1.5.10",
     "virtual-google-assistant": "0.3.0",
     "winston": "^3.2.1"
   },

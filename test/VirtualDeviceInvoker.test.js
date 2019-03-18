@@ -3,7 +3,9 @@ const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const message = require("virtual-device-sdk").mockMessage;
+const mockGetConversationResults= require("virtual-device-sdk").mockGetConversationResults;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
+
 const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
@@ -282,10 +284,14 @@ describe("virtual device runner", () => {
                 batchEnabled: false,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 4,
+                maxAsyncE2EResponseWaitTime: 3,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token",
             });
+        });
+
+        afterAll(() => {
+            mockGetConversationResults.restore();
         });
 
         test("Test flow with async", async () => {
@@ -297,6 +303,38 @@ describe("virtual device runner", () => {
             expect(results[0].test.description).toEqual("Launches successfully");
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
             expect(results[0].interactionResults[1].error).toBeUndefined();
+
+        });
+
+        test("Test flow with async when there's no results coming back", async () => {
+            const runner = new TestRunner();
+            mockGetConversationResults.mockReturnValue([]);
+
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+                "Timeout exceeded while waiting for the interaction response");
+        });
+
+        test("Test flow with async when there's an exception", async () => {
+            const runner = new TestRunner();
+            mockGetConversationResults.mockImplementation(() => {
+                throw new Error("Virtual Device Token is invalid");
+            });
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+                "Virtual Device Token is invalid");
 
         });
     });
