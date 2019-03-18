@@ -1,8 +1,8 @@
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
-const mockMessage = require("virtual-device-sdk").mockMessage;
 const mockGetConversationResults = require("virtual-device-sdk").mockGetConversationResults;
+const mockMessage = require("virtual-device-sdk").mockMessage;
 
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
@@ -27,6 +27,7 @@ describe("test runner", () => {
         const resultCallback = (error, test) => {
             expect(error).toBeUndefined();
             expect(test.result).toBeDefined();
+            expect(test.result).toBeDefined();
         };
         const messageCallbackMock = jest.fn(messageCallback);
         const resultCallbackMock = jest.fn(resultCallback);
@@ -37,6 +38,10 @@ describe("test runner", () => {
         
         expect(messageCallbackMock).toHaveBeenCalledTimes(6);
         expect(resultCallbackMock).toHaveBeenCalledTimes(6);
+        expect(resultCallbackMock.mock.calls[1][1]).toBeDefined();
+        expect(resultCallbackMock.mock.calls[1][1].assertions.length).toBe(3);
+        expect(resultCallbackMock.mock.calls[1][1].result).toBeDefined();
+        expect(resultCallbackMock.mock.calls[1][1].result.rawResponse).toBeDefined();
     });
 
     test("Runs only tests with included tags", async () => {
