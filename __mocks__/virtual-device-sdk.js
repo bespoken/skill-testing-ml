@@ -6,17 +6,20 @@ const mockMessage = jest.fn((arg)=>{
 const mockAddHomophones = jest.fn();
 const mockWaitForSessionToEnd = jest.fn();
 
-const spaceFactMessage = jest.fn((messages)=> {
+const getResponsesFromMessages = (messages) => {
     const responses = [];
     for (const message of messages) {
         responses.push(handleMessage(message));
     }
     return responses;
-}) ;
+};
+
+const spaceFactMessage = jest.fn((messages)=> {
+    return getResponsesFromMessages(messages);
+});
 
 const mockGetConversationResults = jest.fn()
-    .mockReturnValueOnce([])
-    .mockReturnValue(spaceFactMessage([{ phrases: [], text: "Hi" },
+    .mockReturnValue(getResponsesFromMessages([{ phrases: [], text: "Hi" },
         { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ]));
 
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {

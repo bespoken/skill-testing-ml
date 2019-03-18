@@ -2,12 +2,15 @@ const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const mockMessage = require("virtual-device-sdk").mockMessage;
+const mockGetConversationResults = require("virtual-device-sdk").mockGetConversationResults;
+
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
 
 describe("test runner", () => {
     beforeEach(() => {
         mockMessage.mockClear();
+        mockGetConversationResults.mockClear();
         Configuration.singleton = undefined;
     });
 
@@ -237,13 +240,25 @@ describe("test runner", () => {
 
     test("batchEnabled false", async () => {
         const runner = new TestRunner({
+            asyncE2EWaitInterval: 1,
             batchEnabled: false,
+            maxAsyncE2EResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
-            virtualDeviceToken: "123",
+            virtualDeviceToken: "async token",
         });
-  
+
+        const mockReturn = [{}, {}, {}];
+        for (let i=0; i < 3; i++) {
+            // Usual behavior, first result is empty and arrays with results appear then
+            mockGetConversationResults
+                .mockReturnValueOnce([])
+                .mockReturnValueOnce(mockReturn)
+                .mockReturnValueOnce(mockReturn);
+        }
+
         await runner.run("test/FactSkill/fact-skill-tests.yml");
-        expect(mockMessage.mock.calls.length).toBe(6);
+        // each of the three interactions have two utterances, plus the call that comes with an empty array
+        expect(mockGetConversationResults.mock.calls.length).toBe(9);
     });
 
     test("getInvoker default value", async () => {
@@ -274,7 +289,6 @@ describe("test runner", () => {
 
         const testSuite = new TestSuite();
         const runner = new TestRunner();
-        
         expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
     });
 
