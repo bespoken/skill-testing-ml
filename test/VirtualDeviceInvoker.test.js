@@ -244,6 +244,9 @@ describe("virtual device runner", () => {
     describe("virtual device async mode", () => {
         beforeAll(() => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+        });
+
+        beforeEach(() => {
             Configuration.reset();
             return Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -285,6 +288,30 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[1].errorOnProcess).toBe(
                 "Timeout exceeded while waiting for the interaction response");
+        });
+
+        test("Test flow with async when getting conversation id throws an exception", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                asyncE2EWaitInterval: 1,
+                batchEnabled: false,
+                invocationName: "space fact",
+                locale: "en-US",
+                maxAsyncE2EResponseWaitTime: 3,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token throws",
+            });
+            const runner = new TestRunner();
+            mockGetConversationResults.mockReturnValue([]);
+
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[1].errorOnProcess).toBe("Network Error");
         });
 
         test("Test flow with async when there's an exception", async () => {

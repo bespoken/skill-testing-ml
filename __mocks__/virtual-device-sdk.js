@@ -32,6 +32,12 @@ const mockVirtualDevice = jest.fn().mockImplementation((token) => {
         }),
         getConversationResults: mockGetConversationResults,
     };
+    if(token === "async token throws") return {
+        batchMessage: jest.fn(() => {
+            throw new Error("Network Error");
+        }),
+        getConversationResults: mockGetConversationResults,
+    };
     return {
         addHomophones: mockAddHomophones,
         batchMessage: mockMessage,
