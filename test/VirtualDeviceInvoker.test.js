@@ -3,7 +3,9 @@ const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const message = require("virtual-device-sdk").mockMessage;
+const mockGetConversationResults= require("virtual-device-sdk").mockGetConversationResults;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
+
 const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
 const TestRunner = require("../lib/runner/TestRunner");
 const VirtualDeviceInvoker = require("../lib/runner/VirtualDeviceInvoker");
@@ -239,37 +241,94 @@ describe("virtual device runner", () => {
 
     });
 
-
-    describe("control flow tests", () => {
+    describe("virtual device async mode", () => {
         beforeAll(() => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+        });
 
+        beforeEach(() => {
+            Configuration.reset();
             return Configuration.configure({
+                asyncE2EWaitInterval: 1,
+                batchEnabled: false,
                 invocationName: "space fact",
                 locale: "en-US",
+                maxAsyncE2EResponseWaitTime: 3,
                 type: CONSTANTS.TYPE.e2e,
-                // eslint-disable-next-line spellcheck/spell-checker
-                virtualDeviceToken: "space fact",
+                virtualDeviceToken: "async token",
             });
         });
 
-        test("Test goto", async () => {
+        afterAll(() => {
+            mockGetConversationResults.restore();
+        });
+
+        test("Test flow with async", async () => {
             const runner = new TestRunner();
 
-            const results = await runner.run("test/TestFiles/control-flow-tests.common.yml");
-            expect(results.length).toEqual(2);
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[0].passed).toBe(true);
-            expect(results[0].interactionResults[0].goto).toBe("Get New Fact");
-            expect(results[0].interactionResults[0].error).toBeUndefined();
-            expect(results[0].interactionResults[1].interaction.utterance).toBe("Get New Fact");
-            expect(results[0].interactionResults[1].passed).toBe(false);
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
 
-            // Check on exit
-            expect(results[1].interactionResults.length).toBe(1);
-            expect(results[1].interactionResults[0].passed).toBe(true);
-            expect(results[1].interactionResults[0].error).toBeUndefined();
-            expect(results[1].interactionResults[0].exited).toBe(true);
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+            expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+
+        });
+
+        test("Test flow with async when there's no results coming back", async () => {
+            const runner = new TestRunner();
+            mockGetConversationResults.mockReturnValue([]);
+
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+                "Timeout exceeded while waiting for the interaction response");
+        });
+
+        test("Test flow with async when getting conversation id throws an exception", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                asyncE2EWaitInterval: 1,
+                batchEnabled: false,
+                invocationName: "space fact",
+                locale: "en-US",
+                maxAsyncE2EResponseWaitTime: 3,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token throws",
+            });
+            const runner = new TestRunner();
+            mockGetConversationResults.mockReturnValue([]);
+
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[1].errorOnProcess).toBe("Network Error");
+        });
+
+        test("Test flow with async when there's an exception", async () => {
+            const runner = new TestRunner();
+            mockGetConversationResults.mockImplementation(() => {
+                throw new Error("Virtual Device Token is invalid");
+            });
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+
+            expect(results.length).toEqual(3);
+            expect(results[0].test.description).toEqual("Launches successfully");
+
+            expect(results[0].interactionResults.length).toBe(2);
+            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+                "Virtual Device Token is invalid");
+
         });
     });
 
@@ -282,6 +341,10 @@ describe("virtual device runner", () => {
                 interactionModel: "test/ExceptionSkill/en-US.json",
                 locale: "en-US",
             });
+        });
+
+        afterEach(() => {
+            loggerSpy.mockRestore();
         });
 
         test("no response", async () => {
@@ -340,11 +403,8 @@ describe("virtual device runner", () => {
                 virtualDeviceToken: "space fact",
             });
             const runner = new TestRunner();
-
             const results = await runner.run("test/FactSkill/fact-skill-throw-error.yml");
             expect(results.length).toEqual(4);
-            // twice for each error
-            expect(loggerSpy).toHaveBeenCalledTimes(4);
 
             expect(results[0].skipped).toBe(false);
             expect(results[0].interactionResults.length).toBe(2);

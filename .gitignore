@@ -7,3 +7,4 @@ dist
 *.tgz
 .vscode
 .env
+bst-debug.log

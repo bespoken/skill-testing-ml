@@ -6,20 +6,42 @@ const mockMessage = jest.fn((arg)=>{
 const mockAddHomophones = jest.fn();
 const mockWaitForSessionToEnd = jest.fn();
 
-const spaceFactMessage = jest.fn((messages)=> {
+const getResponsesFromMessages = (messages) => {
     const responses = [];
     for (const message of messages) {
         responses.push(handleMessage(message));
     }
     return responses;
+};
+
+const spaceFactMessage = jest.fn((messages)=> {
+    return getResponsesFromMessages(messages);
 });
+
+const mockGetConversationResults = jest.fn()
+    .mockReturnValue(getResponsesFromMessages([{ phrases: [], text: "Hi" },
+        { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ]));
 
 const mockVirtualDevice = jest.fn().mockImplementation((token) => {
     if(token === "space fact") return {batchMessage: spaceFactMessage};
+    if(token === "async token") return {
+        batchMessage: jest.fn(() => {
+            return {
+                conversation_id: "dummy-id",
+            };
+        }),
+        getConversationResults: mockGetConversationResults,
+    };
+    if(token === "async token throws") return {
+        batchMessage: jest.fn(() => {
+            throw new Error("Network Error");
+        }),
+        getConversationResults: mockGetConversationResults,
+    };
     return {
         addHomophones: mockAddHomophones,
         batchMessage: mockMessage,
-        waitForSessionToEnd: mockWaitForSessionToEnd
+        waitForSessionToEnd: mockWaitForSessionToEnd,
     };
 });
 
@@ -43,7 +65,7 @@ function handleMessage(message) {
                 }, {
                     url: "this is a url 2"
                 }
-            ]            
+            ]
         },
         raw: {
             key: "some value",
@@ -115,5 +137,6 @@ function handleMessage(message) {
 exports.spaceFactMessage = spaceFactMessage;
 exports.mockMessage = mockMessage;
 exports.mockAddHomophones = mockAddHomophones;
+exports.mockGetConversationResults = mockGetConversationResults;
 exports.mockVirtualDevice = mockVirtualDevice;
 exports.VirtualDevice = mockVirtualDevice;
