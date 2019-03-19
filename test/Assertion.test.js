@@ -46,9 +46,18 @@ describe("assertion", () => {
 
         assertion = new Assertion(undefined, "val", "==", ["Not match", "Here does not match"]);
         expect(assertion.evaluate(obj)).toBe(false);
-        const assertionString = assertion.toString(obj);
+        let assertionString = assertion.toString(obj);
         expect(assertionString).toContain("Expected value at [val] to be one of:\n");
         expect(assertionString).toContain("\tNot match\n\tHere does not match\n");
+
+        assertion = new Assertion(undefined, "val", "!=", ["not match", "not match 2"]);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "val", "!=", ["Here is", "Here does not match"]);
+        expect(assertion.evaluate(obj)).toBe(false);
+        assertionString = assertion.toString(obj);
+        expect(assertionString).toContain("Expected value at [val] to be one of:\n");
+        expect(assertionString).toContain("\tHere is\n\tHere does not match\n");        
     });
 
     test("evaluate numeric operators", () => {
