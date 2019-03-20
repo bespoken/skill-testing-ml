@@ -397,6 +397,30 @@ configuration:
         expect(testSuite.tests[3].tags).toBe(undefined);
     });
 
+    test("parses file with operators short syntax", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest != hello
+- RandomIntent:
+  - cardTitle !=
+    - title1
+    - title2
+    - title3
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].path).toBe("prompt");
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("hello");
+        expect(testSuite.tests[0].interactions[0].assertions[0].operator).toBe("!=");
+        expect(testSuite.tests[0].interactions[1].assertions[0].path).toBe("cardTitle");
+        expect(testSuite.tests[0].interactions[1].assertions[0].value)
+            .toEqual(expect.arrayContaining(["title1", "title2", "title3"]));
+        expect(testSuite.tests[0].interactions[1].assertions[0].operator).toBe("!=");
+
+    });
+
     describe("findReplace", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
