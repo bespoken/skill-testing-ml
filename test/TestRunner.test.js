@@ -245,8 +245,20 @@ describe("test runner", () => {
 
     test("batchEnabled false", async () => {
         const runner = new TestRunner({
-            asyncE2EWaitInterval: 1,
             batchEnabled: false,
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "123",
+        });
+
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+        expect(mockMessage.mock.calls.length).toBe(6);
+    });
+
+    test("batchEnabled true, asyncMode true", async () => {
+        const runner = new TestRunner({
+            asyncE2EWaitInterval: 1,
+            asyncMode: true,
+            batchEnabled: true,
             maxAsyncE2EResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "async token",
