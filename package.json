@@ -51,6 +51,7 @@
     "babel.lib": "babel lib -d dist/lib",
     "babel.test": "babel test -D -d dist/test",
     "babel.bin": "babel bin -d dist/bin",
+    "docs": "rm -rf docs/api && jsdoc -c jsdoc-conf.json",
     "lint": "eslint --config .eslintrc.json bin lib test",
     "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
     "pretest": "npm run lint",
@@ -102,6 +103,7 @@
     "firebase-admin": "^5.12.1",
     "firebase-functions": "^1.1.0",
     "jest-junit": "^3.7.0",
+    "jsdoc": "^3.5.5",
     "nock": "^10.0.6",
     "sprintf-js": "^1.1.1"
   }

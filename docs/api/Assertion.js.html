@@ -1,9 +1,37 @@
-const jsonpath = require("jsonpath-bespoken");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Assertion.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Assertion.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const jsonpath = require("jsonpath-bespoken");
 const ParserError = require("./ParserError");
 const Util = require("../util/Util");
 
-const OPERATORS = ["==", "=~", "!=", ">", ">=", "<", "<="];
-const NUMERIC_OPERATORS = [">", ">=", "<", "<="];
+const OPERATORS = ["==", "=~", "!=", ">", ">=", "&lt;", "&lt;="];
+const NUMERIC_OPERATORS = [">", ">=", "&lt;", "&lt;="];
 
 /**
  * Represents an assertion to evaluate during a interaction
@@ -35,7 +63,7 @@ class Assertions {
 
         // Looks for a goto in the value statement
         if (Util.isString(this._value)
-            && this._value.includes(" goto ")) {
+            &amp;&amp; this._value.includes(" goto ")) {
             const gotoRegex = /(.*) goto (.*)/i;
             const matchArray = this._value.match(gotoRegex);
             if (matchArray.length === 2) {
@@ -83,7 +111,7 @@ class Assertions {
      * @return {boolean}
      */
     evaluate(response) {
-        const testSuite = response.interaction && response.interaction.test && response.interaction.test.testSuite; 
+        const testSuite = response.interaction &amp;&amp; response.interaction.test &amp;&amp; response.interaction.test.testSuite; 
         const json = response.json;
         let jsonValue = this.valueAtPath(json);
 
@@ -97,7 +125,7 @@ class Assertions {
             if (jsonValue !== undefined) {
                 if (Array.isArray(this.value)) {
                     for (const value of this.value) {
-                        const localizedValue = (testSuite && testSuite.getLocalizedValue(value)) || value;
+                        const localizedValue = (testSuite &amp;&amp; testSuite.getLocalizedValue(value)) || value;
                         match = this.evaluateRegexOrString(this.operator, localizedValue, jsonValue, ignoreCase);
                         // Once matched, do not need to process further
                         if (match) {
@@ -105,7 +133,7 @@ class Assertions {
                         }
                     }
                 } else {
-                    const localizedValue = (testSuite && testSuite.getLocalizedValue(this.value)) || this.value;
+                    const localizedValue = (testSuite &amp;&amp; testSuite.getLocalizedValue(this.value)) || this.value;
                     match = this.evaluateRegexOrString(this.operator, localizedValue, jsonValue, ignoreCase);
                 }
             }
@@ -122,10 +150,10 @@ class Assertions {
                 return actualValue > expectedValue;
             } else if (this.operator === ">=") {
                 return actualValue >= expectedValue;
-            } else  if (this.operator === "<") {
-                return actualValue < expectedValue;
-            } else  if (this.operator === "<=") {
-                return actualValue <= expectedValue;
+            } else  if (this.operator === "&lt;") {
+                return actualValue &lt; expectedValue;
+            } else  if (this.operator === "&lt;=") {
+                return actualValue &lt;= expectedValue;
             }
         } else if (this.operator === "!=") {
             if (this.value === undefined) {
@@ -134,7 +162,7 @@ class Assertions {
             if (Array.isArray(this.value)) {
                 let resultNotEqual = true;
                 for (const value of this.value) {
-                    const localizedValue = (testSuite && testSuite.getLocalizedValue(value)) || value;
+                    const localizedValue = (testSuite &amp;&amp; testSuite.getLocalizedValue(value)) || value;
                     resultNotEqual = jsonValue.includes(localizedValue);
                     if (resultNotEqual) {
                         return false;
@@ -213,12 +241,12 @@ class Assertions {
             regexString = regexString.substr(1);
             // Now get the last /, and treat the part after as options
             const endIndex = regexString.lastIndexOf("/");
-            if (endIndex + 1 < regexString.length) {
+            if (endIndex + 1 &lt; regexString.length) {
                 options = regexString.substr(endIndex + 1);
             }
             regexString = regexString.substr(0, endIndex);
         }
-        if (ignoreCase && options.indexOf("i") == -1) {
+        if (ignoreCase &amp;&amp; options.indexOf("i") == -1) {
             options += "i";
         }
         const regex = new RegExp(regexString, options);
@@ -232,7 +260,7 @@ class Assertions {
      */
     isRegex(expectedValue) {
         return this.operator === "=~" ||
-            (Util.isString(expectedValue) && expectedValue.startsWith("/"));
+            (Util.isString(expectedValue) &amp;&amp; expectedValue.startsWith("/"));
     }
 
     /**
@@ -318,9 +346,9 @@ class Assertions {
         if (errorOnResponse) {
             return errorOnResponse;
         }
-        const testSuite = this.interaction && this.interaction.test && this.interaction.test.testSuite; 
+        const testSuite = this.interaction &amp;&amp; this.interaction.test &amp;&amp; this.interaction.test.testSuite; 
         const jsonValue = this.valueAtPath(json);
-        const localizedValue = (testSuite && testSuite.getLocalizedValue(this.value)) || this.value;
+        const localizedValue = (testSuite &amp;&amp; testSuite.getLocalizedValue(this.value)) || this.value;
         let expectedValueString = "\t" + localizedValue + "\n";
         let operator = this.operator;
         if (Array.isArray(this.value)) {
@@ -347,3 +375,26 @@ class Assertions {
 }
 
 module.exports = Assertions;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Assertions.html">Assertions</a></li><li><a href="Expression.html">Expression</a></li><li><a href="InteractionResult.html">InteractionResult</a></li><li><a href="ParserError.html">ParserError</a></li><li><a href="Test.html">Test</a></li><li><a href="TestResult.html">TestResult</a></li><li><a href="TestSuite.html">TestSuite</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Apr 04 2019 02:57:09 GMT-0500 (-05)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
