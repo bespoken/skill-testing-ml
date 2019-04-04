@@ -134,11 +134,20 @@ describe("assertion", () => {
         let assertion = new Assertion(undefined, "val2", "!=", "undefined");
         expect(assertion.evaluate(obj)).toBe(true);
 
+        assertion = new Assertion(undefined, "val3", "!=", "z");
+        expect(assertion.evaluate(obj)).toBe(true);
+
         assertion = new Assertion(undefined, "val2", "!=", undefined);
         expect(assertion.evaluate(obj)).toBe(true);
 
         assertion = new Assertion(undefined, "val", "!=", undefined);
         expect(assertion.evaluate(obj)).toBe(false);
+
+        assertion = new Assertion(undefined, "val2", "!=", ["x", "y", "z"]);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "val3", "!=", ["x", "y", "z"]);
+        expect(assertion.evaluate(obj)).toBe(true);
     });
 
     test("ignore case on string assertions", () => {
