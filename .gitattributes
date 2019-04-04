@@ -1,0 +1,2 @@
+docs/api/*	 -diff -merge
+docs/api/*	 linguist-generated=true

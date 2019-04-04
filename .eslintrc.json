@@ -81,6 +81,7 @@
                     "nock",
                     "num",
                     "os",
+                    "param",
                     "printf",
                     "rc",
                     "readdir",
