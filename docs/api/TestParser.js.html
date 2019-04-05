@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: TestParser.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: TestParser.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const Assertion = require("./Assertion");
+const Configuration = require("../runner/Configuration");
+const Expression = require("./Expression");
+const fs = require("fs");
+const ParserError = require("./ParserError");
+const Test = require("./Test");
+const TestInteraction = require("./TestInteraction");
+const TestSuite = require("./TestSuite");
+const Util = require("../util/Util");
+const yaml = require("js-yaml-bespoken");
+
+/**
+ * Represents the parser used for converting a yaml file into a test suite
+ */
+class TestParser {
+    /**
+     *
+     * @param {string} fileName - the yaml file that will be parsed
+     */
+    constructor(fileName) {
+        this.fileName = fileName;
+        if (this.fileName) {
+            this.contents = fs.readFileSync(this.fileName, "utf8");
+        }
+    }
+
+    /**
+     * Set the contents of the YML file
+     * @param {object} contents - set the contents of the file
+     */
+    load(contents) {
+        this.contents = contents;
+    }
+
+    /**
+     * Parses a test file and returns a test suite
+     * @return {TestSuite}
+     */
+    parse() {
+        try {
+            const contents = this.findReplace(this.contents);
+            const documents = yaml.loadAll(contents);
+            let configuration;
+            let tests = documents;
+            if (documents.length > 1 &amp;&amp; documents[0].configuration) {
+                if (!Util.isObject(documents[0].configuration)) {
+                    throw ParserError.globalError(this.fileName,
+                        "Configuration element is not an object",
+                        Util.extractLine(documents[0].configuration));
+                }
+                configuration = documents[0].configuration;
+                tests = documents.slice(1);
+            }
+
+            const suite = new TestSuite(this.fileName, configuration);
+            suite.tests = this.parseTests(suite, tests);
+            suite.rawTestContent = this.contents;
+            return suite;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Parses the tests section of the yaml test file
+     * @param {TestSuite} suite - the complete test suite
+     * @param {object} rawTests - the raw tests from the yaml file
+     * @return {Test[]}
+     */
+    parseTests(suite, rawTests) {
+        const tests = [];
+        let testCount = 0;
+        for (const test of rawTests) {
+            testCount++;
+            const parsedTest = this.parseTest(suite, test, testCount);
+            if (parsedTest) {
+                tests.push(parsedTest);
+            }
+        }
+
+        return tests;
+    }
+
+    /**
+     * Parses a single test of the yaml test file
+     * @param {TestSuite} suite - the complete test suite
+     * @param {object} rawTest - a single raw test from the yaml file
+     * @param {number} testIndex - the index of which test we are parsing
+     * @return {Test}
+     */
+    parseTest(suite, rawTest, testIndex) {
+        //If this is not an array, skip it
+        if (!Array.isArray(rawTest)) {
+            return undefined;
+        }
+
+        // The rawTest element is just an array of interactions
+        // Optionally preceded by metadata about the test
+        let rawInteractions = rawTest;
+        if (rawInteractions.length == 0) {
+            return new Test(suite, undefined, []);
+        }
+
+        // We need to pull out the first key of the first line of the test
+        // If there is any metadata, this is where it is
+
+        let testMeta = "Test " + testIndex;
+        let only = false;
+        let skipped = false;
+        let tags = [];
+        const filteredInteractions = [];
+
+        for (let i=0; i &lt; rawInteractions.length; i++) {
+            let isSpecialInteraction = false;
+
+            const currentInteraction = rawInteractions[i];
+
+            const interactionKeys =  Object.keys(currentInteraction);
+            
+            // If the first or second element of the first interaction is "test", "test.only", or "test.skip", it is metadata
+            if (i &lt; 2 &amp;&amp; interactionKeys.length > 0 &amp;&amp; ["test", "test.only", "test.skip"].includes(interactionKeys[0])) {
+                isSpecialInteraction = true;
+                testMeta = currentInteraction[interactionKeys[0]];
+                if (interactionKeys[0] === "test.only") {
+                    only = true;
+                } else if (interactionKeys[0] === "test.skip") {
+                    skipped = true;
+                }
+            }
+
+            // If the first or second element of the first interaction is "tag", it is metadata
+            if (i &lt; 2 &amp;&amp; interactionKeys.length > 0 &amp;&amp; ["tags"].includes(interactionKeys[0])) {
+                isSpecialInteraction = true;
+
+                const tagsString = currentInteraction[interactionKeys[0]];
+                if (Util.isString(tagsString)) {
+                    tags = tagsString.split(",").map(tag => tag.trim());
+                }
+            }
+
+            if (!isSpecialInteraction) {
+                filteredInteractions.push(currentInteraction);
+            }
+        }
+
+        const test = new Test(suite, testMeta, []);
+        for(let i=0; i&lt;filteredInteractions.length; i++){
+            let rawInteraction = filteredInteractions[i];
+            test.interactions.push(this.parseInteraction(test, rawInteraction, i));
+        }
+
+        test.skip = skipped;
+        test.only = only;
+
+        if (tags.length) {
+            test.tags = tags;
+        }
+
+        test.validate();
+        return test;
+    }
+
+    /**
+     * Parse a single interaction
+     * @param {Test} test - the Test the contains the interaction being parsed
+     * @param {object|string} interactionJSON - the interaction being parsed
+     * @param {number} index - the index of the interaction in the test
+     * @return {TestInteraction}
+     */
+    parseInteraction(test, interactionJSON, index) {
+        const interaction = new TestInteraction(test);
+
+        // If we have an object, we process it - alternatively the interaction could just be a string
+        //  Such as "- yes" without any assertions
+        if (Util.isObject(interactionJSON)) {
+            interaction.utterance = Object.keys(interactionJSON)[0];
+            const elements = interactionJSON[interaction.utterance];
+            interaction.lineNumber = Util.extractLine(elements);
+            // Just because we have an object, we might have a "bad" object
+            // Like so: - yes: "okay" - our old-style syntax
+            // We just ignore these cases for now
+            if (Array.isArray(elements)) {
+                for (const element of elements) {
+                    if (Util.isValueType(element)) {
+                        const { assertion } = this.parseStringAssertion(interaction, element);
+                        if (assertion) {
+                            interaction.assertions.push(assertion);
+                        }
+                    } else {
+                        if (element.intent) {
+                            interaction.intent = element.intent.valueOf();
+
+                            // Treat any other keys as slots
+                            const slots = Util.cleanObject(element);
+                            delete slots.intent;
+                            interaction.slots = slots;
+                        } else if (element.slots) {
+                            interaction.slots = Util.cleanObject(element.slots);
+                        } else if (element.label) {
+                            interaction.label = Util.cleanObject(element.label);
+                        } else if (Expression.isExpression(element)) {
+                            interaction.expressions.push(new Expression(element));
+                        } else {
+                            // Must be an assertion otherwise
+                            interaction.assertions.push(this.parseObjectAssertion(interaction, element));
+                        }
+                    }
+                }
+            } else if (elements) {
+                let operator = "==";
+                if (Util.isString(elements) &amp;&amp; elements.startsWith("/")) {
+                    operator = "=~";
+                }
+                interaction.assertions.push(new Assertion(interaction, "prompt", operator, elements));
+            }
+        } else {
+            const { utterance, assertion } = this.parseStringAssertion(interaction, interactionJSON, true);
+            interaction.utterance = utterance;
+            interaction.lineNumber = Util.extractLine(interactionJSON);
+            if (assertion) {
+                interaction.assertions.push(assertion);
+            }
+        }
+        interaction.relativeIndex = index;
+        return interaction;
+    }
+
+    /**
+     * Parses a single Assertion inside an interaction
+     * @param {TestInteraction} interaction - the interaction where this assertion is used
+     * @param {object} element - the object representation of the YAML element
+     * @return {Assertions}
+     */
+    parseObjectAssertion(interaction, element) {
+        // Should have just one key
+        const path = Object.keys(element)[0];
+        const value = element[path];
+        let operator = "==";
+        // If the value starts with /, then it must be regular expression
+        if (Util.isString(value) &amp;&amp; value.trim().startsWith("/")) {
+            operator = "=~";
+        }
+
+        const assertion = new Assertion(interaction, path, operator, value);
+        assertion.validate();
+        assertion.lineNumber = Util.extractLine(value);
+        return assertion;
+    }
+
+    /**
+     * Parse a string into assertion object.
+     * Our short syntax is not valid in YAML. We look for an operator inside the string
+     * Examples:
+     * Hi
+     * exit
+     * LaunchRequest != hi
+     * cardTitle != hi
+     * cardTitle != - Value1 - Value2 - Value2
+     *
+     * @param {TestInteraction} interaction - the interaction that includes this assertion
+     * @param {string} assertionString - the assertion as a string
+     * @param {boolean} isUtteranceIncluded - if isUtteranceIncluded is set to true, the first part of the string will
+     * be consider as utterance
+     * @return {Assertion}
+     */
+    parseStringAssertion(interaction, assertionString, isUtteranceIncluded = false) {
+        let path;
+        let operator;
+        let value;
+        let utterance = undefined;
+        let assertion = undefined;
+
+        // Special handling for exit
+        if (assertionString.trim() === "exit") {
+            return { assertion: new Assertion(interaction, "exit") };
+        }
+
+        // if utterance is not included, string with empty spaces is invalid 
+        if (!isUtteranceIncluded &amp;&amp; assertionString.indexOf(" ") === -1) {
+            throw ParserError.interactionError(interaction,
+                "Invalid assertion: " + assertionString,
+                Util.extractLine(assertionString));
+        }
+
+        operator = this.getOperator(assertionString, isUtteranceIncluded);
+        
+        if (operator) {
+            const parts = assertionString.split(operator);
+            path = isUtteranceIncluded ? "prompt" : parts[0].trim(); // if utterance include, path set to prompt
+            utterance = isUtteranceIncluded ? parts[0].trim() : undefined;
+            value = parts[1].trim();
+            operator = operator.trim();
+
+            // YAML collections get parsed as string when using our operators
+            // Ex: - Value1 - Value2 - Value2
+            // checking if is a collection 
+            const missingParsedCollection = value.split("-").map(x => x.trim()).filter(x => x);
+            if (missingParsedCollection.length > 1) {
+                value = missingParsedCollection;
+            }
+        } else {
+            utterance = assertionString;
+        }
+        
+        if (operator) {
+            assertion = new Assertion(interaction, path, operator, value);
+            assertion.lineNumber = Util.extractLine(assertionString);
+            assertion.validate();
+        }
+
+        return { assertion, utterance };
+    }
+
+    /**
+     * returns the operator used inside the assertion
+     * @param {string} assertionString - the assertion as a string
+     * @param {boolean} isUtteranceIncluded - if isUtteranceIncluded is set to true, the first part of the string will
+     * be consider as utterance
+     * @return {string}
+     */
+    getOperator(assertionString, isUtteranceIncluded) {
+        const operators = [" == ", " =~ ", " != ", " >= ", " &lt;= ", " > ", " &lt; "];
+        let operatorPosition = -1;
+        let operator = undefined;
+        for (let i=0; i&lt;operators.length; i++){
+            operatorPosition = assertionString.indexOf(operators[i]);
+            if (operatorPosition > -1) {
+                operator = operators[i];
+                break;
+            }
+        }
+
+        // if we don't find our operators, we will search for invalid ones
+        // assertion object will validate the invalid ones
+        // only applies when the utterance is not included
+        if (!operator &amp;&amp; !isUtteranceIncluded) {
+            const parts = assertionString.split(/ +/);
+            operator = parts[1];
+        }
+        
+        return operator;
+    }
+
+    /**
+     * Replaces constants set in the configuration which the actual values
+     * @param {string} script - the yaml file as a string
+     * @return {string}
+     */
+    findReplace(script) {
+        const findReplaceMap = Configuration.instance() &amp;&amp; Configuration.instance().findReplaceMap();
+        if (!findReplaceMap) return script;
+        for (const find of Object.keys(findReplaceMap)) {
+            const value = findReplaceMap[find];
+            script = script.split(find).join(value);
+        }
+        return script;
+    }
+}
+
+module.exports = TestParser;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Assertions.html">Assertions</a></li><li><a href="Expression.html">Expression</a></li><li><a href="InteractionResult.html">InteractionResult</a></li><li><a href="ParserError.html">ParserError</a></li><li><a href="Test.html">Test</a></li><li><a href="TestInteraction.html">TestInteraction</a></li><li><a href="TestParser.html">TestParser</a></li><li><a href="TestResult.html">TestResult</a></li><li><a href="TestSuite.html">TestSuite</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Apr 05 2019 10:53:16 GMT-0500 (-05)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
