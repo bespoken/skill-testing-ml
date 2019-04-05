@@ -19,7 +19,7 @@ Write tests in YAML, like this:
 ```
 
 Output:  
-<img src="./docs/BST-Test-Output.png" width="500" alt="Output" />
+<img src="https://raw.githubusercontent.com/bespoken/skill-testing-ml/master/docs/BST-Test-Output.png" width="500" alt="Output" />
 
 Read our [getting started guide here](https://read.bespoken.io/unit-testing/getting-started/).
 
