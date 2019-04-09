@@ -246,6 +246,8 @@ describe("virtual device runner", () => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
 
             return Configuration.configure({
+                asyncMode: true, //should be ignored
+                batchEnabled: false,
                 invocationName: "space fact",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
