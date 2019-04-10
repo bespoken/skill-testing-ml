@@ -30,7 +30,7 @@ For more in-depth info, read the [full specification](https://docs.google.com/do
 ## Current Support
 - [X] Multi-turn conversations
 - [X] Dialog Interface support
-- [X] AudioPlater interface support
+- [X] AudioPlayer interface support
 - [X] Entity resolution
 - [X] Explicit intent and slot setting
 - [X] Wildcard support for non-regex expressions
