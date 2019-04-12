@@ -241,6 +241,45 @@ describe("virtual device runner", () => {
 
     });
 
+    describe("configuration parameters", () => {
+        let config = {};
+        beforeEach(() => {
+            config = {
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "token"
+            };
+            mockVirtualDevice.mockClear ();
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+            loggerSpy.mockRestore();
+        });
+
+        test("deviceLocation", async () => {
+            config.deviceLocation = {
+                lat: 40.00,
+                lng: 50.00,
+            };
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][6]).toBe(40.00);
+            expect(mockVirtualDevice.mock.calls[0][7]).toBe(50.00);
+        });
+
+        test("stt", async () => {
+            config.stt = "witai";
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][5]).toBe("witai");
+        });
+    });
+
     describe("control flow tests", () => {
         beforeAll(() => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
