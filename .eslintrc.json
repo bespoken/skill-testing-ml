@@ -103,7 +103,10 @@
                     "Veyor",
                     "winston",
                     "yaml",
-                    "yml"
+                    "yml",
+                    "stt",
+                    "lng",
+                    "witai"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
