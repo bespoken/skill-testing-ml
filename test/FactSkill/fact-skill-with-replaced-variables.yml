@@ -1,0 +1,10 @@
+---
+- LaunchRequest:
+  - response.test.value: A value and a {firstVariable}
+- Help:
+  - response.test.value !=
+    - {secondVariable}
+    - value
+    - {thirdVariable}
+- nothing to replace: nothing at all
+- String with no assertion
