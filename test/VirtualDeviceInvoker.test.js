@@ -246,7 +246,7 @@ describe("virtual device runner", () => {
         beforeEach(() => {
             config = {
                 type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "token"
+                virtualDeviceToken: "token",
             };
             mockVirtualDevice.mockClear ();
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
@@ -277,6 +277,17 @@ describe("virtual device runner", () => {
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
             expect(mockVirtualDevice.mock.calls[0][5]).toBe("witai");
+        });
+
+
+        test("deviceLocation and stt on yml", async () => {
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][5]).toBe("witai");
+            expect(mockVirtualDevice.mock.calls[0][6]).toBe(40.00);
+            expect(mockVirtualDevice.mock.calls[0][7]).toBe(50.00);
         });
     });
 
