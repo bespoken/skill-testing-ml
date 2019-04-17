@@ -136,7 +136,7 @@ describe("virtual device runner", () => {
 
         test("runs fact skill test", async () => {
             const runner = new TestRunner();
-            const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            const results = await runner.run("test/FactSkill/fact-skill-tests.common-with-variables.yml");
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
