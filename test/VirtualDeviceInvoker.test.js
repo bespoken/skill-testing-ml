@@ -353,7 +353,7 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
 
             const conversationIdPromise = new Promise((resolve) => {
-                runner.subscribe("conversation_id", (conversation_id) => {
+                runner.subscribe("conversation_id", (error, conversation_id) => {
                     resolve(conversation_id);
                 });
             });
@@ -363,7 +363,6 @@ describe("virtual device runner", () => {
 
             expect(results.length).toEqual(3);
             expect(conversation_id).toEqual("dummy-id");
-
             expect(results[0].test.description).toEqual("Launches successfully");
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
             expect(results[0].interactionResults[1].error).toBeUndefined();
