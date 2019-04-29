@@ -352,9 +352,18 @@ describe("virtual device runner", () => {
         test("Test flow with async", async () => {
             const runner = new TestRunner();
 
+            const conversationIdPromise = new Promise((resolve) => {
+                runner.subscribe("conversation_id", (conversation_id) => {
+                    resolve(conversation_id);
+                });
+            });
             const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
 
+            const conversation_id = await conversationIdPromise;
+
             expect(results.length).toEqual(3);
+            expect(conversation_id).toEqual("dummy-id");
+
             expect(results[0].test.description).toEqual("Launches successfully");
             expect(results[0].interactionResults[0].interaction.utterance).toEqual("Hi");
             expect(results[0].interactionResults[1].error).toBeUndefined();
