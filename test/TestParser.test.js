@@ -421,6 +421,36 @@ configuration:
 
     });
 
+    test("parses without error file with values to be replaced", () => {
+        const parser = new TestParser();
+        parser.load(`
+--- 
+- LaunchRequest:
+  - response.test.value: A value and a {variable}
+- one utterance: "{another_variable}"
+- Help:
+  - response.test.value !=
+    - {variable_in_list}
+    - value
+    - {variable_in_list}
+- nothing to replace: nothing at all
+- String with no assertion
+        `);
+        const testSuite = parser.parse();
+        expect(testSuite.tests[0].interactions.length).toBe(5);
+        expect(testSuite.tests[0].interactions[0].assertions.length).toBe(1);
+        expect(testSuite.tests[0].interactions[0].assertions[0].value).toBe("A value and a {variable}");
+        expect(testSuite.tests[0].interactions[0].assertions[0].variables).toEqual(["variable"]);
+        expect(testSuite.tests[0].interactions[1].assertions[0].value).toBe("{another_variable}");
+        // We are currently skipping this "bad objects" on parsing
+        // expect(testSuite.tests[0].interactions[1].assertions[0].variables).toEqual(["another_variable"]);
+        expect(testSuite.tests[0].interactions[2].assertions[0].value).toEqual(expect.arrayContaining(["{variable_in_list}", "value", "{variable_in_list}"]));
+        expect(testSuite.tests[0].interactions[2].assertions[0].variables).toEqual(["variable_in_list"]);
+        expect(testSuite.tests[0].interactions[3].assertions[0].variables).toEqual([]);
+        // Since we don't have assertions, we don't have variables
+        expect(testSuite.tests[0].interactions[4].assertions).toEqual([]);
+    });
+
     describe("findReplace", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
@@ -448,5 +478,17 @@ configuration:
             expect(testSuite.tests[0].interactions[0].expressions[0].value).toBe("A value");
             expect(testSuite.tests[0].interactions[0].expressions[1].value).toBe("Another value");
         });
+    });
+
+    describe("getDefinedVariables", () => {
+        const parser = new TestParser();
+        const variablesArePresent = parser.getDefinedVariables("I'm looking for {firstVariable} and {secondVariable}");
+        const noVariablesArePresent = parser.getDefinedVariables("these are not the drones you are looking for");
+        const duplicatingVariables = parser.getDefinedVariables("{cloneVariable} not the clone {cloneVariable}");
+
+        expect(variablesArePresent).toEqual(["firstVariable", "secondVariable"]);
+        expect(noVariablesArePresent).toEqual([]);
+        expect(duplicatingVariables).toEqual(["cloneVariable"]);
+
     });
 });

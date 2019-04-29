@@ -6,6 +6,7 @@ const mockMessage = require("virtual-device-sdk").mockMessage;
 
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
+const Util = require("../lib/util/Util.js");
 
 describe("test runner", () => {
     beforeEach(() => {
@@ -390,6 +391,89 @@ describe("test runner", () => {
         });
 
         await runner.run("test/FactSkill/fact-skill-tests.yml");
+
+        expect(testStart).toBe(true);
+        expect(testEnd).toBe(true);
+    });
+
+    test("Filter for variable replacement", async () => {
+        let testStart = false;
+        let testEnd = false;
+
+        const runner = new TestRunner({
+            filter: {
+                onTestEnd: (test, testResult) => {
+                    expect(test).toBeDefined();
+                    expect(testResult).toBeDefined();
+                    expect(test.interactions[0].assertions[0].value).toBe("A value and a first");
+                    expect(test.interactions[1].assertions[0].value).toEqual(["2", "value", "{thirdVariable}"]);
+                    expect(test.interactions[2].assertions[0].value).toBe("nothing at all");
+
+                    testEnd = true;
+                },
+                onTestStart:(test) => {
+                    expect(test).toBeDefined();
+                    testStart = true;
+                },
+                resolve: async (variable, interaction) => {
+                    if (variable === "firstVariable") return "first";
+                    if (variable === "secondVariable") {
+                        await Util.sleep(10);
+                        return 2;
+                    }
+                    expect(interaction).toBeDefined();
+                },
+
+            },
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        await runner.run("test/FactSkill/fact-skill-with-replaced-variables.yml");
+
+        expect(testStart).toBe(true);
+        expect(testEnd).toBe(true);
+    });
+
+    test("Filter for variable replacement works correctly in batch mode", async () => {
+        let testStart = false;
+        let testEnd = false;
+
+        const runner = new TestRunner({
+            filter: {
+                onTestEnd: (test, testResult) => {
+                    expect(test).toBeDefined();
+                    expect(testResult).toBeDefined();
+                    expect(test.interactions[0].assertions[0].value).toBe("A value and a first");
+                    expect(test.interactions[1].assertions[0].value).toEqual(["2", "value", "{thirdVariable}"]);
+                    expect(test.interactions[2].assertions[0].value).toBe("nothing at all");
+
+                    testEnd = true;
+                },
+                onTestStart:(test) => {
+                    expect(test).toBeDefined();
+                    testStart = true;
+                },
+                resolve: async (variable, interaction) => {
+                    if (variable === "firstVariable") return "first";
+                    if (variable === "secondVariable") {
+                        await Util.sleep(10);
+                        return 2;
+                    }
+                    expect(interaction).toBeDefined();
+                },
+
+            },
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+            type: "e2e",
+            virtualDeviceToken: "123",
+
+        });
+
+        await runner.run("test/FactSkill/fact-skill-with-replaced-variables.yml");
 
         expect(testStart).toBe(true);
         expect(testEnd).toBe(true);
