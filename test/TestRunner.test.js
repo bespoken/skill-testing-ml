@@ -280,6 +280,30 @@ describe("test runner", () => {
         expect(mockGetConversationResults.mock.calls.length).toBe(9);
     });
 
+    test("batchEnabled true, asyncMode true, goto ", async () => {
+        const runner = new TestRunner({
+            asyncE2EWaitInterval: 1,
+            asyncMode: true,
+            batchEnabled: true,
+            maxAsyncE2EResponseWaitTime: 3,
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "async token",
+        });
+
+        const mockReturn = [{}, {}, {}];
+        for (let i=0; i < 3; i++) {
+            // Usual behavior, first result is empty and arrays with results appear then
+            mockGetConversationResults
+                .mockReturnValueOnce([])
+                .mockReturnValueOnce(mockReturn)
+                .mockReturnValueOnce(mockReturn);
+        }
+
+        await runner.run("test/FactSkill/fact-skill-tests.goto.yml");
+        // each of the three interactions have two utterances, plus the call that comes with an empty array
+        expect(mockGetConversationResults.mock.calls.length).toBe(5);
+    });    
+
     test("getInvoker default value", async () => {
         Configuration.configure({});
 

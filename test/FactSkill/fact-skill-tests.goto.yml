@@ -1,0 +1,14 @@
+# A simple example of skill test suite
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+---
+- test: "Gets a new fact intent"
+- tags: alexa, broken
+- "Help":
+  - prompt == "how many" goto "Get New Facts"
+- "Error"
+- "Get New Facts":
+  - response.card.title =~ Space Facts
+
