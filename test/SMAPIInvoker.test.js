@@ -96,7 +96,7 @@ describeMock("SMAPI test with mock calls", () => {
 // See the note on SMAPI.test.js with regard to tests for SMAPI code
 // These are separated from other tests because of their complex setup
 describeIf("SMAPI Invoker Tests", () => {
-    describe("various simulation scenarios", async () => {
+    describe("various simulation scenarios", () => {
         beforeAll(() => {
             // Create an ask config if it does not exist
             Util.createAskCliConfig();

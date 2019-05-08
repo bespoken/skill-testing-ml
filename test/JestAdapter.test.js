@@ -6,7 +6,7 @@ const TestResult = require("../lib/test/TestResult").TestResult;
 const testRunner = require("../lib/runner/JestAdapter");
 const TestSuite = require("../lib/test/TestSuite");
 
-describe("JestAdapter", async () => {
+describe("JestAdapter", () => {
     test("Runs a mock test that succeeds", async () => {
         const testSuite = new TestSuite("MyTest.yml");
         const test = new Test(testSuite, { description: "Test Description" });
