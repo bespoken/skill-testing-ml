@@ -76,7 +76,7 @@
     "jest-message-util": "^24.7.1",
     "jest-stare": "^1.13.2",
     "js-yaml-bespoken": "^3.11.5",
-    "jsonpath-bespoken": "^1.0.1",
+    "jsonpath-bespoken": "^1.0.2",
     "lodash": "^4.17.11",
     "virtual-alexa": "^0.7.2",
     "virtual-device-sdk": "^1.5.12",
