@@ -491,4 +491,50 @@ configuration:
         expect(duplicatingVariables).toEqual(["cloneVariable"]);
 
     });
+
+    describe("parse with configuration overrides", () => {
+
+        test("override configuration", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+  locale: en-US
+  voiceId: Hans
+  virtualDeviceToken: token
+
+--- 
+- LaunchRequest: welcome
+- Hello: word
+            `);
+            const testSuite = parser.parse({ virtualDeviceToken: "token_replace", voiceId: "Jon"});
+
+            expect(testSuite.configuration.locale).toEqual("en-US");
+            expect(testSuite.configuration.voiceId).toEqual("Jon");
+            expect(testSuite.configuration.virtualDeviceToken).toEqual("token_replace");
+            expect(testSuite.tests.length).toEqual(1);
+
+            const firstTest = testSuite.tests[0];
+            expect(firstTest.interactions.length).toEqual(2);
+        });
+
+        test("missing configuration on yml", () => {
+            const parser = new TestParser();
+            parser.load(`
+--- 
+- LaunchRequest: welcome
+- Hello: word
+            `);
+            const testSuite = parser.parse({ locale: "US", virtualDeviceToken: "token_new", voiceId: "Ivy"});
+
+            expect(testSuite.configuration.locale).toEqual("US");
+            expect(testSuite.configuration.voiceId).toEqual("Ivy");
+            expect(testSuite.configuration.virtualDeviceToken).toEqual("token_new");
+            expect(testSuite.tests.length).toEqual(1);
+
+            const firstTest = testSuite.tests[0];
+            expect(firstTest.interactions.length).toEqual(2);
+        });
+    });
+
 });
