@@ -3,7 +3,9 @@ const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const mockGetConversationResults = require("virtual-device-sdk").mockGetConversationResults;
 const mockMessage = require("virtual-device-sdk").mockMessage;
+const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
 
+const TestParser = require("../lib/test/TestParser");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
 const Util = require("../lib/util/Util.js");
@@ -12,6 +14,7 @@ describe("test runner", () => {
     beforeEach(() => {
         mockMessage.mockClear();
         mockGetConversationResults.mockClear();
+        mockVirtualDevice.mockClear();
         Configuration.singleton = undefined;
     });
 
@@ -501,5 +504,43 @@ describe("test runner", () => {
 
         expect(testStart).toBe(true);
         expect(testEnd).toBe(true);
+    });
+
+    test("execute test on parallel", async () => {
+        Configuration.configure({
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "anotherToken",
+        });
+
+        const script = `
+--- 
+- LaunchRequest: welcome
+`;
+
+        await Promise.all(["A", "B", "C"].map(async (token) => {
+            const configurationOverride = { locale: "en-US", type: CONSTANTS.TYPE.e2e, virtualDeviceToken: "token"+token};
+            const parser = new TestParser();
+            parser.load(script);
+            
+            const testSuite = parser.parse(configurationOverride);
+            testSuite._fileName = "test";
+    
+            const runner = new TestRunner();
+            return await runner.runSuite(testSuite);
+        }));
+
+        expect(mockVirtualDevice.mock.calls.length).toBe(3);
+
+        const expected = ["tokenA", "tokenB", "tokenC"];
+        const received = [
+            mockVirtualDevice.mock.calls[0][0],
+            mockVirtualDevice.mock.calls[1][0],
+            mockVirtualDevice.mock.calls[2][0],
+        ];
+
+        expect(received).toEqual(
+            expect.arrayContaining(expected),
+        );
+
     });
 });
