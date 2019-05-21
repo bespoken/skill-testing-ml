@@ -45,6 +45,7 @@ describe("test runner", () => {
         expect(resultCallbackMock.mock.calls[1][1]).toBeDefined();
         expect(resultCallbackMock.mock.calls[1][1].assertions.length).toBe(3);
         expect(resultCallbackMock.mock.calls[1][1].assertions[0].actual).toContain("Here's your fact");
+        expect(resultCallbackMock.mock.calls[1][1].assertions[0].operator).toBe("=~");
         expect(resultCallbackMock.mock.calls[1][1].result).toBeDefined();
         expect(resultCallbackMock.mock.calls[1][1].result.rawResponse).toBeDefined();
     });
