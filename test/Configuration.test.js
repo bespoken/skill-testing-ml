@@ -63,6 +63,18 @@ describe("configuration", () => {
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.reporters.length).toEqual(2);
         });
+
+        test("reporters present in jest configuration", async () => {
+            await Configuration.configure({
+                jest: {
+                    reporters: ["jest-silent-reporter"],
+                },
+            }, "", null, true);
+            const jestConfiguration = Configuration.instance().value("jest");
+            expect(jestConfiguration.reporters.length).toEqual(1);
+            expect(jestConfiguration.reporters).toEqual(["jest-silent-reporter"]);
+
+        });
     });
 
     describe("test path", function () {
