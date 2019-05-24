@@ -290,6 +290,15 @@ describe("virtual device runner", () => {
             expect(mockVirtualDevice.mock.calls[0][0].locationLong).toBe(50.00);
         });
 
+        test("client", async () => {
+            config.client = "dashboard";
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0].client).toBe("dashboard");
+        });
+
         test("screenMode", async () => {
             Configuration.configure(config);
             const runner = new TestRunner();
