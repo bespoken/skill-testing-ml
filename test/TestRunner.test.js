@@ -534,9 +534,9 @@ describe("test runner", () => {
 
         const expected = ["tokenA", "tokenB", "tokenC"];
         const received = [
-            mockVirtualDevice.mock.calls[0][0],
-            mockVirtualDevice.mock.calls[1][0],
-            mockVirtualDevice.mock.calls[2][0],
+            mockVirtualDevice.mock.calls[0][0].token,
+            mockVirtualDevice.mock.calls[1][0].token,
+            mockVirtualDevice.mock.calls[2][0].token,
         ];
 
         expect(received).toEqual(

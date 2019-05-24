@@ -164,9 +164,9 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][0]).toBe("space fact");
-            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
-            expect(mockVirtualDevice.mock.calls[0][2]).toBe("voiceId");
+            expect(mockVirtualDevice.mock.calls[0][0].token).toBe("space fact");
+            expect(mockVirtualDevice.mock.calls[0][0].locale).toBe("en-US");
+            expect(mockVirtualDevice.mock.calls[0][0].voiceID).toBe("voiceId");
         });
     });
     
@@ -191,8 +191,8 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][0]).toBe("space fact");
-            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+            expect(mockVirtualDevice.mock.calls[0][0].token).toBe("space fact");
+            expect(mockVirtualDevice.mock.calls[0][0].locale).toBe("en-US");
         });
 
         test("alexa token", async () => {
@@ -204,8 +204,8 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][0]).toBe("alexaToken");
-            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+            expect(mockVirtualDevice.mock.calls[0][0].token).toBe("alexaToken");
+            expect(mockVirtualDevice.mock.calls[0][0].locale).toBe("en-US");
         });
 
         test("google token", async () => {
@@ -218,8 +218,8 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][0]).toBe("googleToken");
-            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+            expect(mockVirtualDevice.mock.calls[0][0].token).toBe("googleToken");
+            expect(mockVirtualDevice.mock.calls[0][0].locale).toBe("en-US");
         });
 
         test("alexa token with locales", async () => {
@@ -235,8 +235,8 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][0]).toBe("alexaTokenUS");
-            expect(mockVirtualDevice.mock.calls[0][1]).toBe("en-US");
+            expect(mockVirtualDevice.mock.calls[0][0].token).toBe("alexaTokenUS");
+            expect(mockVirtualDevice.mock.calls[0][0].locale).toBe("en-US");
         });
 
     });
@@ -266,8 +266,8 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][6]).toBe(40.00);
-            expect(mockVirtualDevice.mock.calls[0][7]).toBe(50.00);
+            expect(mockVirtualDevice.mock.calls[0][0].locationLat).toBe(40.00);
+            expect(mockVirtualDevice.mock.calls[0][0].locationLong).toBe(50.00);
         });
 
         test("stt", async () => {
@@ -276,7 +276,7 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][5]).toBe("witai");
+            expect(mockVirtualDevice.mock.calls[0][0].stt).toBe("witai");
         });
 
 
@@ -285,9 +285,17 @@ describe("virtual device runner", () => {
             const runner = new TestRunner();
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
-            expect(mockVirtualDevice.mock.calls[0][5]).toBe("witai");
-            expect(mockVirtualDevice.mock.calls[0][6]).toBe(40.00);
-            expect(mockVirtualDevice.mock.calls[0][7]).toBe(50.00);
+            expect(mockVirtualDevice.mock.calls[0][0].stt).toBe("witai");
+            expect(mockVirtualDevice.mock.calls[0][0].locationLat).toBe(40.00);
+            expect(mockVirtualDevice.mock.calls[0][0].locationLong).toBe(50.00);
+        });
+
+        test("screenMode", async () => {
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0].screenMode).toBe("OFF");
         });
     });
 
