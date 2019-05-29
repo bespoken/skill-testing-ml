@@ -22,7 +22,14 @@ const mockGetConversationResults = jest.fn()
     .mockReturnValue(getResponsesFromMessages([{ phrases: [], text: "Hi" },
         { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ]));
 
-const mockVirtualDevice = jest.fn().mockImplementation((token) => {
+const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
+    let token = undefined;
+    if (arg0 === Object(arg0)) {
+        token = arg0.token;
+    } else {
+        token = arg0;
+    }
+
     if(token === "space fact") return {batchMessage: spaceFactMessage};
     if(token === "async token") return {
         batchMessage: jest.fn(() => {

@@ -6,6 +6,7 @@ configuration:
   deviceLocation:
     lat: 40.00
     lng: 50.00
+  screenMode: OFF
 
 --- # The --- indicates the start of a new test, which is a self-contained YAML document
 - test: "Launches successfully" # Optional info about the test
