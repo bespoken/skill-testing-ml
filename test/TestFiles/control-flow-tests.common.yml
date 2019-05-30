@@ -4,7 +4,7 @@ configuration:
 ---
 - test: "Goes to successfully"
 - LaunchRequest:
-  - prompt == "Here's your fact*" goto Get New Fact
+  - prompt == "Here's your fact" goto Get New Fact
   - reprompt == undefined
   - cardContent =~ /.*/
   - exit

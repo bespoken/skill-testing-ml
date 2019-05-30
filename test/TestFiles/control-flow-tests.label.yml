@@ -4,12 +4,12 @@ configuration:
 ---
 - test: "Goes to successfully"
 - LaunchRequest:
-  - response.outputSpeech.ssml == "Here's your fact:*" goto GetNew
+  - response.outputSpeech.ssml =~ "Here's your fact:*" goto GetNew
   - response.reprompt == undefined
   - response.card.content =~ /.*/
   - exit
 - Help:
-  - response.outputSpeech.ssml == "Here's your fact:*"
+  - response.outputSpeech.ssml =~ "Here's your fact:*"
   - response.reprompt == undefined
   - response.card.content =~ /.*/
 - Get New Fact:

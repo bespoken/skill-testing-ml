@@ -5,7 +5,7 @@
   - cardTitle: Guess The Gif
 - phone: Nice try, but that is not correct. Guess again.
 - apple: That is not correct. One more guess.
-- mug: No more guesses! It was *
+- mug: /No more guesses! It was */
 - stop: Goodbye
 
 ---
@@ -15,5 +15,5 @@
   - cardTitle: Guess The Gif
 - phone: Nice try, but that is not correct. Guess again.
 - apple: That is not correct. One more guess.
-- mug: No more guesses! It was *
+- mug: /No more guesses! It was */
 - stop: Goodbye
