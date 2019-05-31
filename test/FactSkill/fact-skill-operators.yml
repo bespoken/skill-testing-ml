@@ -1,0 +1,15 @@
+# A simple example of skill test suite
+
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+---
+- test: "Gets a new fact intent"
+- "Help": you can say
+- "Help": /.*you can say.*/i
+- "Help": you can say*
+- "Help":
+  - prompt:
+    - /.*you can say.*/i
+    - other
