@@ -13,3 +13,6 @@ configuration:
   - prompt:
     - /.*you can say.*/i
     - other
+- Help == /.*you can say.*/i
+- "Help":
+  - prompt == /.*you can say.*/i
