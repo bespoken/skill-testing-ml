@@ -85,7 +85,7 @@ describe("test parser", () => {
         const testSuite = parser.parse();
         const assertion = testSuite.tests[0].interactions[0].assertions[0];
         expect(assertion.path).toEqual("response.outputSpeech.ssml");
-        expect(assertion.operator).toEqual("==");
+        expect(assertion.operator).toEqual("=~");
         expect(assertion.value).toEqual("Here's your fact: *");
         expect(assertion._value._yaml.line).toEqual(3);
 
