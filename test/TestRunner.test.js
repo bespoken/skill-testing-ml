@@ -558,7 +558,6 @@ describe("test runner", () => {
         expect(results.length).toEqual(1);
         expect(results[0].test.description).toEqual("Gets a new fact intent");
 
-        expect(results[0].interactionResults.length).toBe(6);
         expect(results[0].interactionResults[0].interaction.assertions[0].operator).toBe("==");
         expect(results[0].interactionResults[0].error).toBeUndefined();
         expect(results[0].interactionResults[1].interaction.assertions[0].operator).toBe("=~");

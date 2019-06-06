@@ -16,3 +16,10 @@ configuration:
 - Help == /.*you can say.*/i
 - "Help":
   - prompt == /.*you can say.*/i
+- Help != YOU
+- Help:
+  - prompt != YoU
+- Help:
+  - cardTitle == mainTitlE
+- Help:
+  - cardTitle: mainTitlE
