@@ -23,3 +23,7 @@ configuration:
   - cardTitle == mainTitlE
 - Help:
   - cardTitle: mainTitlE
+- Help:
+  - cardTitle:
+    - mainTitlE
+    - mainTitle

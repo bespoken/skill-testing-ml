@@ -625,6 +625,8 @@ describe("virtual device runner", () => {
             
             expect(results[0].interactionResults[8].error).toBeDefined();
             expect(results[0].interactionResults[9].error).toBeDefined();
+
+            expect(results[0].interactionResults[10].error).toBeUndefined();
         });
     });
 });
