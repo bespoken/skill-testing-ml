@@ -16,7 +16,7 @@ describe("virtual device integration", () => {
     let _invoker;
     let _interaction;
 
-    describe("interactions", async () => {
+    describe("interactions", () => {
 
         beforeEach(() => {
             _invoker = new VirtualDeviceInvoker(undefined);
@@ -580,6 +580,53 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(2);
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[1].error).toBeUndefined();
+        });
+    });
+
+    describe("operators", () =>{
+        beforeEach(() => {
+            Configuration.configure({
+                invocationName: "space fact",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                // eslint-disable-next-line spellcheck/spell-checker
+                virtualDeviceToken: "space fact",
+                voiceId: "voiceId",
+            });
+            mockVirtualDevice.mockClear();
+            loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("different operators", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("test/FactSkill/fact-skill-operators.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults[0].interaction.assertions[0].operator).toBe("==");
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(results[0].interactionResults[1].interaction.assertions[0].operator).toBe("=~");
+            expect(results[0].interactionResults[1].error).toBeUndefined();
+            expect(results[0].interactionResults[2].interaction.assertions[0].operator).toBe("=~");
+            expect(results[0].interactionResults[2].error).toBeUndefined();
+            expect(results[0].interactionResults[3].interaction.assertions[0].operator).toBe("=~");
+            expect(results[0].interactionResults[3].error).toBeUndefined();
+            expect(results[0].interactionResults[4].interaction.assertions[0].operator).toBe("==");
+            expect(results[0].interactionResults[4].error).toBeDefined();
+            expect(results[0].interactionResults[5].interaction.assertions[0].operator).toBe("==");
+            expect(results[0].interactionResults[5].error).toBeDefined();
+            expect(results[0].interactionResults[6].interaction.assertions[0].operator).toBe("!=");
+            expect(results[0].interactionResults[6].error).toBeDefined();
+            expect(results[0].interactionResults[7].interaction.assertions[0].operator).toBe("!=");
+            expect(results[0].interactionResults[7].error).toBeDefined();
+            
+            expect(results[0].interactionResults[8].error).toBeDefined();
+            expect(results[0].interactionResults[9].error).toBeDefined();
+
+            expect(results[0].interactionResults[10].error).toBeUndefined();
         });
     });
 });

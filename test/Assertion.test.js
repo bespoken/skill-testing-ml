@@ -186,6 +186,18 @@ describe("assertion", () => {
         expect(assertion.evaluate(obj)).toBe(false);
     });
 
+    test("invalid operator", () => {
+        const obj = new MockResponse({ val: "Here is a test" });
+        let assertion = new Assertion(undefined, "val", "=!", "Here is a test");
+        try {
+            assertion.evaluate(obj);
+            expect(true).toBe(false);
+        } catch (error) {
+            expect(true).toBe(true);
+        }
+
+    });
+
     describe("toString", () => {
         test("display error", () => {
             const json = { val: "Here is a test" };
