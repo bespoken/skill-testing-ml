@@ -89,7 +89,7 @@
     "@babel/plugin-transform-async-to-generator": "^7.4.4",
     "@babel/plugin-transform-block-scoping": "^7.4.4",
     "@babel/plugin-transform-classes": "^7.4.4",
-    "actions-on-google": "^2.2.0",
+    "actions-on-google": "^2.7.1",
     "alexa-sdk": "^1.0.25",
     "ask-sdk-core": "^2.0.0",
     "ask-sdk-model": "^1.0.0",
