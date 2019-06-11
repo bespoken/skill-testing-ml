@@ -13,16 +13,19 @@ describe("JestAdapter", () => {
         const testResult = new TestResult(test);
         testResult.locale = "en-US";
         const interaction = new TestInteraction("Hi");
+        interaction.duration = 1;
         const interactionResult = new InteractionResult(interaction);
         testResult.addInteractionResult(interactionResult);
 
         const interaction2 = new TestInteraction("Hi");
+        interaction2.duration = 2;
         const interactionResult2 = new InteractionResult(interaction2);
         testResult.addInteractionResult(interactionResult2);
 
         const results = [testResult];
 
         const jestResults = await testRunner({}, {}, {}, new Runtime(results), "MyTest.yml");
+
         expect(jestResults.numPassingTests).toBe(1);
         expect(jestResults.numFailingTests).toBe(0);
         expect(jestResults.testResults.length).toBe(2);
@@ -32,7 +35,12 @@ describe("JestAdapter", () => {
         const jestTestResult = jestResults.testResults[0];
         expect(jestTestResult.ancestorTitles[0]).toBe("en-US");
         expect(jestTestResult.ancestorTitles[1]).toBe("Test Description");
+        expect(jestTestResult.duration).toBe(1);
         expect(jestTestResult.status).toBe("passed");
+
+        const jestTestResult2 = jestResults.testResults[1];
+        expect(jestTestResult2.duration).toBe(2);
+
     });
 
     test("Runs a mock test that fails", async () => {
