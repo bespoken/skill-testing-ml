@@ -247,6 +247,18 @@ describe("test runner", () => {
   
         await runner.run("test/FactSkill/fact-skill-tests.yml");
         expect(mockMessage.mock.calls.length).toBe(3);
+        expect(process.env.JEST_STARE_COVERAGE_LINK).toBeUndefined();
+    });
+
+    test("test variable for coverage is set if unit testing is active", async () => {
+        const runner = new TestRunner({
+            handler: "test/FactSkill/index.handler",
+            include: "alexa",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+        await runner.run("test/FactSkill/fact-skill-tests.yml");
+        expect(process.env.JEST_STARE_COVERAGE_LINK).toBe("../coverage/lcov-report/index.html");
     });
 
     test("batchEnabled false", async () => {
