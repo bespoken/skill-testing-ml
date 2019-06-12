@@ -610,7 +610,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
             expect(results[0].interactionResults[1].interaction.assertions[0].operator).toBe("=~");
             expect(results[0].interactionResults[1].error).toBeUndefined();
-            expect(results[0].interactionResults[2].interaction.assertions[0].operator).toBe("=~");
+            expect(results[0].interactionResults[2].interaction.assertions[0].operator).toBe("==");
             expect(results[0].interactionResults[2].error).toBeUndefined();
             expect(results[0].interactionResults[3].interaction.assertions[0].operator).toBe("=~");
             expect(results[0].interactionResults[3].error).toBeUndefined();

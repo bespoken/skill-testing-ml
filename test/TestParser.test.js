@@ -81,11 +81,15 @@ describe("test parser", () => {
   - response.outputSpeech.ssml: "/Here's your fact: .*/" 
   - response.outputSpeech.ssml: 15
   - response: undefined 
-        `);
+  - prompt:
+    - fact *
+    - 
+    - regex *
+    `);
         const testSuite = parser.parse();
         const assertion = testSuite.tests[0].interactions[0].assertions[0];
         expect(assertion.path).toEqual("response.outputSpeech.ssml");
-        expect(assertion.operator).toEqual("=~");
+        expect(assertion.operator).toEqual("==");
         expect(assertion.value).toEqual("Here's your fact: *");
         expect(assertion._value._yaml.line).toEqual(3);
 
@@ -110,6 +114,11 @@ describe("test parser", () => {
         expect(assertion5.path).toEqual("response");
         expect(assertion5.operator).toEqual("==");
         expect(assertion5.value).toBeUndefined();
+
+        const assertion6 = testSuite.tests[0].interactions[0].assertions[5];
+        expect(assertion6.path).toEqual("prompt");
+        expect(assertion6.operator).toEqual("==");
+        // expect(assertion6.value).toBeUndefined();
     });
 
     test("parses simple test file with some funny conditions", () => {

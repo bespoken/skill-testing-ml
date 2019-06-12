@@ -117,15 +117,15 @@ describe("assertion", () => {
         expect(assertionString).toContain("Expected value at [notNumber] to be >\n");
     });
 
-    test.skip("evaluate wild cards", () => {
+    test("evaluate wild cards", () => {
         const obj = new MockResponse({ val: "Here $ is ^ a + test?" });
-        let assertion = new Assertion(undefined, "val", "=~", "Here $ is ^ a + *");
+        let assertion = new Assertion(undefined, "val", "==", "Here $ is ^ a + *");
         expect(assertion.evaluate(obj)).toBe(true);
 
-        assertion = new Assertion(undefined, "val", "=~", "Here is");
+        assertion = new Assertion(undefined, "val", "==", "Here is");
         expect(assertion.evaluate(obj)).toBe(false);
 
-        assertion = new Assertion(undefined, "val", "=~", "Here $ is *?");
+        assertion = new Assertion(undefined, "val", "==", "Here $ is *?");
         expect(assertion.evaluate(obj)).toBe(true);
     });
 
