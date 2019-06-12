@@ -545,4 +545,134 @@ configuration:
         });
     });
 
+    describe("parse yaml object", () => {
+        test("yml file to object", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+    locale: en-US
+    platform: alexa
+    type: e2e
+    virtualDeviceToken: myToken
+---
+- test: simple test
+- hello: welcome
+- open guess the price:
+  - prompt:
+    - how many
+    - /.*/
+  - prompt ==
+    - guess
+    - the
+- one: please tell`);
+            const testSuite = parser.parse();
+            const yamlObject = testSuite.toYamlObject();
+            expect(yamlObject).toBeDefined();
+            expect(yamlObject.configuration).toBeDefined();
+            expect(yamlObject.tests).toBeDefined();
+            expect(yamlObject.tests.length).toBe(1);
+            expect(yamlObject.tests[0].name).toStrictEqual("simple test");
+            expect(yamlObject.tests[0].interactions.length).toBe(3);
+
+            expect(yamlObject.tests[0].interactions[0].input).toBe("hello");
+            expect(yamlObject.tests[0].interactions[0].expected.length).toBe(1);
+            expect(yamlObject.tests[0].interactions[0].expected[0].action).toBe("prompt");
+            expect(yamlObject.tests[0].interactions[0].expected[0].operator).toBe(":");
+            expect(yamlObject.tests[0].interactions[0].expected[0].value).toBe("welcome");
+
+            expect(yamlObject.tests[0].interactions[1].input).toBe("open guess the price");
+            expect(yamlObject.tests[0].interactions[1].expected.length).toBe(2);
+            expect(yamlObject.tests[0].interactions[1].expected[0].action).toBe("prompt");
+            expect(yamlObject.tests[0].interactions[1].expected[0].operator).toBe(":");
+            expect(yamlObject.tests[0].interactions[1].expected[0].value.length).toBe(2);
+            expect(yamlObject.tests[0].interactions[1].expected[0].value[0]).toBe("how many");
+            expect(yamlObject.tests[0].interactions[1].expected[1].action).toBe("prompt");
+            expect(yamlObject.tests[0].interactions[1].expected[1].operator).toBe("==");
+            expect(yamlObject.tests[0].interactions[1].expected[1].value.length).toBe(2);
+            expect(yamlObject.tests[0].interactions[1].expected[1].value[0]).toBe("guess");
+        });
+
+        test("yaml object to yaml", () => {
+            const parser = new TestParser();
+            const yamlObject = {
+                "configuration": {
+                    "locale": "en-US",
+                    "platform": "alexa",
+                    "type": "e2e",
+                    "virtualDeviceToken": "myToken",
+                },
+                "tests": [
+                    {
+                        "interactions": [
+                            {
+                                "expected": [
+                                    {
+                                        "action": "prompt",
+                                        "operator": ":",
+                                        "value": "welcome",
+                                    },
+                                ],
+                                "input": "hello",
+                            },
+                            {
+                                "expected": [
+                                    {
+                                        "action": "prompt",
+                                        "operator": ":",
+                                        "value": [
+                                            "how many",
+                                            "/.*/",
+                                        ],
+                                    },
+                                    {
+                                        "action": "prompt",
+                                        "operator": "==",
+                                        "value": [
+                                            "guess",
+                                            "the",
+                                        ],
+                                    },
+                                ],
+                                "input": "open guess the price",
+                            },
+                            {
+                                "expected": [
+                                    {
+                                        "action": "prompt",
+                                        "operator": ":",
+                                        "value": "please tell",
+                                    },
+                                ],
+                                "input": "one",
+                            },
+                        ],
+                        "name": "simple test",
+                    },
+                ],
+            };
+            
+            parser.loadYamlObject(yamlObject);
+            expect(parser.contents).toBe(`---
+configuration:
+  locale: en-US
+  platform: alexa
+  type: e2e
+  virtualDeviceToken: myToken
+---
+- test : simple test
+- hello : welcome
+- open guess the price :
+  - prompt :
+    - how many
+    - /.*/
+  - prompt ==
+    - guess
+    - the
+- one : please tell
+`);
+
+        });
+    });
+
 });
