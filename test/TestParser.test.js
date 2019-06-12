@@ -118,7 +118,6 @@ describe("test parser", () => {
         const assertion6 = testSuite.tests[0].interactions[0].assertions[5];
         expect(assertion6.path).toEqual("prompt");
         expect(assertion6.operator).toEqual("==");
-        // expect(assertion6.value).toBeUndefined();
     });
 
     test("parses simple test file with some funny conditions", () => {
