@@ -126,9 +126,11 @@ describe("test parser", () => {
 --- 
 - LaunchRequest:
 - LaunchRequest: "*"
+- 100
+
         `);
         const testSuite = parser.parse();
-        expect(testSuite.tests[0].interactions.length).toBe(2);
+        expect(testSuite.tests[0].interactions.length).toBe(3);
         expect(testSuite.tests[0].interactions[0].assertions.length).toBe(0);
         expect(testSuite.tests[0].interactions[0].expressions.length).toBe(0);
         expect(testSuite.tests[0].interactions[1].assertions.length).toBe(1);
