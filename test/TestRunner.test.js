@@ -591,20 +591,22 @@ describe("test runner", () => {
         const results = await runner.run("test/MultiLocaleFactSkill/localizedUtterances.yml");
         expect(results.length).toEqual(4);
 
-        expect(results[0].test.description).toEqual("utterance localized");
+        // eslint-disable-next-line spellcheck/spell-checker
+        expect(results[0].test.description).toEqual("test de");
         // eslint-disable-next-line spellcheck/spell-checker
         expect(results[0].interactionResults[0].interaction.utterance).toEqual("eine wirklichkeit");
         expect(results[0].interactionResults[0].error).toBeUndefined();
 
-        expect(results[1].test.description).toEqual("utterance localized");
+        expect(results[1].test.description).toEqual("test en");
         expect(results[1].interactionResults[0].interaction.utterance).toEqual("tell me a fact");
         expect(results[1].interactionResults[0].error).toBeUndefined();
 
-        expect(results[2].test.description).toEqual("utterance localized");
+        expect(results[2].test.description).toEqual("test en");
         expect(results[2].interactionResults[0].interaction.utterance).toEqual("tell me a fact");
         expect(results[2].interactionResults[0].error).toBeUndefined();
 
-        expect(results[3].test.description).toEqual("utterance localized");
+        // eslint-disable-next-line spellcheck/spell-checker
+        expect(results[3].test.description).toEqual("test ja");
         // eslint-disable-next-line spellcheck/spell-checker
         expect(results[3].interactionResults[0].interaction.utterance).toEqual("事実を教えてください");
         expect(results[3].interactionResults[0].error).toBeUndefined();
