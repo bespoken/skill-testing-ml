@@ -1,0 +1,8 @@
+---
+configuration:
+  handler: test/MultiLocaleFactSkill/index.handler
+  locales: de-DE,en-GB,en-US,ja-JP
+
+---
+- test: testName
+- open: hereIsYourFact
