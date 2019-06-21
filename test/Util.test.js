@@ -66,5 +66,12 @@ describe("succinct intent", () => {
         expect(intent.name).toBe("AMAZON.HelpIntent");
         expect(intent.slots).toBeUndefined();
 
+        intent = Util.returnIntentObjectFromUtteranceIfValid("PetMatchIntent-WithDash_Works");
+        expect(intent.name).toBe("PetMatchIntent-WithDash_Works");
+        expect(intent.slots).toBeUndefined();
+
+        intent = Util.returnIntentObjectFromUtteranceIfValid("A utterance as series of words is not a intent");
+        expect(intent).toBeUndefined();
+
     });
 });
