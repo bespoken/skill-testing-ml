@@ -461,6 +461,44 @@ configuration:
         expect(testSuite.tests[0].interactions[4].assertions).toEqual([]);
     });
 
+
+    describe("deprecated operators", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("Detect correctly deprecated operators", () => {
+            Configuration.configure({});
+
+            const parser = new TestParser();
+            parser.load(`
+--- 
+- open INVOCATION_NAME:
+  - request.test.value == A value
+  - request.test.value2 <= 10
+        `);
+            const testSuite = parser.parse();
+            expect(testSuite.hasDeprecatedOperators).toBe(true);
+            expect(testSuite.hasDeprecatedE2EOperators).toBe(true);
+        });
+
+        test("Detect correctly non-deprecated operators", () => {
+            Configuration.configure({});
+
+            const parser = new TestParser();
+            parser.load(`
+--- 
+- open INVOCATION_NAME:
+  - request.test.value: A value
+  - request.test.value2: 10
+        `);
+            const testSuite = parser.parse();
+            expect(testSuite.hasDeprecatedOperators).toBe(false);
+            expect(testSuite.hasDeprecatedE2EOperators).toBe(false);
+        });
+    });
+
+
     describe("findReplace", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
