@@ -592,19 +592,25 @@ describe("test runner", () => {
         expect(results.length).toEqual(4);
 
         // eslint-disable-next-line spellcheck/spell-checker
+        expect(results[0].test.testSuite.description).toEqual("test description de");
+        // eslint-disable-next-line spellcheck/spell-checker
         expect(results[0].test.description).toEqual("test de");
         // eslint-disable-next-line spellcheck/spell-checker
         expect(results[0].interactionResults[0].interaction.utterance).toEqual("eine wirklichkeit");
         expect(results[0].interactionResults[0].error).toBeUndefined();
 
+        expect(results[1].test.testSuite.description).toEqual("test description en");
         expect(results[1].test.description).toEqual("test en");
         expect(results[1].interactionResults[0].interaction.utterance).toEqual("tell me a fact");
         expect(results[1].interactionResults[0].error).toBeUndefined();
 
+        expect(results[2].test.testSuite.description).toEqual("test description en");
         expect(results[2].test.description).toEqual("test en");
         expect(results[2].interactionResults[0].interaction.utterance).toEqual("tell me a fact");
         expect(results[2].interactionResults[0].error).toBeUndefined();
 
+        // eslint-disable-next-line spellcheck/spell-checker
+        expect(results[3].test.testSuite.description).toEqual("test description ja");
         // eslint-disable-next-line spellcheck/spell-checker
         expect(results[3].test.description).toEqual("test ja");
         // eslint-disable-next-line spellcheck/spell-checker
