@@ -20,6 +20,7 @@ configuration:
   - shouldEndSession: false
 - "send error":
   - prompt == "another value"
+  - cardTitle == "another error"
 - "Get New Facts":
   - prompt == "here's your fact"
   - transcript == "here's your fact"
