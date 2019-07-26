@@ -110,6 +110,44 @@ describe("JestAdapter", () => {
         expect(jestTestResult.status).toBe("failed");
     });
 
+
+    test("Runs a mock test that fails more than once on one interaction", async () => {
+        const testSuite = new TestSuite("MyTest.yml");
+        const test = new Test(testSuite, { description: "Test Description" });
+        const testResult = new TestResult(test);
+        testResult.locale = "en-GB";
+        const interaction = new TestInteraction(test, "Hi");
+        const assertion = new Assertion(interaction, "path", "==", "value");
+        const interactionResult = new InteractionResult(interaction, assertion, "", undefined, new Date(1399919400000));
+        interactionResult.addError("Here is the first error");
+        interactionResult.addError("Here is the second error");
+        testResult.addInteractionResult(interactionResult);
+        const results = [testResult];
+
+        const jestResults = await testRunner({}, { rootDir: "rootDir" }, {}, new Runtime(results), "MyTest.yml");
+        expect(jestResults.numPassingTests).toBe(0);
+        expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.testResults.length).toBe(1);
+
+        // Check the magical failure message
+        expect(jestResults.failureMessage).toContain("Test Description › Hi");
+        expect(jestResults.failureMessage).toContain("Here is the first error");
+        expect(jestResults.failureMessage).toContain("Timestamp:");
+        // We are ignoring the hour at the test to avoid issues between format locally and on CI
+        expect(jestResults.failureMessage).toContain("2014-05-12T");
+        expect(jestResults.failureMessage).toContain("Here is the second error");
+        expect(jestResults.failureMessage).toContain("Timestamp:");
+        // We are ignoring the hour at the test to avoid issues between format locally and on CI
+        expect(jestResults.failureMessage).toContain("2014-05-12T");
+
+        // Check the individual test result
+        const jestTestResult = jestResults.testResults[0];
+        expect(jestTestResult.ancestorTitles[0]).toBe("en-GB");
+        expect(jestTestResult.ancestorTitles[1]).toBe("Test Description");
+        expect(jestTestResult.status).toBe("failed");
+    });
+
+
     test("Runs a mock test that fails on global parsing", async () => {
         const jestResults = await testRunner({}, { rootDir: "rootDir" }, {}, new Runtime([]), "GlobalError.yml");
         expect(jestResults.numPassingTests).toBe(0);
