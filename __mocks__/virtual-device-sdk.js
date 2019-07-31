@@ -108,7 +108,8 @@ function handleMessage(message) {
                 ]
             }
         },
-        streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac"
+        streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac",
+        shouldEndSession: false
     };
     if (utterance.toLowerCase().includes("help")) {
         response.transcript = "you can say";
@@ -137,6 +138,7 @@ function handleMessage(message) {
         throw error;
     } else {
         response.transcript = "Here's your fact";
+        response.shouldEndSession =  true;
     }
     return response;
 }
