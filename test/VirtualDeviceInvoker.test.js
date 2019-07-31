@@ -33,45 +33,6 @@ describe("virtual device integration", () => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
             message.mockClear();
         });
-
-        /*
-        // Removing support for special utters on virtual device
-        test("LaunchRequest", async () => {
-            _interaction.utterance = "LaunchRequest";
-    
-            await _invoker.invoke(_interaction);
-    
-            expect(message).toHaveBeenCalledTimes(1);
-            expect(message.mock.calls[0][0][0].text).toBe("open space fact");
-        });
-    
-        test("AudioPlayer", async () => {
-            _interaction.utterance = "AudioPlayer.";
-    
-            await _invoker.invokeBatch([_interaction]);
-    
-            expect(message).not.toHaveBeenCalled();
-        });
-    
-        test("SessionEndedRequest", async () => {
-            _interaction.utterance = "SessionEndedRequest";
-    
-            await _invoker.invokeBatch([_interaction]);
-    
-            expect(message).toHaveBeenCalledTimes(1);
-            expect(message.mock.calls[0][0][0].text).toBe("exit");
-        });
-    
-        test("First interaction is not a launch request", async () => {
-            _interaction.utterance = "hi";
-            _interaction.relativeIndex = 0;
-    
-            await _invoker.invokeBatch([_interaction]);
-    
-            expect(message).toHaveBeenCalledTimes(1);
-            expect(message.mock.calls[0][0][0].text).toBe("ask space fact to hi");
-        });
-        */
     
         test("Any utterance", async () => {
             _interaction.utterance = "test";
