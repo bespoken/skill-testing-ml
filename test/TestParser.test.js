@@ -701,15 +701,15 @@ configuration:
   virtualDeviceToken: myToken
 ---
 - test : simple test
-- hello : welcome
+- hello : "welcome"
 - open guess the price :
   - prompt :
-    - how many
+    - "how many"
     - /.*/
   - prompt ==
-    - guess
-    - the
-- one : please tell
+    - "guess"
+    - "the"
+- one : "please tell"
 `);
 
         });
