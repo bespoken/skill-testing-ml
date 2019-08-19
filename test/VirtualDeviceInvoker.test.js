@@ -267,6 +267,14 @@ describe("virtual device runner", () => {
             
             expect(mockVirtualDevice.mock.calls[0][0].screenMode).toBe("OFF");
         });
+
+        test("projectId", async () => {
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0].projectId).toBe("parrotAgent");
+        });        
     });
 
     describe("control flow tests", () => {
