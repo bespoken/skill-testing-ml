@@ -107,7 +107,8 @@
                     "yml",
                     "stt",
                     "lng",
-                    "witai"
+                    "witai",
+                    "twilio"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
