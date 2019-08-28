@@ -8,6 +8,10 @@ configuration:
     lng: 50.00
   screenMode: OFF
   projectId: parrotAgent
+  phoneNumber: "+18568889001"
+  extraParameters:
+    twilio_speech_timeout: 2
+    twilio_timeout: 10
 
 --- # The --- indicates the start of a new test, which is a self-contained YAML document
 - test: "Launches successfully" # Optional info about the test
