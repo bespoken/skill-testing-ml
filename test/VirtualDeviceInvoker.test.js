@@ -274,7 +274,17 @@ describe("virtual device runner", () => {
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
             expect(mockVirtualDevice.mock.calls[0][0].projectId).toBe("parrotAgent");
-        });        
+        });
+
+        test("phone number and extra parameters", async () => {
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0].phoneNumber).toBe("+18568889001");
+            expect(mockVirtualDevice.mock.calls[0][0].twilio_speech_timeout).toEqual(2);
+            expect(mockVirtualDevice.mock.calls[0][0].twilio_timeout).toEqual(10);
+        });
     });
 
     describe("control flow tests", () => {
