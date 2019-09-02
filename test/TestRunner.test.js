@@ -186,6 +186,34 @@ describe("test runner", () => {
         expect(resultCallbackMock).toHaveBeenCalledTimes(0);
     });
 
+    test("Runs only tests with included tag on test suite", async () => {
+        const runner = new TestRunner({
+            exclude: ["c"],
+            handler: "test/FactSkill/index.handler",
+            include: ["testSuiteA"],
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+        const messageCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.utterance).toBeDefined();
+        };
+        const resultCallback = (error, test) => {
+            expect(error).toBeUndefined();
+            expect(test.result).toBeDefined();
+        };
+        const messageCallbackMock = jest.fn(messageCallback);
+        const resultCallbackMock = jest.fn(resultCallback);
+        runner.subscribe("message", messageCallbackMock);
+        runner.subscribe("result", resultCallbackMock);
+
+        await runner.run("test/FactSkill/fact-skill-tests-tag-test-suite.yml");
+
+        // Runs only 2 of the 3 tests (the ones including alexa)
+        expect(messageCallbackMock).toHaveBeenCalledTimes(4);
+        expect(resultCallbackMock).toHaveBeenCalledTimes(4);
+    });
+
     test("unsubscribe()", async () => {
         const runner = new TestRunner({
             handler: "test/FactSkill/index.handler",
