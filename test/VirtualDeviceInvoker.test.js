@@ -531,16 +531,20 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].error).toBeUndefined();
             expect(results[0].interactionResults[1].error).toBeUndefined();
-            
-            expect(results[1].skipped).toBe(false);
-            expect(results[1].interactionResults.length).toBe(2);
-            expect(results[1].interactionResults[1].error).toBeDefined();
-            expect(results[1].interactionResults[1].error).toBe("error message");
-            expect(results[1].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[1].interactionResults[1].errors.length).toBe(2);
-            expect(results[1].interactionResults[1].errors[0]).toBe("error message");
-            expect(results[1].interactionResults[1].errors[1]).toBe("error message");
 
+            expect(results[1].skipped).toBe(false);
+            expect(results[1].interactionResults.length).toBe(3);
+
+            expect(results[1].interactionResults[1].error).toBeDefined();
+            expect(results[1].interactionResults[1].errorOnProcess).toBe(false);
+            expect(results[1].interactionResults[1].errors.length).toBe(2);
+            expect(results[1].interactionResults[1].errors[0]).toContain("Expected value at [prompt] to ==");
+            expect(results[1].interactionResults[1].errors[1]).toContain("Expected value at [cardTitle] to ==");
+
+            expect(results[1].interactionResults[2].error).toBeDefined();
+            expect(results[1].interactionResults[2].error).toBe("error message");
+            expect(results[1].interactionResults[2].errorOnProcess).toBe("error message");
+            expect(results[1].interactionResults[2].errors).toBeUndefined();
         });
 
         test("ignore properties on demand", async () => {

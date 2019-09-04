@@ -18,6 +18,9 @@ configuration:
     - /.*you can say.*/i
     - A phrase
   - shouldEndSession: false
+- "assertion error":
+  - prompt: "error"
+  - cardTitle: "error"
 - "send error":
   - prompt == "another value"
   - cardTitle == "another error"
