@@ -314,9 +314,9 @@ describe("test runner", () => {
         for (let i=0; i < 3; i++) {
             // Usual behavior, first result is empty and arrays with results appear then
             mockGetConversationResults
-                .mockReturnValueOnce([])
-                .mockReturnValueOnce(mockReturn)
-                .mockReturnValueOnce(mockReturn);
+                .mockReturnValueOnce({results: [], status: "IN-PROGRESS"})
+                .mockReturnValueOnce({results: mockReturn, status: "IN-PROGRESS"})
+                .mockReturnValueOnce({results: mockReturn, status: "COMPLETED"});
         }
 
         await runner.run("test/FactSkill/fact-skill-tests.yml");
@@ -338,9 +338,9 @@ describe("test runner", () => {
         for (let i=0; i < 3; i++) {
             // Usual behavior, first result is empty and arrays with results appear then
             mockGetConversationResults
-                .mockReturnValueOnce([])
-                .mockReturnValueOnce(mockReturn)
-                .mockReturnValueOnce(mockReturn);
+                .mockReturnValueOnce({results: [], status: "IN-PROGRESS"})
+                .mockReturnValueOnce({results: mockReturn, status: "IN-PROGRESS"})
+                .mockReturnValueOnce({results: mockReturn, status: "COMPLETED"});
         }
 
         await runner.run("test/FactSkill/fact-skill-tests.goto.yml");

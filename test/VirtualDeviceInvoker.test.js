@@ -367,7 +367,10 @@ describe("virtual device runner", () => {
 
         test("Test flow with async when there's no results coming back", async () => {
             const runner = new TestRunner();
-            mockGetConversationResults.mockReturnValue([]);
+            mockGetConversationResults.mockReturnValue({
+                results: [],
+                status: "IN_PROGRESS",
+            });
 
             const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
 

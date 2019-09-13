@@ -19,8 +19,13 @@ const spaceFactMessage = jest.fn((messages)=> {
 });
 
 const mockGetConversationResults = jest.fn()
-    .mockReturnValue(getResponsesFromMessages([{ phrases: [], text: "Hi" },
-        { phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } ]));
+    .mockReturnValue({
+        results: getResponsesFromMessages([
+            {phrases: [], text: "Hi" },
+            {phrases: [ ".*Here's your fact*" ], text: "LaunchRequest" } 
+        ]),
+        status: "COMPLETED"
+    });
 
 const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
     let token = undefined;
