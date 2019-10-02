@@ -38,11 +38,11 @@ For more in-depth info, read the [full specification](https://docs.google.com/do
 - [X] Explicit SessionEndedRequest
 - [X] Support for goto and flow control
 - [X] Support for testing dynamo
+- [X] Callbacks for filtering payloads programmatically
+- [X] Virtual device support
 
 ## Roadmap
 - [ ] Much better documentation!
-- [ ] Callbacks for filtering payloads programmatically
-- [ ] Virtual device support
 
 ## Support
 [Talk to us on gitter](https://gitter.im/bespoken/bst).
