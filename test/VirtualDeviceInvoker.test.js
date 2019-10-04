@@ -483,6 +483,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(3);
             expect(results[0].interactionResults[0].interaction.utterance).toBe("LaunchRequest");
             expect(results[0].interactionResults[1].interaction.utterance).toBe("$PAUSE");
+            expect(results[0].interactionResults[1].interaction.pauseSeconds).toBe(0);
             expect(results[0].interactionResults[2].interaction.utterance).toBe("help");
         });
 
@@ -513,6 +514,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(3);
             expect(results[0].interactionResults[0].interaction.utterance).toBe("LaunchRequest");
             expect(results[0].interactionResults[1].interaction.utterance).toBe("$PAUSE s");
+            expect(results[0].interactionResults[1].interaction.pauseSeconds).toBe(0);
             expect(results[0].interactionResults[2].interaction.utterance).toBe("help");
         });
     });
