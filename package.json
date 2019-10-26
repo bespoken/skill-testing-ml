@@ -74,7 +74,7 @@
     "debug": "^4.1.1",
     "jest": "^24.7.1",
     "jest-message-util": "^24.7.1",
-    "bespoken-jest-stare": "^1.0.6",
+    "bespoken-jest-stare": "^1.0.9",
     "js-yaml-bespoken": "^3.11.5",
     "jsonpath-bespoken": "^1.0.2",
     "lodash": "^4.17.11",
