@@ -34,7 +34,7 @@ describe("test parser", () => {
         expect(secondAssertion.value).toEqual("Space Facts");
 
         const thirdTest = testSuite.tests[2];
-        expect(thirdTest.description).toEqual("Launches successfully");
+        expect(thirdTest.description).toEqual("Launches successfully (2)");
         expect(thirdTest.interactions.length).toEqual(2);
         expect(thirdTest.interactions[0].requestType).toBeUndefined();
         expect(thirdTest.interactions[0].utterance).toEqual("Hi");
@@ -582,6 +582,33 @@ configuration:
 
             const firstTest = testSuite.tests[0];
             expect(firstTest.interactions.length).toEqual(2);
+        });
+
+        test("add multiple tests with the same name", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+- test: simple test
+- Hello: word
+
+---
+- test: simple test
+- Bye: word
+
+            `);
+            const testSuite = parser.parse({ locale: "US", virtualDeviceToken: "token_new", voiceId: "Ivy"});
+
+            expect(testSuite.configuration.locale).toEqual("US");
+            expect(testSuite.configuration.voiceId).toEqual("Ivy");
+            expect(testSuite.configuration.virtualDeviceToken).toEqual("token_new");
+            expect(testSuite.tests.length).toEqual(2);
+
+            const firstTest = testSuite.tests[0];
+            expect(firstTest.description).toEqual("simple test");
+
+            const secondTest = testSuite.tests[1];
+            expect(secondTest.description).toEqual("simple test (2)");
+
         });
     });
 
