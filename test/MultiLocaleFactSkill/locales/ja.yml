@@ -2,3 +2,4 @@ hereIsYourFact: 知ってましたか
 open: 事実を教えてください
 testName: test ja
 testDescription: test description ja
+hiWithVariable: Hi with {variable}

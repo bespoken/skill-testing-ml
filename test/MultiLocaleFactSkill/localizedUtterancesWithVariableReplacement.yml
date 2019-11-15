@@ -1,0 +1,9 @@
+---
+configuration:
+  handler: test/MultiLocaleFactSkill/index.handler
+  locales: en-GB,en-US
+  description: testDescription
+
+---
+- test: testName
+- open: hiWithVariable

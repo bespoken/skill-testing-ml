@@ -476,7 +476,6 @@ describe("test runner", () => {
                     expect(test.interactions[0].assertions[0].value).toBe("A value and a first");
                     expect(test.interactions[1].assertions[0].value).toEqual(["2", "value", "{thirdVariable}"]);
                     expect(test.interactions[2].assertions[0].value).toBe("nothing at all");
-
                     testEnd = true;
                 },
                 onTestStart:(test) => {
@@ -537,7 +536,7 @@ describe("test runner", () => {
             interactionModel: "test/FactSkill/models/en-US.json",
             locale: "en-US",
             type: "e2e",
-            virtualDeviceToken: "123",
+            virtualDeviceToken: "space fact",
 
         });
 
@@ -645,6 +644,32 @@ describe("test runner", () => {
         expect(results[3].interactionResults[0].interaction.utterance).toEqual("事実を教えてください");
         expect(results[3].interactionResults[0].error).toBeUndefined();
 
+    });
+
+    test("Filter for variable replacement works correctly for tests with localization", async () => {
+        const runner = new TestRunner({
+            filter: {
+                resolve: (variable, interaction) => {
+                    if (variable === "variable") return "fact";
+                    expect(interaction).toBeDefined();
+                },
+
+            },
+            testDirectory: "test/MultiLocaleFactSkill",
+        });
+
+        const results = await runner.run("test/MultiLocaleFactSkill/localizedUtterancesWithVariableReplacement.yml");
+        expect(results.length).toEqual(2);
+
+        expect(results[0].test.testSuite.description).toEqual("test description en");
+        expect(results[0].test.description).toEqual("test en");
+        expect(results[0].interactionResults[0].error).toBeUndefined();
+        expect(results[0].interactionResults[0].interaction.assertions[0].value).toEqual("Here's your fact");
+
+        expect(results[1].test.testSuite.description).toEqual("test description en");
+        expect(results[1].test.description).toEqual("test en");
+        expect(results[1].interactionResults[0].interaction.assertions[0].value).toEqual("Here's your fact");
+        expect(results[1].interactionResults[0].error).toBeUndefined();
     });
 
     test("stop execution when error on async mode", async() => {
