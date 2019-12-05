@@ -138,6 +138,13 @@ function handleMessage(message) {
         throw error;
     } else if (utterance.toLowerCase().includes("throw error")) {
         const error = JSON.stringify({
+            error_category: "system",
+            error: "Error from virtual device"
+        });
+        throw error;
+    } else if (utterance.toLowerCase().includes("throw user error")) {
+        const error = JSON.stringify({
+            error_category: "user",
             error: "Error from virtual device"
         });
         throw error;
