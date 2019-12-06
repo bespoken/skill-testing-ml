@@ -116,6 +116,7 @@ function handleMessage(message) {
         streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac",
         shouldEndSession: false
     };
+
     if (utterance.toLowerCase().includes("help")) {
         response.transcript = "you can say";
     } else if (utterance.toLowerCase().includes("send error")) {
