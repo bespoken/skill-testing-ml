@@ -555,7 +555,7 @@ configuration:
 - LaunchRequest: welcome
 - Hello: word
             `);
-            const testSuite = parser.parse({ virtualDeviceToken: "token_replace", voiceId: "Jon"});
+            const testSuite = parser.parse({ virtualDeviceToken: "token_replace", voiceId: "Jon" });
 
             expect(testSuite.configuration.locale).toEqual("en-US");
             expect(testSuite.configuration.voiceId).toEqual("Jon");
@@ -573,7 +573,7 @@ configuration:
 - LaunchRequest: welcome
 - Hello: word
             `);
-            const testSuite = parser.parse({ locale: "US", virtualDeviceToken: "token_new", voiceId: "Ivy"});
+            const testSuite = parser.parse({ locale: "US", virtualDeviceToken: "token_new", voiceId: "Ivy" });
 
             expect(testSuite.configuration.locale).toEqual("US");
             expect(testSuite.configuration.voiceId).toEqual("Ivy");
@@ -596,7 +596,7 @@ configuration:
 - Bye: word
 
             `);
-            const testSuite = parser.parse({ locale: "US", virtualDeviceToken: "token_new", voiceId: "Ivy"});
+            const testSuite = parser.parse({ locale: "US", virtualDeviceToken: "token_new", voiceId: "Ivy" });
 
             expect(testSuite.configuration.locale).toEqual("US");
             expect(testSuite.configuration.voiceId).toEqual("Ivy");
@@ -718,7 +718,7 @@ configuration:
                     },
                 ],
             };
-            
+
             parser.loadYamlObject(yamlObject);
             expect(parser.contents).toBe(`---
 configuration:
@@ -738,6 +738,41 @@ configuration:
     - "the"
 - one : "please tell"
 `);
+
+        });
+
+        test("yaml object with empty expected to yaml", () => {
+            const parser = new TestParser();
+            const yamlObject = {
+                "configuration": {
+                    "locale": "en-US",
+                    "platform": "alexa",
+                    "type": "e2e",
+                    "virtualDeviceToken": "myToken",
+                },
+                "tests": [
+                    {
+                        "interactions": [
+                            {
+                                "expected": [],
+                                "input": "hello",
+                            },
+                        ],
+                        "name": "simple test",
+                    },
+                ],
+            };
+
+            parser.loadYamlObject(yamlObject);
+            expect(parser.contents).toBe(`---
+configuration:
+  locale: en-US
+  platform: alexa
+  type: e2e
+  virtualDeviceToken: myToken
+---
+- test : simple test
+- hello`);
 
         });
     });
