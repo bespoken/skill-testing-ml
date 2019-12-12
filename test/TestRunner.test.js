@@ -267,6 +267,27 @@ describe("test runner", () => {
         expect(resultCallbackMock).toHaveBeenCalledTimes(1);
     });
 
+    test("error with error_category", async () => {
+        const runnerError = new TestRunner({
+            batchEnabled: false,
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "space fact",
+        });
+
+        const resultCallback = (error, interactionDto) => {
+            expect(interactionDto).toBeDefined();
+            expect(interactionDto.result.error_category).toBe("user");
+            expect(interactionDto.result.errorOnProcess).toBe("Error from virtual device");
+
+        };
+        const resultCallbackMock = jest.fn(resultCallback);
+        runnerError.subscribe("result", resultCallbackMock);
+
+        await runnerError.run("test/FactSkill/fact-skill-with-user-error.yml");
+
+        expect(resultCallbackMock).toHaveBeenCalledTimes(1);
+    });
+
     test("batchEnabled true", async () => {
         const runner = new TestRunner({
             type: CONSTANTS.TYPE.e2e,

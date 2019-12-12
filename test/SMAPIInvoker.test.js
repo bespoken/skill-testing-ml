@@ -83,7 +83,7 @@ describeMock("SMAPI test with mock calls", () => {
         const results = await runner.run("test/GuessTheGifSkill/simple.test.yml");
         expect(results.length).toEqual(1);
         expect(results[0].passed).toBe(false);
-        expect(results[0].interactionResults[0].error).toContain("Skill is currently disabled in development stage.");
+        expect(results[0].interactionResults[0].error.message).toContain("Skill is currently disabled in development stage.");
     });    
 
     afterEach(() => {

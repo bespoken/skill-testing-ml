@@ -116,6 +116,7 @@ function handleMessage(message) {
         streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac",
         shouldEndSession: false
     };
+
     if (utterance.toLowerCase().includes("help")) {
         response.transcript = "you can say";
     } else if (utterance.toLowerCase().includes("send error")) {
@@ -138,6 +139,13 @@ function handleMessage(message) {
         throw error;
     } else if (utterance.toLowerCase().includes("throw error")) {
         const error = JSON.stringify({
+            error_category: "system",
+            error: "Error from virtual device"
+        });
+        throw error;
+    } else if (utterance.toLowerCase().includes("throw user error")) {
+        const error = JSON.stringify({
+            error_category: "user",
             error: "Error from virtual device"
         });
         throw error;
