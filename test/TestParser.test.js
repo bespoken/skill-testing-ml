@@ -754,8 +754,20 @@ configuration:
                     {
                         "interactions": [
                             {
-                                "expected": [],
-                                "input": "hello",
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello1",
+                            },
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: ["he", "she"] }],
+                                "input": "hello2",
+                            },
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello3",
+                            },
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello4",
                             },
                         ],
                         "name": "simple test",
@@ -772,7 +784,13 @@ configuration:
   virtualDeviceToken: myToken
 ---
 - test : simple test
-- hello`);
+- hello1
+- hello2 :
+  - prompt :
+    - "he"
+    - "she"
+- hello3
+- hello4`);
 
         });
     });
