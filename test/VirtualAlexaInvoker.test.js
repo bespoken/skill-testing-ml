@@ -419,7 +419,12 @@ describe("virtual alexa runner", () => {
 
     describe("locales", () => {
         beforeEach(() => {
+            process.chdir("test/MultiLocaleFactSkill");
             Configuration.singleton = undefined;
+        });
+
+        afterEach(() => {
+            process.chdir("../..");
         });
 
         test("run all locales, localized slot values", async () => {
@@ -457,11 +462,9 @@ describe("virtual alexa runner", () => {
             expect(results[3].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[3].locale));
         });
 
-        test("localization files", async () => {
-            const runner = new TestRunner({
-                testDirectory: "test/MultiLocaleFactSkill",
-            });
-            const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");
+        test.only("localization files", async () => {
+            const runner = new TestRunner();
+            const results = await runner.run("multi-locale-fact-skill-test.yml");
             expect(results.length).toEqual(4);
 
             expect(results[0].test.description).toEqual("Multi locale skill");

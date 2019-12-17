@@ -633,10 +633,9 @@ describe("test runner", () => {
     });
 
     test("utterances replaced by localized values", async () => {
-        const runner = new TestRunner({
-            testDirectory: "test/MultiLocaleFactSkill",
-        });
-        const results = await runner.run("test/MultiLocaleFactSkill/localizedUtterances.yml");
+        process.chdir("test/MultiLocaleFactSkill");
+        const runner = new TestRunner();
+        const results = await runner.run("localizedUtterances.yml");
         expect(results.length).toEqual(4);
 
         // eslint-disable-next-line spellcheck/spell-checker
@@ -664,22 +663,23 @@ describe("test runner", () => {
         // eslint-disable-next-line spellcheck/spell-checker
         expect(results[3].interactionResults[0].interaction.utterance).toEqual("事実を教えてください");
         expect(results[3].interactionResults[0].error).toBeUndefined();
+        process.chdir("../..");
 
     });
 
     test("Filter for variable replacement works correctly for tests with localization", async () => {
+        process.chdir("test/MultiLocaleFactSkill");
+
         const runner = new TestRunner({
             filter: {
                 resolve: (variable, interaction) => {
                     if (variable === "variable") return "fact";
                     expect(interaction).toBeDefined();
                 },
-
             },
-            testDirectory: "test/MultiLocaleFactSkill",
         });
 
-        const results = await runner.run("test/MultiLocaleFactSkill/localizedUtterancesWithVariableReplacement.yml");
+        const results = await runner.run("localizedUtterancesWithVariableReplacement.yml");
         expect(results.length).toEqual(2);
 
         expect(results[0].test.testSuite.description).toEqual("test description en");
@@ -691,6 +691,7 @@ describe("test runner", () => {
         expect(results[1].test.description).toEqual("test en");
         expect(results[1].interactionResults[0].interaction.assertions[0].value).toEqual("Here's your fact");
         expect(results[1].interactionResults[0].error).toBeUndefined();
+        process.chdir("../..");
     });
 
     test("stop execution when error on async mode", async() => {
