@@ -1,6 +1,6 @@
 ---
 configuration:
-  handler: test/MultiLocaleFactSkill/index.handler
+  handler: index.handler
   locales: de-DE,en-GB,en-US,ja-JP
   description: testDescription
 

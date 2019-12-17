@@ -422,7 +422,12 @@ describe("virtual alexa runner", () => {
             Configuration.singleton = undefined;
         });
 
+        afterEach(() => {
+            
+        });
+
         test("run all locales, localized slot values", async () => {
+            process.chdir("test/PetMatchSkill");
             const getSlotSize = (locale) => {
                 let value = "";
                 switch (locale) {
@@ -444,24 +449,22 @@ describe("virtual alexa runner", () => {
                 return { size: value };
             };
 
-            const runner = new TestRunner({
-                configurationPath: "test/PetMatchSkill/testing.json",
-                testDirectory: "test/PetMatchSkill",
-            });
-            const results = await runner.run("test/PetMatchSkill/multiLocale.externalized.yml");
+            const runner = new TestRunner();
+            const results = await runner.run("multiLocale.externalized.yml");
 
             expect(results.length).toEqual(4);
             expect(results[0].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[0].locale));
             expect(results[1].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[1].locale));
             expect(results[2].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[2].locale));
             expect(results[3].interactionResults[1].interaction.localizedSlots).toEqual(getSlotSize(results[3].locale));
+            process.chdir("../..");
         });
 
         test("localization files", async () => {
-            const runner = new TestRunner({
-                testDirectory: "test/MultiLocaleFactSkill",
-            });
-            const results = await runner.run("test/MultiLocaleFactSkill/multi-locale-fact-skill-test.yml");
+            process.chdir("test/MultiLocaleFactSkill");
+
+            const runner = new TestRunner();
+            const results = await runner.run("multi-locale-fact-skill-test.yml");
             expect(results.length).toEqual(4);
 
             expect(results[0].test.description).toEqual("Multi locale skill");
@@ -487,6 +490,7 @@ describe("virtual alexa runner", () => {
             expect(results[3].interactionResults[0].error).toBeUndefined();
             expect(results[3].interactionResults[1].interaction.utterance).toEqual("GetNewFactIntent");
             expect(results[3].interactionResults[1].error).toBeUndefined();
+            process.chdir("../..");
         });
     });
 

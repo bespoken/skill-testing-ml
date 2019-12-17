@@ -5,7 +5,12 @@ const path = require("path");
 describe("configuration", () => {
     beforeEach(() => {
         Configuration.singleton = undefined;
+        process.chdir("test/ConfigurationTestFiles");
     });
+
+    afterEach(() => {
+        process.chdir("../..");
+    });    
 
     test("override configuration with env variables", async () => {
         process.env["jest.collectCoverage"] = false;
@@ -77,51 +82,52 @@ describe("configuration", () => {
         });
     });
 
-    describe("test path", function () {
+    describe("configuration path", function () {
         test("testing.json same folder of test file", async () => {
-            await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e");
+            await Configuration.configure(undefined, "", { config: "test/e2e/testing.json"});
             let virtualDeviceToken = Configuration.instance().value("virtualDeviceToken");
             expect(virtualDeviceToken).toBe("tokenFromE2e");
 
             Configuration.singleton = undefined;
-            await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-US");
+            await Configuration.configure(undefined, "", { config: "test/e2e/en-US/testing.json"});
             virtualDeviceToken = Configuration.instance().value("virtualDeviceToken");
             expect(virtualDeviceToken).toBe("tokenFromEnUs");
         });
 
         test("testing.json missing", async () => {
-            await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-GB");
-            const virtualDeviceToken = Configuration.instance().value("virtualDeviceToken");
-            expect(virtualDeviceToken).toBeUndefined();
+            try {
+                await Configuration.configure(undefined, "", { config:"test/e2e/en-GB/testing.json"});
+                expect(true).toBe(false);
+            } catch (error) {
+                expect(true).toBe(true);
+            } 
         });
     });
 
     describe("jest.coverageDirectory ", function () {
 
         test("when testing.json exists", async () => {
-            await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/unit");
+            await Configuration.configure(undefined, "", { config: "test/unit/testing.json"});
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toContain(path.normalize("test_output/coverage"));
         });
     
         test("when testing.json is missing", async () => {
-            await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/e2e/en-GB");
+            await Configuration.configure(undefined, "", { config: "test/e2e/en-GB/testing.json"});
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toContain(path.normalize("test_output/coverage"));
         });
 
         test("when testing.json overrides coverageDirectory", async () => {
-            await Configuration.configure(undefined, "test/ConfigurationTestFiles/test/overrideCoverage");
+            await Configuration.configure(undefined, "", { config: "test/overrideCoverage/testing.json"});
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toBe("customFolder/coverage/");
         });
 
         test("when testing.json is on the root folder", async () => {
-            process.chdir("test/FactSkill");
-            await Configuration.configure(undefined, ".");
+            await Configuration.configure(undefined, "");
             const jestConfiguration = Configuration.instance().value("jest");
             expect(jestConfiguration.coverageDirectory).toContain(path.normalize("test_output/coverage"));
-            process.chdir("../..");
         });
     });
 
