@@ -77,17 +77,29 @@ describe("test suite", () => {
         test("relative path", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
-                interactionModel: "../models/en-GB.json",
+                interactionModel: "./models/en-GB.json",
                 locale: "en-GB",
             });
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(testSuite.interactionModel).toBe(path.normalize("test/models/en-GB.json"));
+            // expect(testSuite.interactionModel).toBe(path.normalize("test/models/en-GB.json"));
+            expect(testSuite.interactionModel).toBe(
+                path.normalize(path.join(process.cwd(),"models/en-GB.json"))
+            );            
         });
     });
 
     describe("handler", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+            process.chdir("test/FactSkill");
+        });
+    
+        afterEach(() => {
+            process.chdir("../..");
+        });  
+
         test("defaultValue", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
@@ -98,15 +110,17 @@ describe("test suite", () => {
             expect(testSuite.handler).toBe("./index.handler");
         });
 
-        test("relative path", async () => {
+        test("custom handler", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
-                handler: "../index.handler",
+                handler: "./index.handler",
             });
-    
+
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(testSuite.handler).toBe(path.normalize("test/index.handler"));
+            expect(testSuite.handler).toBe(
+                path.normalize(path.join(process.cwd(),"index.handler"))
+            );
         });
     });
 
@@ -114,7 +128,7 @@ describe("test suite", () => {
         test("relative path", async () => {
             Configuration.configure({
                 configurationPath: "test/TestFiles/testing.json",
-                filter: "../Filters/testFilter.js",
+                filter: "./test/Filters/testFilter.js",
             });
 
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");

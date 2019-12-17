@@ -83,9 +83,10 @@ describe("virtual google assistant runner", () => {
 
     describe("Google Assistant with .https.onRequest tests", () => {
         beforeEach(async () => {
+            process.chdir("test/FirebaseFunctionAndGoogleAssistant");
             await Configuration.configure({
-                dialogFlowDirectory: "test/FirebaseFunctionAndGoogleAssistant/GuessThePrice",
-                handler: "test/FirebaseFunctionAndGoogleAssistant/functions/index.myFunction",
+                dialogFlowDirectory: "GuessThePrice",
+                handler: "functions/index.myFunction",
                 locale: "en-US",
                 platform: CONSTANTS.PLATFORM.google,
             });
@@ -93,12 +94,13 @@ describe("virtual google assistant runner", () => {
 
         afterEach(() => {
             Configuration.singleton = undefined;
+            process.chdir("../..");
         });
 
         test("runs fact skill test", async () => {
             const runner = new TestRunner();
 
-            const results = await runner.run("test/FirebaseFunctionAndGoogleAssistant/test/test.yml");
+            const results = await runner.run("test/test.yml");
 
             expect(results.length).toEqual(1);
             expect(results[0].test.description).toEqual("Launch request");

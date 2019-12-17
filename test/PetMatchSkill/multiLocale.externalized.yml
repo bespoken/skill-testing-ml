@@ -2,8 +2,8 @@
 ---
 configuration:
   locales: de-DE,en-GB,en-US,es-ES
-  handler: "test/PetMatchSkill/index.handler"
-  interactionModel: "test/PetMatchSkill/models/en-US.json"
+  handler: "index.handler"
+  interactionModel: "models/en-US.json"
 
 ---
 - test: Disambiguation of slots

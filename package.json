@@ -1,6 +1,6 @@
 {
   "name": "skill-testing-ml",
-  "version": "1.1.32",
+  "version": "1.1.33",
   "description": "Skill Testing Markup Language",
   "main": "dist/lib/Index.js",
   "bin": {
@@ -78,9 +78,9 @@
     "js-yaml-bespoken": "^3.11.6",
     "jsonpath-bespoken": "^1.0.2",
     "lodash": "^4.17.11",
-    "virtual-alexa": "^0.7.3",
+    "virtual-alexa": "^0.7.4",
     "virtual-device-sdk": "^1.7.0",
-    "virtual-google-assistant": "0.3.3",
+    "virtual-google-assistant": "^0.3.5",
     "winston": "^3.2.1"
   },
   "devDependencies": {
