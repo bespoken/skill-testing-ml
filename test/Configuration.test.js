@@ -28,6 +28,39 @@ describe("configuration", () => {
         expect(jestConfiguration.collectCoverage).toBe(false);
     });
 
+    test("override configuration with internal variables", () => {
+        const testingJson = `{
+              "type": "e2e",
+              "asyncMode": true,
+              "findReplace": {
+                  "INVOCATION_NAME": "$\{myEnvVariable}"
+              },
+              "homophones": {
+                  "bring": [ "$\{env1}", "$\{env2}", "$\{env1}"],
+              }
+          }`;
+
+        const expectedJson = `{
+              "type": "e2e",
+              "asyncMode": true,
+              "findReplace": {
+                  "INVOCATION_NAME": "my Invocation Name"
+              },
+              "homophones": {
+                  "bring": [ "brick", "ring", "brick"],
+              }
+          }`;
+
+        process.env.myEnvVariable = "my Invocation Name";
+        process.env.env1 = "brick";
+        process.env.env2 = "ring";
+
+        const convertedJson = Configuration.replaceVariablesInsideTestingJson(testingJson);
+        expect(convertedJson).toBe(expectedJson);
+
+    });
+
+
     describe("override configuration write a skill testing file", () => {
         test("generate file", async () => {
             const cliOverrides = {
