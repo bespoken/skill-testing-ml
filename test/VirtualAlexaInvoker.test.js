@@ -449,7 +449,7 @@ describe("virtual alexa runner", () => {
                 return { size: value };
             };
 
-            const runner = new TestRunner();
+            const runner = new TestRunner({ configurationPath: "./testing.json"});
             const results = await runner.run("multiLocale.externalized.yml");
 
             expect(results.length).toEqual(4);
@@ -463,7 +463,7 @@ describe("virtual alexa runner", () => {
         test("localization files", async () => {
             process.chdir("test/MultiLocaleFactSkill");
 
-            const runner = new TestRunner();
+            const runner = new TestRunner({ configurationPath: "./testing.json"});
             const results = await runner.run("multi-locale-fact-skill-test.yml");
             expect(results.length).toEqual(4);
 
