@@ -634,7 +634,7 @@ describe("test runner", () => {
 
     test("utterances replaced by localized values", async () => {
         process.chdir("test/MultiLocaleFactSkill");
-        const runner = new TestRunner();
+        const runner = new TestRunner({ configurationPath: "./testing.json" });
         const results = await runner.run("localizedUtterances.yml");
         expect(results.length).toEqual(4);
 
@@ -671,6 +671,7 @@ describe("test runner", () => {
         process.chdir("test/MultiLocaleFactSkill");
 
         const runner = new TestRunner({
+            configurationPath: "./testing.json",
             filter: {
                 resolve: (variable, interaction) => {
                     if (variable === "variable") return "fact";
@@ -700,6 +701,7 @@ describe("test runner", () => {
             asyncE2EWaitInterval: 1,
             asyncMode: true,
             batchEnabled: true,
+            configurationPath: "./testing.json",
             maxAsyncE2EResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "async token",
