@@ -92,7 +92,7 @@ describe("test suite", () => {
     describe("handler", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
-            process.chdir("test/FactSkill");
+            process.chdir("test/TestFiles");
         });
     
         afterEach(() => {
@@ -110,17 +110,46 @@ describe("test suite", () => {
         });
 
         test("custom handler", async () => {
-            Configuration.configure({
-                configurationPath: "test/TestFiles/testing.json",
-                handler: "./index.handler",
+            const testCases = [
+                {
+                    configurationPath: "testing.json",
+                    description: "relative configuration, relative handler",
+                    expected: path.join(process.cwd(), "./../FactSkill/index.handler"),
+                    handler: "./../FactSkill/index.handler",
+                },
+                {
+                    configurationPath: path.join(process.cwd(), "testing.json"),
+                    description: "absolute configuration, relative handler",
+                    expected: path.join(process.cwd(), "./../FactSkill/index.handler"),
+                    handler: "./../FactSkill/index.handler",
+                },
+                {
+                    configurationPath: path.join(process.cwd(), "testing.json"),
+                    context: "./..",
+                    description: "relative context, relative handler",
+                    expected: path.join(process.cwd(), "./../FactSkill/index.handler"),
+                    handler: "./FactSkill/index.handler",
+                },
+            ];
+            testCases.forEach((testCase) => {
+                Configuration.singleton = undefined;
+                Configuration.configure({
+                    configurationPath: testCase.configurationPath,
+                    context: testCase.context,
+                    handler: testCase.handler,
+                });
+
+                const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
+            
+                expect(testSuite.handler).toBe(testCase.expected, testCase.description);
             });
 
-            const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
-            
-            expect(testSuite.handler).toBe(
-                path.normalize(path.join(process.cwd(), "test/TestFiles/index.handler"))
-            );
+
+
+
         });
+
+
     });
 
     describe("filter", () => {

@@ -201,13 +201,14 @@ describe("virtual alexa runner", () => {
     });
 
     describe("filter tests", () => {
-        afterEach(() => {
+        beforeEach(() => {
             Configuration.singleton = undefined;
         });
 
         test("filter is applied to request and response", async () => {
             Configuration.configure({
                 accessToken: "testToken",
+                context: ".",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
@@ -224,6 +225,7 @@ describe("virtual alexa runner", () => {
         test("filter is applied to request and response", async () => {
             Configuration.configure({
                 accessToken: "testToken",
+                context: ".",
                 filter: "test/FilterSkill/filter-typo",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
@@ -239,8 +241,10 @@ describe("virtual alexa runner", () => {
     });
 
     describe("control flow tests", () => {
-        beforeAll(() => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
             return Configuration.configure({
+                context: ".",
                 handler: "test/FactSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
@@ -501,6 +505,7 @@ describe("virtual alexa runner", () => {
 
         test("VideoApp", async () => {
             Configuration.configure({
+                context: ".",
                 deviceId: "device",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
@@ -518,6 +523,7 @@ describe("virtual alexa runner", () => {
 
         test("Display and VideoApp", async () => {
             Configuration.configure({
+                context: ".",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
@@ -534,6 +540,7 @@ describe("virtual alexa runner", () => {
 
         test("all interfaces", async () => {
             Configuration.configure({
+                context: ".",
                 filter: "test/FilterSkill/filter",
                 handler: "test/FilterSkill/index.handler",
                 interactionModel: "test/FactSkill/models/en-US.json",
