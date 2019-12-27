@@ -18,36 +18,82 @@ describe("test runner", () => {
         Configuration.singleton = undefined;
     });
 
-    test("subscribe()", async () => {
-        const runner = new TestRunner({
-            handler: "test/FactSkill/index.handler",
-            interactionModel: "test/FactSkill/models/en-US.json",
-            locale: "en-US",
+    describe("subscribe()", () => {
+        test("callbacks working", async () => {
+            const runner = new TestRunner({
+                handler: "test/FactSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+            const messageCallback = (error, test) => {
+                expect(error).toBeUndefined();
+                expect(test.utterance).toBeDefined();
+            };
+            const resultCallback = (error, test) => {
+                expect(error).toBeUndefined();
+                expect(test.result).toBeDefined();
+                expect(test.result).toBeDefined();
+            };
+            const messageCallbackMock = jest.fn(messageCallback);
+            const resultCallbackMock = jest.fn(resultCallback);
+            runner.subscribe("message", messageCallbackMock);
+            runner.subscribe("result", resultCallbackMock);
+      
+            await runner.run("test/FactSkill/fact-skill-tests.yml");
+            
+            expect(messageCallbackMock).toHaveBeenCalledTimes(6);
+            expect(resultCallbackMock).toHaveBeenCalledTimes(6);
+            expect(resultCallbackMock.mock.calls[1][1]).toBeDefined();
+            expect(resultCallbackMock.mock.calls[1][1].assertions.length).toBe(3);
+            expect(resultCallbackMock.mock.calls[1][1].assertions[0].actual).toContain("Here's your fact");
+            expect(resultCallbackMock.mock.calls[1][1].assertions[0].operator).toBe("=~");
+            expect(resultCallbackMock.mock.calls[1][1].result).toBeDefined();
+            expect(resultCallbackMock.mock.calls[1][1].result.rawResponse).toBeDefined();
         });
-        const messageCallback = (error, test) => {
-            expect(error).toBeUndefined();
-            expect(test.utterance).toBeDefined();
-        };
-        const resultCallback = (error, test) => {
-            expect(error).toBeUndefined();
-            expect(test.result).toBeDefined();
-            expect(test.result).toBeDefined();
-        };
-        const messageCallbackMock = jest.fn(messageCallback);
-        const resultCallbackMock = jest.fn(resultCallback);
-        runner.subscribe("message", messageCallbackMock);
-        runner.subscribe("result", resultCallbackMock);
-  
-        await runner.run("test/FactSkill/fact-skill-tests.yml");
-        
-        expect(messageCallbackMock).toHaveBeenCalledTimes(6);
-        expect(resultCallbackMock).toHaveBeenCalledTimes(6);
-        expect(resultCallbackMock.mock.calls[1][1]).toBeDefined();
-        expect(resultCallbackMock.mock.calls[1][1].assertions.length).toBe(3);
-        expect(resultCallbackMock.mock.calls[1][1].assertions[0].actual).toContain("Here's your fact");
-        expect(resultCallbackMock.mock.calls[1][1].assertions[0].operator).toBe("=~");
-        expect(resultCallbackMock.mock.calls[1][1].result).toBeDefined();
-        expect(resultCallbackMock.mock.calls[1][1].result.rawResponse).toBeDefined();
+
+        test("result emits valid response", async () => {
+            const yamlString = `---
+- test: Simple test
+- Get new fact: Here's your fact
+`;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+
+            const runner = new TestRunner({
+                asyncMode: true,
+                locale: "en-US",
+                type: "e2e",
+                virtualDeviceToken: "async token",
+            });
+
+            const messageCallback = (error, test) => {
+                expect(error).toBeUndefined();
+                expect(test.utterance).toBeDefined();
+            };
+            const resultCallback = (error, test) => {
+                expect(error).toBeUndefined();
+                expect(test.result).toBeDefined();
+                expect(test.result).toBeDefined();
+            };
+
+            const messageCallbackMock = jest.fn(messageCallback);
+            const resultCallbackMock = jest.fn(resultCallback);
+            runner.subscribe("message", messageCallbackMock);
+            runner.subscribe("result", resultCallbackMock);
+
+            await runner.runSuite(testSuite);
+
+            expect(messageCallbackMock).toHaveBeenCalledTimes(1);
+            expect(resultCallbackMock).toHaveBeenCalledTimes(1);
+            expect(resultCallbackMock.mock.calls[0][1]).toBeDefined();
+            expect(resultCallbackMock.mock.calls[0][1].assertions.length).toBe(1);
+            expect(resultCallbackMock.mock.calls[0][1].assertions[0].actual).toContain("Here's your fact");
+            expect(resultCallbackMock.mock.calls[0][1].result).toBeDefined();
+            expect(resultCallbackMock.mock.calls[0][1].result.rawResponse).toBeDefined();
+            expect(resultCallbackMock.mock.calls[0][1].utteranceURL).toBeDefined();
+        });
     });
 
     test("Runs only tests with included tags", async () => {
