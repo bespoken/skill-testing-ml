@@ -114,7 +114,8 @@ function handleMessage(message) {
             }
         },
         streamURL: "https://cdn.kwimer.com/sleep-sounds/thunderstorm.aac",
-        shouldEndSession: false
+        shouldEndSession: false,
+        utteranceURL: "https://bespoken-virtual-device-generated-audios.s3.amazonaws.com/",
     };
 
     if (utterance.toLowerCase().includes("help")) {
