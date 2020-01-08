@@ -78,7 +78,6 @@
     "js-yaml-bespoken": "^3.11.6",
     "jsonpath-bespoken": "^1.0.2",
     "lodash": "^4.17.11",
-    "uniqid": "^5.2.0",
     "virtual-alexa": "^0.7.5",
     "virtual-device-sdk": "^1.7.0",
     "virtual-google-assistant": "^0.3.6",
