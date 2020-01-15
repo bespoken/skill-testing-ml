@@ -101,6 +101,7 @@
                     "uniq",
                     "utf8",
                     "util",
+                    "uuid",
                     "Veyor",
                     "winston",
                     "yaml",
