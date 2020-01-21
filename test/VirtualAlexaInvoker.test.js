@@ -1,6 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
-const path = require("path");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
 
@@ -197,6 +196,47 @@ describe("virtual alexa runner", () => {
             const results = await runner.run("test/AddressSkill/null-address-test.yml");
             expect(results.length).toEqual(1);
             expect(results[0].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
+    describe("call user profile api tests", () => {
+        beforeEach(() => {
+            return Configuration.configure({
+                handler: "test/UserProfileSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("Test User Profile API with different calls", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/UserProfileSkill/full-user-profile-test.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[0].interactionResults[0].error)
+                .toContain("James Tiberius Kirk");
+            expect(results[0].interactionResults[0].error)
+                .toContain("at test/UserProfileSkill/full-user-profile-test.yml:16");
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Test User Profile API with 403", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/UserProfileSkill/missing-name-profile-test.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+
+            expect(results[0].interactionResults[0].error)
+                .toContain("undefined");
+            expect(results[0].interactionResults[0].error)
+                .toContain("at test/UserProfileSkill/missing-name-profile-test.yml:15:0");
+            expect(results[1].interactionResults[0].error).toBeUndefined();
         });
     });
 
@@ -413,8 +453,8 @@ describe("virtual alexa runner", () => {
                 const runner = new TestRunner();
                 await runner.run("test/ExceptionSkill/no-utterance-test.yml");
             } catch (error) {
-                const defaultPath = path.normalize("./models/en-US.json");
-                expect(error.message.includes(defaultPath)).toBe(true);
+                expect(error.message).toContain("models");
+                expect(error.message).toContain("en-US.json");
                 expect(loggerSpy).toHaveBeenCalledTimes(2);
             }
         });

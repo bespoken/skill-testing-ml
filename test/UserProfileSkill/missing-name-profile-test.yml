@@ -1,0 +1,23 @@
+# Test created by Bespoken - to use this test, go to https://bespoken.io/testing
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+  userProfile:
+    givenName: Captain Kirk
+    email: kirk@enterprise.org
+    mobileNumber:
+      countryCode: +1
+      phoneNumber: 123456789
+
+---
+- test: "Fails on name"
+- LaunchRequest:
+  - payload.name == "James Tiberius Kirk"
+  - payload.mobileNumber.phoneNumber: "123456789"
+  - payload.name: "Spock"
+
+---
+- test: "Succeeds"
+- LaunchRequest:
+  - payload.mobileNumber.phoneNumber: "123456789"
+  - payload.givenName: "Captain Kirk"
