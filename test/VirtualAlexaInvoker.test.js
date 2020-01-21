@@ -200,6 +200,47 @@ describe("virtual alexa runner", () => {
         });
     });
 
+    describe("call user profile api tests", () => {
+        beforeEach(() => {
+            return Configuration.configure({
+                handler: "test/UserProfileSkill/index.handler",
+                interactionModel: "test/FactSkill/models/en-US.json",
+                locale: "en-US",
+            });
+        });
+
+        afterEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("Test User Profile API with different calls", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/UserProfileSkill/full-user-profile-test.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[0].interactionResults[0].error)
+                .toContain("James Tiberius Kirk");
+            expect(results[0].interactionResults[0].error)
+                .toContain("at test/UserProfileSkill/full-user-profile-test.yml:16");
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+        });
+
+        test("Test User Profile API with 403", async () => {
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/UserProfileSkill/missing-name-profile-test.yml");
+            expect(results.length).toEqual(2);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+
+            expect(results[0].interactionResults[0].error)
+                .toContain("undefined");
+            expect(results[0].interactionResults[0].error)
+                .toContain("at test/UserProfileSkill/missing-name-profile-test.yml:15:0");
+            expect(results[1].interactionResults[0].error).toBeUndefined();
+        });
+    });
+
     describe("filter tests", () => {
         beforeEach(() => {
             Configuration.singleton = undefined;
