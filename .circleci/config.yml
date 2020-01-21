@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
     steps:
       - checkout
       - run: npm install
@@ -18,7 +18,7 @@ jobs:
           path: reports/junit
   test-smapi:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:10
     environment:
       SMAPI: true
     steps:
@@ -29,7 +29,7 @@ jobs:
       - run: npm run test.smapi.2
   test-babel:
       docker:
-        - image: circleci/node:8
+        - image: circleci/node:10
       steps:
         - checkout
         - run: npm install
