@@ -455,7 +455,7 @@ describe("virtual alexa runner", () => {
                 await runner.run("test/ExceptionSkill/no-utterance-test.yml");
             } catch (error) {
                 const defaultPath = path.normalize("./models/en-US.json");
-                expect(error.message.includes(defaultPath)).toBe(true);
+                expect(error.message).toContain(defaultPath);
                 expect(loggerSpy).toHaveBeenCalledTimes(2);
             }
         });
