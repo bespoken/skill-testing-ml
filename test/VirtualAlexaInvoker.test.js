@@ -1,6 +1,5 @@
 const Configuration = require("../lib/runner/Configuration");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
-const path = require("path");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");
 
