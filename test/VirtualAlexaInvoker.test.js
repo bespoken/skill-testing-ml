@@ -623,7 +623,7 @@ describe("virtual alexa runner", () => {
             return Configuration.configure({
                 interactionModel: "test/FactSkill/models/en-US.json",
                 locale: "en-US",
-                skillURL: "http://httpbin.org/post",
+                skillURL: "https://httpbin.org/post",
             });
         });
 

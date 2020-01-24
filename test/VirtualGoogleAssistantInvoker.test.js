@@ -35,7 +35,7 @@ describe("virtual google assistant runner", () => {
     describe("basic tests with actionURL", () => {
         beforeEach(async () => {
             await Configuration.configure({
-                actionURL: "http://httpbin.org/post",
+                actionURL: "https://httpbin.org/post",
                 dialogFlowDirectory: "test/SillyNameMakerExpress/dialogFlow",
                 locale: "en-US",
                 platform: CONSTANTS.PLATFORM.google,
