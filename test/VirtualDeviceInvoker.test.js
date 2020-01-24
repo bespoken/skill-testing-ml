@@ -3,7 +3,8 @@ const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const message = require("virtual-device-sdk").mockMessage;
-const mockGetConversationResults= require("virtual-device-sdk").mockGetConversationResults;
+const mockBatchMessageAsyncMode = require("virtual-device-sdk").mockBatchMessageAsyncMode;
+const mockGetConversationResults = require("virtual-device-sdk").mockGetConversationResults;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
 
 const spaceFactMessage = require("virtual-device-sdk").spaceFactMessage;
@@ -329,6 +330,7 @@ describe("virtual device runner", () => {
         });
 
         beforeEach(() => {
+            mockBatchMessageAsyncMode.mockClear();
             Configuration.reset();
             return Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -521,6 +523,53 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[1].interaction.utterance).toBe("$PAUSE s");
             expect(results[0].interactionResults[1].interaction.pauseSeconds).toBe(0);
             expect(results[0].interactionResults[2].interaction.utterance).toBe("help");
+        });
+
+        test("Test flow with async mode retryOnError:false", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                asyncE2EWaitInterval: 1,
+                asyncMode: true,
+                batchEnabled: true,
+                invocationName: "space fact",
+                locale: "en-US",
+                maxAsyncE2EResponseWaitTime: 3,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token error on result",
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-test.common.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
+            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(1);
+        });
+
+        test("Test flow with async mode retryOnError:true", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                asyncE2EWaitInterval: 1,
+                asyncMode: true,
+                batchEnabled: true,
+                invocationName: "space fact",
+                locale: "en-US",
+                maxAsyncE2EResponseWaitTime: 3,
+                retryOnError: true,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token error on result",
+            });
+            const runner = new TestRunner();
+
+            const results = await runner.run("test/FactSkill/fact-skill-test.common.yml");
+
+            expect(results.length).toEqual(1);
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
+            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(2);
         });
     });
 

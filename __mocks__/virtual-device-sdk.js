@@ -5,6 +5,11 @@ const mockMessage = jest.fn((arg)=>{
 
 const mockAddHomophones = jest.fn();
 const mockWaitForSessionToEnd = jest.fn();
+const mockBatchMessageAsyncMode = jest.fn(() => {
+    return {
+        conversation_id: "dummy-id",
+    };
+});
 
 const getResponsesFromMessages = (messages) => {
     const responses = [];
@@ -27,6 +32,12 @@ const mockGetConversationResults = jest.fn()
         status: "COMPLETED"
     });
 
+const mockGetConversationResultsWithError = jest.fn()
+    .mockRejectedValue({
+        error: "Call was not answered",
+        status: "COMPLETED",
+    });
+
 const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
     let token = undefined;
     if (arg0 === Object(arg0)) {
@@ -37,11 +48,7 @@ const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
 
     if(token === "space fact") return {batchMessage: spaceFactMessage};
     if(token === "async token") return {
-        batchMessage: jest.fn(() => {
-            return {
-                conversation_id: "dummy-id",
-            };
-        }),
+        batchMessage: mockBatchMessageAsyncMode,
         getConversationResults: mockGetConversationResults,
     };
     if(token === "async token throws") return {
@@ -49,6 +56,10 @@ const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
             throw new Error("Network Error");
         }),
         getConversationResults: mockGetConversationResults,
+    };
+    if(token === "async token error on result") return {
+        batchMessage: mockBatchMessageAsyncMode,
+        getConversationResults: mockGetConversationResultsWithError,
     };
     return {
         addHomophones: mockAddHomophones,
@@ -160,6 +171,8 @@ function handleMessage(message) {
 exports.spaceFactMessage = spaceFactMessage;
 exports.mockMessage = mockMessage;
 exports.mockAddHomophones = mockAddHomophones;
+exports.mockBatchMessageAsyncMode = mockBatchMessageAsyncMode;
 exports.mockGetConversationResults = mockGetConversationResults;
+exports.mockGetConversationResultsWithError = mockGetConversationResultsWithError;
 exports.mockVirtualDevice = mockVirtualDevice;
 exports.VirtualDevice = mockVirtualDevice;
