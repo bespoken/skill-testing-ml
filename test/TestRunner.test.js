@@ -768,4 +768,35 @@ describe("test runner", () => {
         expect(results[1].interactionResults[0].error).toBeDefined();
         expect(results[1].interactionResults[0].errorOnProcess).toBe("Async error");
     });
+
+    test("stop execution when status is completed on async mode", async() => {
+        mockGetConversationResults.mockReset();
+        const runner = new TestRunner({
+            asyncE2EWaitInterval: 1,
+            asyncMode: true,
+            batchEnabled: true,
+            configurationPath: "./testing.json",
+            maxAsyncE2EResponseWaitTime: 3,
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "async token",
+        });
+
+        mockGetConversationResults.mockReturnValue({
+            results: [{ message: "Hi", transcript: "hi result"}],
+            status: "COMPLETED",
+        });
+
+        const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
+        expect(results.length).toEqual(3);
+
+        expect(results[0].skipped).toBe(false);
+        expect(results[0].interactionResults.length).toBe(2);
+        expect(results[0].interactionResults[0].error).toBeUndefined();
+
+        expect(results[1].skipped).toBe(false);
+        expect(results[1].interactionResults.length).toBe(1);
+
+        expect(results[2].skipped).toBe(false);
+        expect(results[2].interactionResults.length).toBe(1); 
+    });    
 });
