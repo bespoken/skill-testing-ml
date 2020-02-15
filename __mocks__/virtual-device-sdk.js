@@ -36,6 +36,7 @@ const mockGetConversationResultsWithError = jest.fn()
     .mockRejectedValue({
         error: "Call was not answered",
         status: "COMPLETED",
+        error_code: 554
     });
 
 const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {

@@ -766,7 +766,7 @@ describe("test runner", () => {
         expect(results[1].interactionResults.length).toBe(1);
 
         expect(results[1].interactionResults[0].error).toBeDefined();
-        expect(results[1].interactionResults[0].errorOnProcess).toBe("Async error");
+        expect(results[1].interactionResults[0].errorOnProcess).toContain("Async error");
     });
 
     test("stop execution when status is completed on async mode", async() => {
