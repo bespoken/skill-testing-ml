@@ -162,6 +162,12 @@ function handleMessage(message) {
             error: "Error from virtual device"
         });
         throw error;
+    } else if (utterance.toLowerCase().includes("get error on result")) {
+        const error = {
+            error_category: "system",
+            message: "Error from virtual device"
+        };
+        response.error = error;
     } else {
         response.transcript = "Here's your fact";
         response.shouldEndSession =  true;

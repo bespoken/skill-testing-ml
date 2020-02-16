@@ -334,6 +334,27 @@ describe("test runner", () => {
         expect(resultCallbackMock).toHaveBeenCalledTimes(1);
     });
 
+    test("batchEnabled false, error on result", async () => {
+        const runnerError = new TestRunner({
+            batchEnabled: false,
+            locale: "en-US",
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "space fact",
+        });
+
+        const yamlString = `---
+- test: Simple test
+- "get error on result": assertion
+`;
+        const parser = new TestParser();
+        parser.load(yamlString);
+        const testSuite = parser.parse();
+        testSuite._fileName = " ";
+    
+        const results = await runnerError.runSuite(testSuite);
+        expect(results[0].interactionResults[0].errorOnProcess).toContain("Error from virtual device");
+    });
+
     test("batchEnabled true", async () => {
         const runner = new TestRunner({
             type: CONSTANTS.TYPE.e2e,
