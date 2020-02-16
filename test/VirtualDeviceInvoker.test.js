@@ -408,14 +408,16 @@ describe("virtual device runner", () => {
 
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toBe("Network Error");
+            expect(results[0].interactionResults[1].errorOnProcess).toContain("Network Error");
         });
 
         test("Test flow with async when there's an exception", async () => {
             const runner = new TestRunner();
             mockGetConversationResults.mockImplementation(() => {
-                const error =  new Error("Virtual Device Token is invalid");
-                error.error_category = "user";
+                const error = JSON.stringify({
+                    error: "Virtual Device Token is invalid",
+                    error_category: "user",
+                });
                 throw error;
             });
             const results = await runner.run("test/FactSkill/fact-skill-tests.common.yml");
@@ -525,7 +527,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[2].interaction.utterance).toBe("help");
         });
 
-        test("Test flow with async mode retryOnError:false", async () => {
+        test("Test flow async mode with retryOn:[] and retryNumber: 2", async () => {
             Configuration.reset();
             Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -534,6 +536,8 @@ describe("virtual device runner", () => {
                 invocationName: "space fact",
                 locale: "en-US",
                 maxAsyncE2EResponseWaitTime: 3,
+                retryNumber: 3,
+                retryOn: [],
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token error on result",
             });
@@ -548,7 +552,7 @@ describe("virtual device runner", () => {
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(1);
         });
 
-        test("Test flow with async mode retryOnError:true", async () => {
+        test("Test flow async mode with retryOn:[554] and retryNumber: 3", async () => {
             Configuration.reset();
             Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -557,7 +561,8 @@ describe("virtual device runner", () => {
                 invocationName: "space fact",
                 locale: "en-US",
                 maxAsyncE2EResponseWaitTime: 3,
-                retryOnError: true,
+                retryNumber: 3,
+                retryOn: [554],
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token error on result",
             });
@@ -569,7 +574,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(1);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
-            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(2);
+            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(4);
         });
     });
 
@@ -656,14 +661,14 @@ describe("virtual device runner", () => {
             expect(results[1].interactionResults.length).toBe(1);
             expect(results[1].interactionResults[0].error).toBeDefined();
             expect(results[1].interactionResults[0].error.error_category).toBe("system");
-            expect(results[1].interactionResults[0].error.error).toBe("Error from virtual device");
+            expect(results[1].interactionResults[0].error.message).toBe("Error from virtual device");
             expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
 
             expect(results[2].skipped).toBe(false);
             expect(results[2].interactionResults.length).toBe(1);
             expect(results[2].interactionResults[0].error).toBeDefined();
             expect(results[2].interactionResults[0].errorOnProcess).toBeDefined();
-            expect(results[2].interactionResults[0].errorOnProcess).toBe("error message");
+            expect(results[2].interactionResults[0].errorOnProcess).toBe("Error from virtual device on root");
         });
 
         test("response with errors", async () => {
