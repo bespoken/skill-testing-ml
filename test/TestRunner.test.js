@@ -4,6 +4,7 @@ const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const mockGetConversationResults = require("virtual-device-sdk").mockGetConversationResults;
 const mockMessage = require("virtual-device-sdk").mockMessage;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
+const nock = require("nock");
 
 const TestParser = require("../lib/test/TestParser");
 const TestRunner = require("../lib/runner/TestRunner");
@@ -819,5 +820,44 @@ describe("test runner", () => {
 
         expect(results[2].skipped).toBe(false);
         expect(results[2].interactionResults.length).toBe(1); 
-    });    
+    });
+
+    test("save test results", async() => {
+        let parsedBody;
+        nock("https://source-api.bespoken.tools")
+            .post("/v2/testResultsHistory", (body) => {
+                parsedBody = body;
+                return true;
+            }).reply(200, {
+                id: "simulationId",
+                status: "SUCCESSFUL",
+            });
+
+        const runnerError = new TestRunner({
+            batchEnabled: false,
+            bespokenProjectId: "testProject",
+            locale: "en-US",
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "space fact",
+        });
+    
+        const yamlString = `---
+- test: Simple test
+- new fact: assertion
+`;
+        const parser = new TestParser();
+        parser.load(yamlString);
+        const testSuite = parser.parse();
+        testSuite._fileName = " ";
+    
+        await runnerError.runSuite(testSuite);
+        expect(parsedBody.projectId).toBe("testProject");
+        expect(parsedBody.token).toBe("space fact");
+        expect(parsedBody.testResults.length).toBe(1);
+        expect(parsedBody.testResults[0].test.description).toBe("Simple test");
+        expect(parsedBody.testResults[0].test.interactions.length).toBe(1);
+        expect(parsedBody.testResults[0].test.interactions[0].assertions[0].actual).toBe("Here's your fact");
+        expect(parsedBody.testResults[0].test.interactions[0].assertions[0].value).toBe("assertion");
+        nock.cleanAll();
+    });
 });
