@@ -626,6 +626,33 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(6);
         });
+
+        test("Test flow with async with request expressions as settings", async () => {
+            const script = `
+--- 
+- LaunchRequest:
+    - request.value1: value1
+    - request.value2: value2
+`;
+            const parser = new TestParser();
+            parser.load(script);
+            const testSuite = parser.parse();
+            testSuite._fileName = "test";
+    
+            const runner = new TestRunner();
+            const results = await runner.runSuite(testSuite);
+
+            expect(results.length).toEqual(1);
+            expect(results[0].test.description).toEqual("Test 1");
+
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].passed).toBe(true);
+            expect(results[0].interactionResults[0].error).toBeUndefined();
+            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(1);
+            const messages = mockBatchMessageAsyncMode.mock.calls[0][0];
+            expect(messages[0].settings).toEqual({ value1: "value1", value2: "value2"});
+
+        });
     });
 
     describe("edge case tests", () => {
