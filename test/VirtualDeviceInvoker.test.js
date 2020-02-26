@@ -287,6 +287,14 @@ describe("virtual device runner", () => {
             expect(mockVirtualDevice.mock.calls[0][0].twilio_speech_timeout).toEqual(2);
             expect(mockVirtualDevice.mock.calls[0][0].twilio_timeout).toEqual(10);
         });
+
+        test("platform", async () => {
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0].platform).toBe("alexa");
+        });        
     });
 
     describe("control flow tests", () => {
