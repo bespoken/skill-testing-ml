@@ -339,6 +339,7 @@ describe("virtual device runner", () => {
 
         beforeEach(() => {
             mockBatchMessageAsyncMode.mockClear();
+            mockGetConversationResults.mockClear();
             Configuration.reset();
             return Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -636,6 +637,9 @@ describe("virtual device runner", () => {
         });
 
         test("Test flow with async with request expressions as settings", async () => {
+            mockGetConversationResults
+                .mockReturnValueOnce({results: [{}], status: "COMPLETED"});
+
             const script = `
 --- 
 - LaunchRequest:
