@@ -723,6 +723,7 @@ describe("virtual device runner", () => {
             expect(results[1].skipped).toBe(true);
             expect(results[1].interactionResults.length).toBe(1);
             expect(results[1].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].error.error_category).toBeDefined();
             expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
         });
 
