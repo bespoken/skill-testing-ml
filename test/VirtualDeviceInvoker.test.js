@@ -287,6 +287,14 @@ describe("virtual device runner", () => {
             expect(mockVirtualDevice.mock.calls[0][0].twilio_speech_timeout).toEqual(2);
             expect(mockVirtualDevice.mock.calls[0][0].twilio_timeout).toEqual(10);
         });
+
+        test("platform", async () => {
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await runner.run("test/FactSkill/fact-skill-tests.common.yml");
+            
+            expect(mockVirtualDevice.mock.calls[0][0].platform).toBe("alexa");
+        });        
     });
 
     describe("control flow tests", () => {
@@ -331,6 +339,7 @@ describe("virtual device runner", () => {
 
         beforeEach(() => {
             mockBatchMessageAsyncMode.mockClear();
+            mockGetConversationResults.mockClear();
             Configuration.reset();
             return Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -628,6 +637,9 @@ describe("virtual device runner", () => {
         });
 
         test("Test flow with async with request expressions as settings", async () => {
+            mockGetConversationResults
+                .mockReturnValueOnce({results: [{}], status: "COMPLETED"});
+
             const script = `
 --- 
 - LaunchRequest:
@@ -715,6 +727,7 @@ describe("virtual device runner", () => {
             expect(results[1].skipped).toBe(true);
             expect(results[1].interactionResults.length).toBe(1);
             expect(results[1].interactionResults[0].error).toBeDefined();
+            expect(results[1].interactionResults[0].error.error_category).toBeDefined();
             expect(results[1].interactionResults[0].errorOnProcess).toBeDefined();
         });
 
