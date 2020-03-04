@@ -377,7 +377,7 @@ describe("virtual device runner", () => {
 
         });
 
-        test("Test flow with async when there's no results coming back", async () => {
+        test.only("Test flow with async when there's no results coming back", async () => {
             const runner = new TestRunner();
             mockGetConversationResults.mockReturnValue({
                 results: [],
@@ -389,13 +389,13 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toBe(
                 "Timeout exceeded while waiting for the interaction response");
         });
 
-        test("Test flow with async when getting conversation id throws an exception", async () => {
+        test.only("Test flow with async when getting conversation id throws an exception", async () => {
             Configuration.reset();
             Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -415,12 +415,12 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toContain("Network Error");
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toContain("Network Error");
         });
 
-        test("Test flow with async when there's an exception", async () => {
+        test.only("Test flow with async when there's an exception", async () => {
             const runner = new TestRunner();
             mockGetConversationResults.mockImplementation(() => {
                 const error = JSON.stringify({
@@ -434,12 +434,12 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[1].error).toBeDefined();
-            expect(results[0].interactionResults[1].error.error_category).toBeDefined();
-            expect(results[0].interactionResults[1].error.error_category).toBe("user");
-            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[0].interactionResults[0].error.error_category).toBeDefined();
+            expect(results[0].interactionResults[0].error.error_category).toBe("user");
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toBe(
                 "Virtual Device Token is invalid");
 
         });
