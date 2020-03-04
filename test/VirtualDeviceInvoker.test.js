@@ -389,9 +389,9 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toBe(
                 "Timeout exceeded while waiting for the interaction response");
         });
 
@@ -415,9 +415,9 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toContain("Network Error");
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toContain("Network Error");
         });
 
         test("Test flow with async when there's an exception", async () => {
@@ -434,12 +434,12 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(2);
-            expect(results[0].interactionResults[1].error).toBeDefined();
-            expect(results[0].interactionResults[1].error.error_category).toBeDefined();
-            expect(results[0].interactionResults[1].error.error_category).toBe("user");
-            expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
-            expect(results[0].interactionResults[1].errorOnProcess).toBe(
+            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults[0].error).toBeDefined();
+            expect(results[0].interactionResults[0].error.error_category).toBeDefined();
+            expect(results[0].interactionResults[0].error.error_category).toBe("user");
+            expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
+            expect(results[0].interactionResults[0].errorOnProcess).toBe(
                 "Virtual Device Token is invalid");
 
         });

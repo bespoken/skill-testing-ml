@@ -781,7 +781,7 @@ describe("test runner", () => {
         expect(results.length).toEqual(3);
 
         expect(results[0].skipped).toBe(false);
-        expect(results[0].interactionResults.length).toBe(2);
+        expect(results[0].interactionResults.length).toBe(1);
         expect(results[0].interactionResults[0].error).toBeDefined();
 
         expect(results[1].skipped).toBe(false);
@@ -804,8 +804,10 @@ describe("test runner", () => {
         });
 
         mockGetConversationResults.mockReturnValue({
-            results: [{ message: "Hi", transcript: "hi result"}],
-            status: "COMPLETED",
+            results: [
+                { message: "Hi", transcript: "hi result"},
+                { message: "Hi", transcript: "hi result"},
+            ], status: "COMPLETED",
         });
 
         const results = await runner.run("test/FactSkill/fact-skill-tests.yml");
@@ -816,10 +818,10 @@ describe("test runner", () => {
         expect(results[0].interactionResults[0].error).toBeUndefined();
 
         expect(results[1].skipped).toBe(false);
-        expect(results[1].interactionResults.length).toBe(1);
+        expect(results[1].interactionResults.length).toBe(2);
 
         expect(results[2].skipped).toBe(false);
-        expect(results[2].interactionResults.length).toBe(1); 
+        expect(results[2].interactionResults.length).toBe(2); 
     });
 
     test("save test results", async() => {
