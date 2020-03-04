@@ -377,7 +377,7 @@ describe("virtual device runner", () => {
 
         });
 
-        test.only("Test flow with async when there's no results coming back", async () => {
+        test("Test flow with async when there's no results coming back", async () => {
             const runner = new TestRunner();
             mockGetConversationResults.mockReturnValue({
                 results: [],
@@ -395,7 +395,7 @@ describe("virtual device runner", () => {
                 "Timeout exceeded while waiting for the interaction response");
         });
 
-        test.only("Test flow with async when getting conversation id throws an exception", async () => {
+        test("Test flow with async when getting conversation id throws an exception", async () => {
             Configuration.reset();
             Configuration.configure({
                 asyncE2EWaitInterval: 1,
@@ -420,7 +420,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[0].errorOnProcess).toContain("Network Error");
         });
 
-        test.only("Test flow with async when there's an exception", async () => {
+        test("Test flow with async when there's an exception", async () => {
             const runner = new TestRunner();
             mockGetConversationResults.mockImplementation(() => {
                 const error = JSON.stringify({
