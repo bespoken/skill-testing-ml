@@ -635,6 +635,28 @@ describe("test runner", () => {
         expect(testEnd).toBe(true);
     });
 
+    test("Filter with exception don't stop the test", async () => {
+
+        const runner = new TestRunner({
+            filter: {
+                onTestStart: () => {
+                    throw new Error("Error on filter");
+                },
+            },
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        try {
+            await runner.run("test/FactSkill/fact-skill-tests.yml");
+        } catch (error) {
+            // If we catch an error, it means the filter crashed the runner execution
+            expect(true).toBe(false);
+        }
+
+    });
+
     test("execute test on parallel", async () => {
         Configuration.configure({
             type: CONSTANTS.TYPE.e2e,
