@@ -248,7 +248,7 @@ describe("JestAdapter", () => {
 
         const jestResults = await testRunner({}, { rootDir: "rootDir" }, {}, new Runtime(results), "MyTest.yml");
         expect(jestResults.numPassingTests).toBe(0);
-        expect(jestResults.numFailingTests).toBe(1);
+        expect(jestResults.numFailingTests).toBe(0);
         expect(jestResults.skipped).toBe(false);
         expect(jestResults.numPendingTests).toBe(2);
         expect(jestResults.testResults[0].status).toBe("pending");
