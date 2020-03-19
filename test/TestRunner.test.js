@@ -846,92 +846,175 @@ describe("test runner", () => {
         expect(results[2].interactionResults.length).toBe(2); 
     });
 
-    test("save test results", async() => {
-        let parsedBody;
-
-        nock("https://source-api.bespoken.tools")
-            .get("/v1/getSourceExists")
-            .query(() => {
-                return true;
-            })
-            .reply(200, "true");
-
-        nock("https://source-api.bespoken.tools")
-            .post("/v2/testResultsHistory", (body) => {
-                parsedBody = body;
-                return true;
-            }).reply(200, {
-                id: "simulationId",
-                status: "SUCCESSFUL",
+    describe("save test results", () => {
+        test("save test results successfully", async() => {
+            let parsedBody;
+    
+            nock("https://source-api.bespoken.tools")
+                .get("/v1/getSourceExists")
+                .query(() => {
+                    return true;
+                })
+                .reply(200, "true");
+    
+            nock("https://source-api.bespoken.tools")
+                .post("/v2/testResultsHistory", (body) => {
+                    parsedBody = body;
+                    return true;
+                }).reply(200, {
+                    id: "simulationId",
+                    status: "SUCCESSFUL",
+                });
+    
+    
+            const runnerError = new TestRunner({
+                batchEnabled: false,
+                bespokenProjectId: "testProject",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
             });
-
-
-        const runnerError = new TestRunner({
-            batchEnabled: false,
-            bespokenProjectId: "testProject",
-            locale: "en-US",
-            type: CONSTANTS.TYPE.e2e,
-            virtualDeviceToken: "space fact",
+        
+            const yamlString = `---
+    - test: Simple test
+    - new fact: assertion
+    `;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+        
+            await runnerError.runSuite(testSuite);
+            expect(parsedBody.projectId).toBe("testProject");
+            expect(parsedBody.token).toBe("space fact");
+            expect(parsedBody.testResults.length).toBe(1);
+            expect(parsedBody.testResults[0].test.description).toBe("Simple test");
+            expect(parsedBody.testResults[0].test.interactions.length).toBe(1);
+            expect(parsedBody.testResults[0].test.interactions[0].assertions[0].actual).toBe("Here's your fact");
+            expect(parsedBody.testResults[0].test.interactions[0].assertions[0].value).toBe("assertion");
+            nock.cleanAll();
         });
     
-        const yamlString = `---
-- test: Simple test
-- new fact: assertion
-`;
-        const parser = new TestParser();
-        parser.load(yamlString);
-        const testSuite = parser.parse();
-        testSuite._fileName = " ";
+        test("not save test results if bespokenProjectId does not match a source id", async() => {
+            let parsedBody;
     
-        await runnerError.runSuite(testSuite);
-        expect(parsedBody.projectId).toBe("testProject");
-        expect(parsedBody.token).toBe("space fact");
-        expect(parsedBody.testResults.length).toBe(1);
-        expect(parsedBody.testResults[0].test.description).toBe("Simple test");
-        expect(parsedBody.testResults[0].test.interactions.length).toBe(1);
-        expect(parsedBody.testResults[0].test.interactions[0].assertions[0].actual).toBe("Here's your fact");
-        expect(parsedBody.testResults[0].test.interactions[0].assertions[0].value).toBe("assertion");
-        nock.cleanAll();
+            nock("https://source-api.bespoken.tools")
+                .get("/v1/getSourceExists")
+                .query(() => {
+                    return true;
+                }).reply(200, "false");
+    
+            nock("https://source-api.bespoken.tools")
+                .post("/v2/testResultsHistory", (body) => {
+                    parsedBody = body;
+                    return true;
+                }).reply(200, {
+                    id: "simulationId",
+                    status: "SUCCESSFUL",
+                });
+    
+    
+            const runnerError = new TestRunner({
+                batchEnabled: false,
+                bespokenProjectId: "testProject",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+        
+            const yamlString = `---
+    - test: Simple test
+    - new fact: assertion
+    `;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+        
+            await runnerError.runSuite(testSuite);
+            expect(parsedBody).toBeUndefined();
+            nock.cleanAll();
+        });
+
+        test("save test results when source api service throws exception on source exists", async() => {
+            let parsedBody;
+    
+            nock("https://source-api.bespoken.tools")
+                .get("/v1/getSourceExists")
+                .query(() => {
+                    return true;
+                })
+                .replyWithError("random error");
+    
+            nock("https://source-api.bespoken.tools")
+                .post("/v2/testResultsHistory", (body) => {
+                    parsedBody = body;
+                    return true;
+                }).reply(200, {
+                    id: "simulationId",
+                    status: "SUCCESSFUL",
+                });
+    
+    
+            const runnerError = new TestRunner({
+                batchEnabled: false,
+                bespokenProjectId: "testProject",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+        
+            const yamlString = `---
+    - test: Simple test
+    - new fact: assertion
+    `;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+        
+            await runnerError.runSuite(testSuite);
+            expect(parsedBody).toBeUndefined();
+            nock.cleanAll();
+        });
+
+        test("save test results when source api service throws exception on saving ", async() => {
+            let parsedBody;
+    
+            nock("https://source-api.bespoken.tools")
+                .get("/v1/getSourceExists")
+                .query(() => {
+                    return true;
+                })
+                .reply(200, "true");
+    
+            nock("https://source-api.bespoken.tools")
+                .post("/v2/testResultsHistory", () => {
+                    return true;
+                }).replyWithError("random error");
+    
+    
+            const runnerError = new TestRunner({
+                batchEnabled: false,
+                bespokenProjectId: "testProject",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+        
+            const yamlString = `---
+    - test: Simple test
+    - new fact: assertion
+    `;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+        
+            await runnerError.runSuite(testSuite);
+            expect(parsedBody).toBeUndefined();
+            nock.cleanAll();
+        });
     });
 
-    test("not save test results if bespokenProjectId does not match a source id", async() => {
-        let parsedBody;
-
-        nock("https://source-api.bespoken.tools")
-            .get("/v1/getSourceExists")
-            .query(() => {
-                return true;
-            }).reply(200, "false");
-
-        nock("https://source-api.bespoken.tools")
-            .post("/v2/testResultsHistory", (body) => {
-                parsedBody = body;
-                return true;
-            }).reply(200, {
-                id: "simulationId",
-                status: "SUCCESSFUL",
-            });
-
-
-        const runnerError = new TestRunner({
-            batchEnabled: false,
-            bespokenProjectId: "testProject",
-            locale: "en-US",
-            type: CONSTANTS.TYPE.e2e,
-            virtualDeviceToken: "space fact",
-        });
-    
-        const yamlString = `---
-- test: Simple test
-- new fact: assertion
-`;
-        const parser = new TestParser();
-        parser.load(yamlString);
-        const testSuite = parser.parse();
-        testSuite._fileName = " ";
-    
-        await runnerError.runSuite(testSuite);
-        expect(parsedBody).toBeUndefined();
-        nock.cleanAll();
-    });    
 });
