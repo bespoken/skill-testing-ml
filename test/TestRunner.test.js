@@ -848,6 +848,14 @@ describe("test runner", () => {
 
     test("save test results", async() => {
         let parsedBody;
+
+        nock("https://source-api.bespoken.tools")
+            .get("/v1/getSourceExists")
+            .query(() => {
+                return true;
+            })
+            .reply(200, "true");
+
         nock("https://source-api.bespoken.tools")
             .post("/v2/testResultsHistory", (body) => {
                 parsedBody = body;
@@ -856,6 +864,7 @@ describe("test runner", () => {
                 id: "simulationId",
                 status: "SUCCESSFUL",
             });
+
 
         const runnerError = new TestRunner({
             batchEnabled: false,
@@ -884,4 +893,45 @@ describe("test runner", () => {
         expect(parsedBody.testResults[0].test.interactions[0].assertions[0].value).toBe("assertion");
         nock.cleanAll();
     });
+
+    test("not save test results if bespokenProjectId does not match a source id", async() => {
+        let parsedBody;
+
+        nock("https://source-api.bespoken.tools")
+            .get("/v1/getSourceExists")
+            .query(() => {
+                return true;
+            }).reply(200, "false");
+
+        nock("https://source-api.bespoken.tools")
+            .post("/v2/testResultsHistory", (body) => {
+                parsedBody = body;
+                return true;
+            }).reply(200, {
+                id: "simulationId",
+                status: "SUCCESSFUL",
+            });
+
+
+        const runnerError = new TestRunner({
+            batchEnabled: false,
+            bespokenProjectId: "testProject",
+            locale: "en-US",
+            type: CONSTANTS.TYPE.e2e,
+            virtualDeviceToken: "space fact",
+        });
+    
+        const yamlString = `---
+- test: Simple test
+- new fact: assertion
+`;
+        const parser = new TestParser();
+        parser.load(yamlString);
+        const testSuite = parser.parse();
+        testSuite._fileName = " ";
+    
+        await runnerError.runSuite(testSuite);
+        expect(parsedBody).toBeUndefined();
+        nock.cleanAll();
+    });    
 });
