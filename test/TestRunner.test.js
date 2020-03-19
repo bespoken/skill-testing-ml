@@ -1015,6 +1015,86 @@ describe("test runner", () => {
             expect(parsedBody).toBeUndefined();
             nock.cleanAll();
         });
+
+        test("save test results when source api service returns 500 error code", async() => {
+            let parsedBody;
+    
+            nock("https://source-api.bespoken.tools")
+                .get("/v1/getSourceExists")
+                .query(() => {
+                    return true;
+                })
+                .reply(500);
+    
+            nock("https://source-api.bespoken.tools")
+                .post("/v2/testResultsHistory", (body) => {
+                    parsedBody = body;
+                    return true;
+                }).reply(200, {
+                    id: "simulationId",
+                    status: "SUCCESSFUL",
+                });
+    
+    
+            const runnerError = new TestRunner({
+                batchEnabled: false,
+                bespokenProjectId: "testProject",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+        
+            const yamlString = `---
+    - test: Simple test
+    - new fact: assertion
+    `;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+        
+            await runnerError.runSuite(testSuite);
+            expect(parsedBody).toBeUndefined();
+            nock.cleanAll();
+        });
+
+        test("save test results when source api service returns 500 error code", async() => {
+            let parsedBody;
+    
+            nock("https://source-api.bespoken.tools")
+                .get("/v1/getSourceExists")
+                .query(() => {
+                    return true;
+                })
+                .reply(200, "true");
+    
+            nock("https://source-api.bespoken.tools")
+                .post("/v2/testResultsHistory", () => {
+                    return true;
+                }).reply(500);
+    
+    
+            const runnerError = new TestRunner({
+                batchEnabled: false,
+                bespokenProjectId: "testProject",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+        
+            const yamlString = `---
+    - test: Simple test
+    - new fact: assertion
+    `;
+            const parser = new TestParser();
+            parser.load(yamlString);
+            const testSuite = parser.parse();
+            testSuite._fileName = " ";
+        
+            await runnerError.runSuite(testSuite);
+            expect(parsedBody).toBeUndefined();
+            nock.cleanAll();
+        });
     });
 
 });
