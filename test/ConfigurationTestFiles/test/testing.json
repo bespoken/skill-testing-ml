@@ -1,3 +1,5 @@
 {
-    "virtualDeviceToken": "tokenFromTest"
+    "virtualDeviceToken": "tokenFromTest",
+    "html": true,
+    "env": "test/e2e/.env"
 }

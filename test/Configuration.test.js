@@ -137,6 +137,14 @@ describe("configuration", () => {
         });
     });
 
+    describe(".env file", function () {
+        test("using the test file from the config file works as expected", async () => {
+            await Configuration.configure(undefined, "", { config:"test/testing.json"});
+            const htmlConfiguration = Configuration.instance().value("html");
+            expect(htmlConfiguration).toBe(false);
+        });
+    });
+
     describe("jest.coverageDirectory ", function () {
 
         test("when testing.json exists", async () => {

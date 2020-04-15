@@ -19,9 +19,11 @@ jest.mock("jest", () => {
     };
 });
 
+const mockChangeEnvironmentFileLocation = jest.fn();
 
 jest.mock("../lib/runner/Configuration", () => {
     return {
+        changeEnvironmentFileLocation: mockChangeEnvironmentFileLocation,
         configure: mockConfigure,
         instance: mockConfiguration,
     };
@@ -122,6 +124,19 @@ describe("CLI", () => {
         const success = await cli.run(["argument1", "argument2", "models"]);
         expect(success).toBe(true);
         expect(mockRunCLI).toHaveBeenCalledTimes(1);
+        expect(mockChangeEnvironmentFileLocation).toHaveBeenCalledTimes(0);
+        const configString = mockRunCLI.mock.calls[0][0].config;
+        expect(configString).toBeDefined();
+        const testPath = mockConfigure.mock.calls[0][1];
+        expect(testPath).toBe("models");
+    });
+
+    test("cli runs with env override", async () => {
+        const cli = new CLI();
+        const success = await cli.run(["argument1", "argument2", "models"], { env: "somewhere/.env"});
+        expect(success).toBe(true);
+        expect(mockRunCLI).toHaveBeenCalledTimes(1);
+        expect(mockChangeEnvironmentFileLocation).toHaveBeenCalledTimes(1);
         const configString = mockRunCLI.mock.calls[0][0].config;
         expect(configString).toBeDefined();
         const testPath = mockConfigure.mock.calls[0][1];
