@@ -737,7 +737,6 @@ configuration:
     - "guess"
     - "the"
 - one : "please tell"
-
 `);
 
         });
@@ -805,7 +804,6 @@ configuration:
 ---
 - test : second test
 - hello
-
 `);
 
         });
