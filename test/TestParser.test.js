@@ -737,6 +737,7 @@ configuration:
     - "guess"
     - "the"
 - one : "please tell"
+
 `);
 
         });
@@ -772,6 +773,15 @@ configuration:
                         ],
                         "name": "simple test",
                     },
+                    {
+                        "interactions": [
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello",
+                            },
+                        ],
+                        "name": "second test",
+                    },
                 ],
             };
 
@@ -790,7 +800,13 @@ configuration:
     - "he"
     - "she"
 - hello3
-- hello4`);
+- hello4
+
+---
+- test : second test
+- hello
+
+`);
 
         });
     });
