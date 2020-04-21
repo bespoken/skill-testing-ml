@@ -288,6 +288,19 @@ describe("virtual device runner", () => {
             expect(mockVirtualDevice.mock.calls[0][0].twilio_timeout).toEqual(10);
         });
 
+        test("missing phone number for twilio test", async () => {
+            config.virtualDeviceToken = "twilio-token";
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            try {
+                await runner.run("test/FactSkill/fact-skill-test.common.yml");
+                throw new Error("validation was not executed");
+            } catch (error) {
+                expect(error.message).toBe("A valid phoneNumber property must be defined for IVR tests in the " +
+                    "testing.json or the YML test file under the config element");
+            }
+        });
+
         test("platform", async () => {
             Configuration.configure(config);
             const runner = new TestRunner();
