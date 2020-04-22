@@ -737,7 +737,6 @@ configuration:
     - "guess"
     - "the"
 - one : "please tell"
-
 `);
 
         });
@@ -805,7 +804,61 @@ configuration:
 ---
 - test : second test
 - hello
+`);
 
+        });
+
+        test("yaml object with empty configuration to yaml", () => {
+            const parser = new TestParser();
+            const yamlObject = {
+                "tests": [
+                    {
+                        "interactions": [
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello1",
+                            },
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: ["he", "she"] }],
+                                "input": "hello2",
+                            },
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello3",
+                            },
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello4",
+                            },
+                        ],
+                        "name": "simple test",
+                    },
+                    {
+                        "interactions": [
+                            {
+                                "expected": [{ action: "prompt", operator: ":", value: "" }],
+                                "input": "hello",
+                            },
+                        ],
+                        "name": "second test",
+                    },
+                ],
+            };
+
+            parser.loadYamlObject(yamlObject);
+            expect(parser.contents).toBe(`---
+- test : simple test
+- hello1
+- hello2 :
+  - prompt :
+    - "he"
+    - "she"
+- hello3
+- hello4
+
+---
+- test : second test
+- hello
 `);
 
         });
