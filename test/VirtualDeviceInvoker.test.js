@@ -1,3 +1,4 @@
+const addFilter = require("virtual-device-sdk").mockAddFilter;
 const addHomophones = require("virtual-device-sdk").mockAddHomophones;
 const Configuration = require("../lib/runner/Configuration");
 const CONSTANTS = require("../lib/util/Constants");
@@ -677,6 +678,78 @@ describe("virtual device runner", () => {
             const messages = mockBatchMessageAsyncMode.mock.calls[0][0];
             expect(messages[0].settings).toEqual({ value1: "value1", value2: "value2"});
 
+        });
+    });
+
+    describe("Request Filter", () => {
+        beforeEach(() => {
+            addFilter.mockRestore();
+        });
+
+        test("Test flow with async with filters", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                asyncE2EWaitInterval: 1,
+                asyncMode: true,
+                batchEnabled: true,
+                filter: {
+                    onRequest: () => {},
+                },
+                invocationName: "space fact",
+                locale: "en-US",
+                maxAsyncE2EResponseWaitTime: 3,
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token throws",
+
+            });
+
+            const runner = new TestRunner();
+
+            await runner.run("test/FactSkill/fact-skill-tests.yml");
+            // One call for each test
+            expect(addFilter).toHaveBeenCalledTimes(3);
+        });
+
+        test("Test flow with batch with filters", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                asyncMode: false,
+                batchEnabled: true,
+                filter: {
+                    onRequest: () => {},
+                },
+                invocationName: "space fact",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "async token throws",
+
+            });
+
+            const runner = new TestRunner();
+
+            await runner.run("test/FactSkill/fact-skill-tests.yml");
+            // One call for each test
+            expect(addFilter).toHaveBeenCalledTimes(3);
+        });
+
+        test("Test flow with sequential with filters", async () => {
+            Configuration.reset();
+            Configuration.configure({
+                batchEnabled: false,
+                filter: {
+                    onRequest: () => {},
+                },
+                invocationName: "space fact",
+                locale: "en-US",
+                type: CONSTANTS.TYPE.e2e,
+                virtualDeviceToken: "space fact",
+            });
+
+            const runner = new TestRunner();
+
+            await runner.run("test/FactSkill/fact-skill-tests.yml");
+            // One call for each utterance
+            expect(addFilter).toHaveBeenCalledTimes(6);
         });
     });
 

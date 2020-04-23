@@ -185,6 +185,7 @@ function handleMessage(message) {
 
 exports.spaceFactMessage = spaceFactMessage;
 exports.mockMessage = mockMessage;
+exports.mockAddFilter = mockAddFilter;
 exports.mockAddHomophones = mockAddHomophones;
 exports.mockBatchMessageAsyncMode = mockBatchMessageAsyncMode;
 exports.mockGetConversationResults = mockGetConversationResults;
