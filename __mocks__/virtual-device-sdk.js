@@ -3,6 +3,7 @@ const mockMessage = jest.fn((arg)=>{
   return [{}];
 });
 
+const mockAddFilter = jest.fn();
 const mockAddHomophones = jest.fn();
 const mockWaitForSessionToEnd = jest.fn();
 const mockBatchMessageAsyncMode = jest.fn(() => {
@@ -47,22 +48,29 @@ const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
         token = arg0;
     }
 
-    if(token === "space fact") return {batchMessage: spaceFactMessage};
+    if(token === "space fact") return {
+        addFilter: mockAddFilter,
+        batchMessage: spaceFactMessage
+    };
     if(token === "async token") return {
+        addFilter: mockAddFilter,
         batchMessage: mockBatchMessageAsyncMode,
         getConversationResults: mockGetConversationResults,
     };
     if(token === "async token throws") return {
+        addFilter: mockAddFilter,
         batchMessage: jest.fn(() => {
             throw new Error("Network Error");
         }),
         getConversationResults: mockGetConversationResults,
     };
     if(token === "async token error on result") return {
+        addFilter: mockAddFilter,
         batchMessage: mockBatchMessageAsyncMode,
         getConversationResults: mockGetConversationResultsWithError,
     };
     return {
+        addFilter: mockAddFilter,
         addHomophones: mockAddHomophones,
         batchMessage: mockMessage,
         waitForSessionToEnd: mockWaitForSessionToEnd,
@@ -177,6 +185,7 @@ function handleMessage(message) {
 
 exports.spaceFactMessage = spaceFactMessage;
 exports.mockMessage = mockMessage;
+exports.mockAddFilter = mockAddFilter;
 exports.mockAddHomophones = mockAddHomophones;
 exports.mockBatchMessageAsyncMode = mockBatchMessageAsyncMode;
 exports.mockGetConversationResults = mockGetConversationResults;
