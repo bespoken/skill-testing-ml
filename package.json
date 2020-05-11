@@ -74,7 +74,7 @@
     "cosmiconfig": "^5.2.0",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
-    "http-proxy-agent": "^4.0.1",
+    "https-proxy-agent": "^5.0.0",
     "jest": "^24.7.1",
     "jest-message-util": "^24.7.1",
     "js-yaml-bespoken": "^3.11.6",
