@@ -71,7 +71,9 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(testSuite.interactionModel).toBe("./models/en-GB.json");
+            expect(testSuite.interactionModel).toBe(
+                path.normalize(path.join(process.cwd(), "test/TestFiles/models/en-GB.json"))
+            );
         });
 
         test("relative path", async () => {
@@ -106,7 +108,8 @@ describe("test suite", () => {
     
             const testSuite = new TestSuite("test/TestFiles/simple-tests.yml");
             
-            expect(testSuite.handler).toBe("./index.handler");
+            expect(testSuite.handler).toBe(
+                path.join(process.cwd(), "./test/TestFiles/index.handler"));
         });
 
         test("custom handler", async () => {
@@ -143,10 +146,6 @@ describe("test suite", () => {
             
                 expect(testSuite.handler).toBe(testCase.expected, testCase.description);
             });
-
-
-
-
         });
 
 
