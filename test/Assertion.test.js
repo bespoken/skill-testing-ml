@@ -10,6 +10,12 @@ describe("assertion", () => {
         assertion = new Assertion(undefined, "val", "==", "\"Here is a test\"");
         expect(assertion.evaluate(obj)).toBe(true);
 
+        assertion = new Assertion(undefined, "val", "==", "Here  is a   test!?", [], "==", true);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "val", "==", "Here  is a   test!?");
+        expect(assertion.evaluate(obj)).toBe(false);
+
         assertion = new Assertion(undefined, "val", "==", "Here it will fail");
         expect(assertion.evaluate(obj)).toBe(false);
 
