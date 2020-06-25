@@ -3,7 +3,7 @@ const InvokerResponse = require("../lib/runner/Invoker").InvokerResponse;
 
 describe("assertion", () => {
     test("evaluate == a string", () => {
-        const obj = new MockResponse({ val: "Here is a test" });
+        let obj = new MockResponse({ val: "Here is a test" });
         let assertion = new Assertion(undefined, "val", "==", "Here is a test");
         expect(assertion.evaluate(obj)).toBe(true);
 
@@ -16,6 +16,14 @@ describe("assertion", () => {
         const assertionString = assertion.toString(obj);
         expect(assertionString).toContain("Expected value at [val] to ==\n");
         expect(assertionString).toContain("\tHere it will fail\n");
+
+        obj = new MockResponse({ val: "Here  is a,   test!?" });
+        assertion = new Assertion(undefined, "val", "==", "Here is a test", [], "==", true);
+        expect(assertion.evaluate(obj)).toBe(true);
+
+        assertion = new Assertion(undefined, "val", "==", "Here is a test");
+        expect(assertion.evaluate(obj)).toBe(false);
+
     });
 
     test("evaluate regex", () => {
