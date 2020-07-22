@@ -804,13 +804,13 @@ describe("test runner", () => {
 
         expect(results[0].skipped).toBe(false);
         expect(results[0].interactionResults.length).toBe(2);
-        expect(results[0].interactionResults[0].error).toBeDefined();
+        expect(results[0].interactionResults[1].error).toBeDefined();
 
         expect(results[1].skipped).toBe(false);
         expect(results[1].interactionResults.length).toBe(2);
 
-        expect(results[1].interactionResults[0].error).toBeDefined();
-        expect(results[1].interactionResults[0].errorOnProcess).toContain("Async error");
+        expect(results[1].interactionResults[1].error).toBeDefined();
+        expect(results[1].interactionResults[1].errorOnProcess).toContain("Async error");
     });
 
     test("stop execution when status is completed on async mode", async() => {
