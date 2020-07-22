@@ -429,7 +429,7 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toContain("Network Error");
         });
@@ -448,7 +448,7 @@ describe("virtual device runner", () => {
             expect(results.length).toEqual(3);
             expect(results[0].test.description).toEqual("Launches successfully");
 
-            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].error).toBeDefined();
             expect(results[0].interactionResults[0].error.error_category).toBeDefined();
             expect(results[0].interactionResults[0].error.error_category).toBe("user");
@@ -569,7 +569,7 @@ describe("virtual device runner", () => {
             const results = await runner.run("test/FactSkill/fact-skill-test.common.yml");
 
             expect(results.length).toEqual(1);
-            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(1);
@@ -594,7 +594,7 @@ describe("virtual device runner", () => {
             const results = await runner.run("test/FactSkill/fact-skill-test.common.yml");
 
             expect(results.length).toEqual(1);
-            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(4);
@@ -619,7 +619,7 @@ describe("virtual device runner", () => {
             const results = await runner.run("test/FactSkill/fact-skill-test.common.yml");
 
             expect(results.length).toEqual(1);
-            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(3);
@@ -644,7 +644,7 @@ describe("virtual device runner", () => {
             const results = await runner.run("test/FactSkill/fact-skill-test.common.yml");
 
             expect(results.length).toEqual(1);
-            expect(results[0].interactionResults.length).toBe(1);
+            expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe("Call was not answered");
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(6);
@@ -707,7 +707,7 @@ describe("virtual device runner", () => {
 
             await runner.run("test/FactSkill/fact-skill-tests.yml");
             // One call for each test
-            expect(addFilter).toHaveBeenCalledTimes(3);
+            expect(addFilter).toHaveBeenCalledTimes(6);
         });
 
         test("Test flow with batch with filters", async () => {

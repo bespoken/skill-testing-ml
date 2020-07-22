@@ -1,6 +1,9 @@
 const mockMessage = jest.fn((arg)=>{
   if (arg && arg.length > 0 && arg[0].text === "exception") throw Error("mock exception");
-  return [{}];
+  return {
+      status: "COMPLETED",
+      results: [{}]
+  };
 });
 
 const mockAddFilter = jest.fn();
@@ -21,7 +24,10 @@ const getResponsesFromMessages = (messages) => {
 };
 
 const spaceFactMessage = jest.fn((messages)=> {
-    return getResponsesFromMessages(messages);
+    return {
+        results: getResponsesFromMessages(messages),
+        status: "COMPLETED"
+    };
 });
 
 const mockGetConversationResults = jest.fn()
@@ -59,9 +65,10 @@ const mockVirtualDevice = jest.fn().mockImplementation((arg0) => {
     };
     if(token === "async token throws") return {
         addFilter: mockAddFilter,
-        batchMessage: jest.fn(() => {
-            throw new Error("Network Error");
-        }),
+        batchMessage: jest.fn(() => ({
+            error: "Network Error",
+            status: "COMPLETED"
+        })),
         getConversationResults: mockGetConversationResults,
     };
     if(token === "async token error on result") return {

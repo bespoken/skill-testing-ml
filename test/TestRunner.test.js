@@ -803,11 +803,11 @@ describe("test runner", () => {
         expect(results.length).toEqual(3);
 
         expect(results[0].skipped).toBe(false);
-        expect(results[0].interactionResults.length).toBe(1);
+        expect(results[0].interactionResults.length).toBe(2);
         expect(results[0].interactionResults[0].error).toBeDefined();
 
         expect(results[1].skipped).toBe(false);
-        expect(results[1].interactionResults.length).toBe(1);
+        expect(results[1].interactionResults.length).toBe(2);
 
         expect(results[1].interactionResults[0].error).toBeDefined();
         expect(results[1].interactionResults[0].errorOnProcess).toContain("Async error");
