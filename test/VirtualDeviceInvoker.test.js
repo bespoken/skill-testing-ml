@@ -622,7 +622,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(2);
             expect(results[0].interactionResults[1].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[1].errorOnProcess).toBe("Call was not answered");
-            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(3);
+            expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(2);
         });
 
         test("Test flow async mode with retryOn:[554] and retryNumber greater than max value", async () => {
