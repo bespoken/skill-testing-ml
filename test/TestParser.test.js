@@ -144,13 +144,17 @@ describe("test parser", () => {
 - LaunchRequest:
   - request.test.value: A value
   - request.test.value2: Another value
+  - set value3: Another value
         `);
         const testSuite = parser.parse();
         expect(testSuite.tests[0].interactions.length).toBe(1);
-        expect(testSuite.tests[0].interactions[0].expressions.length).toBe(2);
+        expect(testSuite.tests[0].interactions[0].expressions.length).toBe(3);
         expect(testSuite.tests[0].interactions[0].expressions[0].path).toBe("request.test.value");
         expect(testSuite.tests[0].interactions[0].expressions[0].value).toBe("A value");
         expect(testSuite.tests[0].interactions[0].expressions[1].value).toBe("Another value");
+        expect(testSuite.tests[0].interactions[0].expressions[2].path).toBe("set value3");
+        expect(testSuite.tests[0].interactions[0].expressions[2].value).toBe("Another value");
+
     });
 
     test("parses file with bad config", (done) => {
