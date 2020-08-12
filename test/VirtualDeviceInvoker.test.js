@@ -659,6 +659,7 @@ describe("virtual device runner", () => {
 - LaunchRequest:
     - request.value1: value1
     - request.value2: value2
+    - set key3: value3
 `;
             const parser = new TestParser();
             parser.load(script);
@@ -676,7 +677,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults[0].error).toBeUndefined();
             expect(mockBatchMessageAsyncMode.mock.calls.length).toBe(1);
             const messages = mockBatchMessageAsyncMode.mock.calls[0][0];
-            expect(messages[0].settings).toEqual({ value1: "value1", value2: "value2"});
+            expect(messages[0].settings).toEqual({ key3: "value3", value1: "value1", value2: "value2"});
 
         });
     });
