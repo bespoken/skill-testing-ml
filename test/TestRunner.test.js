@@ -53,6 +53,12 @@ describe("test runner", () => {
         });
 
         test("result emits valid response", async () => {
+            Configuration.configure({
+                asyncMode: true,
+                locale: "en-US",
+                type: "e2e",
+                virtualDeviceToken: "async token",
+            });
             const yamlString = `---
 - test: Simple test
 - Get new fact: Here's your fact
@@ -62,12 +68,7 @@ describe("test runner", () => {
             const testSuite = parser.parse();
             testSuite._fileName = " ";
 
-            const runner = new TestRunner({
-                asyncMode: true,
-                locale: "en-US",
-                type: "e2e",
-                virtualDeviceToken: "async token",
-            });
+            const runner = new TestRunner();
 
             const messageCallback = (error, test) => {
                 expect(error).toBeUndefined();
@@ -336,12 +337,13 @@ describe("test runner", () => {
     });
 
     test("batchEnabled false, error on result", async () => {
-        const runnerError = new TestRunner({
+        Configuration.configure({
             batchEnabled: false,
             locale: "en-US",
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "space fact",
         });
+        const runnerError = new TestRunner();
 
         const yamlString = `---
 - test: Simple test
@@ -866,14 +868,14 @@ describe("test runner", () => {
                     status: "SUCCESSFUL",
                 });
     
-    
-            const runnerError = new TestRunner({
+            Configuration.configure({
                 batchEnabled: false,
                 bespokenProjectId: "testProject",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
+            const runnerError = new TestRunner();
         
             const yamlString = `---
     - test: Simple test
@@ -913,14 +915,14 @@ describe("test runner", () => {
                     status: "SUCCESSFUL",
                 });
     
-    
-            const runnerError = new TestRunner({
+            Configuration.configure({
                 batchEnabled: false,
                 bespokenProjectId: "testProject",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
+            const runnerError = new TestRunner();
         
             const yamlString = `---
     - test: Simple test
@@ -955,14 +957,14 @@ describe("test runner", () => {
                     status: "SUCCESSFUL",
                 });
     
-    
-            const runnerError = new TestRunner({
+            Configuration.configure({
                 batchEnabled: false,
                 bespokenProjectId: "testProject",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
+            const runnerError = new TestRunner();
         
             const yamlString = `---
     - test: Simple test
@@ -993,14 +995,14 @@ describe("test runner", () => {
                     return true;
                 }).replyWithError("random error");
     
-    
-            const runnerError = new TestRunner({
+            Configuration.configure({
                 batchEnabled: false,
                 bespokenProjectId: "testProject",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
+            const runnerError = new TestRunner();
         
             const yamlString = `---
     - test: Simple test
@@ -1035,14 +1037,14 @@ describe("test runner", () => {
                     status: "SUCCESSFUL",
                 });
     
-    
-            const runnerError = new TestRunner({
+            Configuration.configure({
                 batchEnabled: false,
                 bespokenProjectId: "testProject",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
+            const runnerError = new TestRunner();
         
             const yamlString = `---
     - test: Simple test
@@ -1073,14 +1075,14 @@ describe("test runner", () => {
                     return true;
                 }).reply(500);
     
-    
-            const runnerError = new TestRunner({
+            Configuration.configure({
                 batchEnabled: false,
                 bespokenProjectId: "testProject",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
+            const runnerError = new TestRunner();
         
             const yamlString = `---
     - test: Simple test

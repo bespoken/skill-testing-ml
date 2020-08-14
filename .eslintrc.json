@@ -110,7 +110,8 @@
                     "lng",
                     "witai",
                     "twilio",
-                    "todo"
+                    "todo",
+                    "ivr"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
