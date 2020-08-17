@@ -4,6 +4,7 @@ const Util = require("../lib/util/Util");
 
 describe("test parser", () => {
     test("parses simple test file successfully", () => {
+        Configuration.configure({});
         const parser = new TestParser("test/TestFiles/simple-tests.yml");
         const testSuite = parser.parse();
         expect(testSuite.configuration.locale).toEqual("en-US");
@@ -867,5 +868,46 @@ configuration:
 
         });
     });
+
+    describe("ivr validation", () => {
+        beforeEach(() => {
+            Configuration.singleton = undefined;
+        });
+
+        test("'finishOnPhrase' or 'listeningTimeout' required", (done) => {
+            Configuration.configure({
+                platform: "twilio",
+            });
+
+            const parser = new TestParser();
+            parser.load(`
+--- 
+- $DIAL: welcome
+- $123: are you
+        `);
+            try {
+                parser.parse();
+            } catch (e) {
+                expect(e.name).toEqual("Test Syntax Error");
+                expect(e.message).toContain("missing required parameter 'finishOnPhrase' or 'listeningTimeout'");
+                done();
+            }
+        });
+
+        test("not require files for last interaction", () => {
+            Configuration.configure({
+                platform: "twilio",
+            });
+
+            const parser = new TestParser();
+            parser.load(`
+--- 
+- $DIAL: welcome
+        `);
+            const testSuite = parser.parse();
+            expect(testSuite.tests[0].interactions.length).toBe(1);
+            expect(testSuite.tests[0].interactions[0].utterance).toBe("$DIAL");
+        });
+    });    
 
 });

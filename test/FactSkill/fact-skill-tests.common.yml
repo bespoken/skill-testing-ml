@@ -9,7 +9,7 @@ configuration:
   screenMode: OFF
   projectId: parrotAgent
   phoneNumber: "+18568889001"
-  extraParameters:
+  virtualDeviceConfig:
     twilio_speech_timeout: 2
     twilio_timeout: 10
 
