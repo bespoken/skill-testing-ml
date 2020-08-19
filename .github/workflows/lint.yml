@@ -3,14 +3,14 @@ name: lint
 on: [push, pull_request]
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     
     - name: Install Dependencies
       run: npm install 
-      
+
     - name: Lint
       run: |
         npm run lint

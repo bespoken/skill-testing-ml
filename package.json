@@ -47,6 +47,7 @@
     "url": "git://github.com/bespoken/skill-testing-ml.git"
   },
   "scripts": {
+    "codecov": "codecov",
     "docs": "rm -rf docs/api && jsdoc -c jsdoc-conf.json",
     "lint": "eslint --config .eslintrc.json bin lib test",
     "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
