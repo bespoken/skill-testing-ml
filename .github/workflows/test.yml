@@ -18,6 +18,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    # We convert our .env to JSON and store in AWS Secrets Manager
+    # We use this site to convert to JSON: http://www.objgen.com/json
+    - name: Read environment variables from AWS Secrets Manager
+      uses: say8425/aws-secrets-manager-actions@v1
+      with:
+        AWS_ACCESS_KEY_ID: ${{ secrets.SECRETS_AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRETS_AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
+        SECRET_NAME: github-skill-testing-ml
+
+    - name: Check environment
+      run: |
+        echo "ASK_ACCESS_TOKEN: $ASK_ACCESS_TOKEN"
+
     - name: Install Dependencies
       run: npm install 
 
