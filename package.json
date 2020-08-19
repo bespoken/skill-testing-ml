@@ -50,7 +50,6 @@
     "docs": "rm -rf docs/api && jsdoc -c jsdoc-conf.json",
     "lint": "eslint --config .eslintrc.json bin lib test",
     "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
-    "pretest": "npm run lint",
     "preversion": "npm test && npm run docs",
     "test": "jest",
     "test.smapi.1": "jest --runInBand test/SMAPI.test.js",
