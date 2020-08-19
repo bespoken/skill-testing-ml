@@ -1,16 +1,6 @@
 name: test
 
-on: 
-  push:
-    branches:
-      - '**'
-    paths:
-      - 'bin/**'
-      - 'lib/**'
-      - 'test/**' 
-  pull_request:
-    branches:
-      - '**'
+on: [push, pull_request]
 
 jobs:
   test:
