@@ -1,0 +1,31 @@
+name: test
+
+on: 
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'bin/**'
+      - 'lib/**'
+      - 'test/**' 
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install Dependencies
+      run: npm install 
+
+    - name: Test
+      run: |
+        npm run test
+
+    - name: Update CodeCov
+      env: 
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: npm run codecov

@@ -2,16 +2,16 @@
   "name": "skill-testing-ml",
   "version": "1.2.39",
   "description": "Skill Testing Markup Language",
-  "main": "dist/lib/Index.js",
+  "main": "lib/Index.js",
   "bin": {
-    "skill-tester": "dist/bin/SkillTester.js"
+    "skill-tester": "bin/SkillTester.js"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   },
   "files": [
-    "dist/bin/**/*.js",
-    "dist/lib/**/*.js"
+    "bin/**/*.js",
+    "lib/**/*.js"
   ],
   "jest": {
     "coverageDirectory": "./coverage/",
@@ -32,9 +32,6 @@
     "testMatch": [
       "**/test/**/*.test.js"
     ],
-    "testPathIgnorePatterns": [
-      "dist"
-    ],
     "reporters": [
       "default",
       "jest-junit"
@@ -50,17 +47,12 @@
     "url": "git://github.com/bespoken/skill-testing-ml.git"
   },
   "scripts": {
-    "babel": "npm run babel.lib && npm run babel.test && npm run babel.bin",
-    "babel.lib": "babel lib -d dist/lib",
-    "babel.test": "babel test -D -d dist/test",
-    "babel.bin": "babel bin -d dist/bin",
     "docs": "rm -rf docs/api && jsdoc -c jsdoc-conf.json",
     "lint": "eslint --config .eslintrc.json bin lib test",
     "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
     "pretest": "npm run lint",
-    "preversion": "npm test && npm run test.babel && npm run docs",
+    "preversion": "npm test && npm run docs",
     "test": "jest",
-    "test.babel": "npm run babel && jest --config jest-config-babel.json",
     "test.smapi.1": "jest --runInBand test/SMAPI.test.js",
     "test.smapi.2": "jest --runInBand test/SMAPIInvoker.test.js",
     "coverage": "codecov",
@@ -87,11 +79,6 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-transform-async-to-generator": "^7.4.4",
-    "@babel/plugin-transform-block-scoping": "^7.4.4",
-    "@babel/plugin-transform-classes": "^7.4.4",
     "actions-on-google": "^2.7.1",
     "alexa-sdk": "^1.0.25",
     "ask-sdk-core": "^2.0.0",
