@@ -75,6 +75,16 @@ describe("virtual device integration", () => {
             _interaction.utterance = "exception";
             await _invoker.invokeBatch([_interaction]);
         });
+
+        test("include raw data", async () => {
+            expect(_invoker.debugMode).toBe(true);
+            _invoker.before({ includeRaw: false, invocationName: "space fact", virtualDeviceToken: "123" });
+            expect(_invoker.debugMode).toBe(false);
+            _invoker.before({ includeRaw: true, invocationName: "space fact", virtualDeviceToken: "123" });
+            expect(_invoker.debugMode).toBe(true);
+            _invoker.before({ invocationName: "space fact", virtualDeviceToken: "123" });
+            expect(_invoker.debugMode).toBe(true);
+        });
     });
 
 });
