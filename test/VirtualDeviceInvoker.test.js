@@ -315,7 +315,18 @@ describe("virtual device runner", () => {
             await runner.run("test/FactSkill/fact-skill-tests.common.yml");
             
             expect(mockVirtualDevice.mock.calls[0][0].platform).toBe("alexa");
-        });        
+        });
+
+        test("sms platform", async () => {
+            config.platform = "sms";
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            try {
+                await runner.run("test/FactSkill/fact-skill-with-replaced-variables.yml");
+            } catch (error) {
+                expect(error.message).toBe(undefined);
+            }
+        });
     });
 
     describe("control flow tests", () => {
