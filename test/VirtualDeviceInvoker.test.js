@@ -309,6 +309,16 @@ describe("virtual device runner", () => {
             }
         });
 
+        test("replyTimeout is greater than maxAsyncE2EResponseWaitTime", async () => {
+            config.replyTimeout = 120000;
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            await expect(runner.run("test/FactSkill/fact-skill-test.common.yml"))
+                .rejects
+                .toThrow("The replyTimeout property must be less than or equal to the maxAsyncE2EResponseWaitTime property in the " +
+                "testing.json or the YML test file under the config element");
+        });
+
         test("platform", async () => {
             Configuration.configure(config);
             const runner = new TestRunner();
