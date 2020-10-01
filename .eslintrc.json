@@ -112,7 +112,8 @@
                     "witai",
                     "twilio",
                     "todo",
-                    "ivr"
+                    "ivr",
+                    "whatsapp"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
