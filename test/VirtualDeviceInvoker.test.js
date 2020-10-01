@@ -337,6 +337,19 @@ describe("virtual device runner", () => {
                 expect(error.message).toBe(undefined);
             }
         });
+
+        test("whatsapp platform", async () => {
+            config.platform = "whatsapp";
+            Configuration.configure(config);
+            const runner = new TestRunner();
+            try {
+                await runner.run(
+                    "test/FactSkill/fact-skill-with-replaced-variables.yml"
+                );
+            } catch (error) {
+                expect(error.message).toBe(undefined);
+            }
+        });
     });
 
     describe("control flow tests", () => {
