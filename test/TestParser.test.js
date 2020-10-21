@@ -886,7 +886,8 @@ configuration:
 - $123: are you
         `);
             try {
-                parser.parse();
+                const suite = parser.parse();
+                parser.validateIvrTests(suite);
             } catch (e) {
                 expect(e.name).toEqual("Test Syntax Error");
                 expect(e.message).toContain("missing required parameter 'finishOnPhrase' or 'listeningTimeout'");
