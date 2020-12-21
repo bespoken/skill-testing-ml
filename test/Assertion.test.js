@@ -18,7 +18,7 @@ describe("assertion", () => {
         expect(assertionString).toContain("\tHere it will fail\n");
 
         obj = new MockResponse({ val: "Here-.  i's a,   test!?" });
-        assertion = new Assertion(undefined, "val", "==", "Here is a test", [], "==", true);
+        assertion = new Assertion(undefined, "val", "==", "Here i s a test", [], "==", true);
         expect(assertion.evaluate(obj)).toBe(true);
 
         assertion = new Assertion(undefined, "val", "==", "Here is a test");
