@@ -137,6 +137,13 @@ describe("assertion", () => {
         expect(assertion.evaluate(obj)).toBe(true);
     });
 
+    test("evaluate line breaks", () => {
+        const obj = new MockResponse({ val: "this is line1\n\nthis is line2" });
+        let assertion = new Assertion(undefined, "val", "==", "line1*line2");
+        expect(assertion.evaluate(obj)).toBe(true);
+
+    });
+
     test("evaluate == undefined", () => {
         const obj = new MockResponse({ val: undefined, val2: "a" });
         let assertion = new Assertion(undefined, "val", "==", "undefined");
