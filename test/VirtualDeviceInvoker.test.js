@@ -310,7 +310,7 @@ describe("virtual device runner", () => {
         });
 
         test("replyTimeout is greater than maxAsyncE2EResponseWaitTime", async () => {
-            config.replyTimeout = 120000;
+            config.replyTimeout = 65;
             Configuration.configure(config);
             const runner = new TestRunner();
             await expect(runner.run("test/FactSkill/fact-skill-test.common.yml"))
