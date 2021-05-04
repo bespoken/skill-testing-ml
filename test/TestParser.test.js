@@ -665,6 +665,61 @@ configuration:
             expect(yamlObject.tests[0].interactions[1].expected[1].value[0]).toBe("guess");
         });
 
+        test("yml file to object with expressions", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+    locale: en-US
+    platform: twilio
+    type: e2e
+    virtualDeviceToken: myToken
+---
+- test: simple test
+- hello:
+  - transcript: welcome
+  - set finishOnPhrase:
+    - calling about
+    - repeat please
+- open guess the price:
+  - prompt:
+    - guess
+    - the
+  - set listeningTimeout: 10
+  - set finishOnPhrase: phrase
+- one: please tell`);
+            const testSuite = parser.parse();
+            const yamlObject = testSuite.toYamlObject();
+            expect(yamlObject).toBeDefined();
+            expect(yamlObject.configuration).toBeDefined();
+            expect(yamlObject.tests).toBeDefined();
+            expect(yamlObject.tests.length).toBe(1);
+            expect(yamlObject.tests[0].name).toStrictEqual("simple test");
+            expect(yamlObject.tests[0].interactions.length).toBe(3);
+
+            expect(yamlObject.tests[0].interactions[0].input).toBe("hello");
+            expect(yamlObject.tests[0].interactions[0].expected.length).toBe(1);
+            expect(yamlObject.tests[0].interactions[0].expected[0].action).toBe("transcript");
+            expect(yamlObject.tests[0].interactions[0].expected[0].operator).toBe(":");
+            expect(yamlObject.tests[0].interactions[0].expected[0].value).toBe("welcome");
+            expect(yamlObject.tests[0].interactions[0].expressions.length).toBe(1);
+            expect(yamlObject.tests[0].interactions[0].expressions[0].path).toBe("set finishOnPhrase");
+            expect(yamlObject.tests[0].interactions[0].expressions[0].value).toEqual(["calling about", "repeat please"]);
+
+            expect(yamlObject.tests[0].interactions[1].input).toBe("open guess the price");
+            expect(yamlObject.tests[0].interactions[1].expected.length).toBe(1);
+            expect(yamlObject.tests[0].interactions[1].expected[0].action).toBe("prompt");
+            expect(yamlObject.tests[0].interactions[1].expected[0].operator).toBe(":");
+            expect(yamlObject.tests[0].interactions[1].expected[0].value.length).toBe(2);
+            expect(yamlObject.tests[0].interactions[1].expected[0].value[0]).toBe("guess");
+            expect(yamlObject.tests[0].interactions[1].expected[0].value[1]).toBe("the");
+            expect(yamlObject.tests[0].interactions[1].expressions.length).toBe(2);
+            expect(yamlObject.tests[0].interactions[1].expressions[0].path).toBe("set listeningTimeout");
+            expect(yamlObject.tests[0].interactions[1].expressions[0].value).toBe(10);
+            expect(yamlObject.tests[0].interactions[1].expressions[1].path).toBe("set finishOnPhrase");
+            expect(yamlObject.tests[0].interactions[1].expressions[1].value).toBe("phrase");
+        });
+
         test("yaml object to yaml", () => {
             const parser = new TestParser();
             const yamlObject = {
@@ -683,6 +738,15 @@ configuration:
                                         "action": "prompt",
                                         "operator": ":",
                                         "value": "welcome",
+                                    },
+                                ],
+                                "expressions": [
+                                    {
+                                        "path": "set finishOnPhrase",
+                                        "value": [
+                                            "calling about",
+                                            "repeat please",
+                                        ],
                                     },
                                 ],
                                 "input": "hello",
@@ -704,6 +768,16 @@ configuration:
                                             "guess",
                                             "the",
                                         ],
+                                    },
+                                ],
+                                "expressions": [
+                                    {
+                                        "path": "set listeningTimeout",
+                                        "value": 10,
+                                    },
+                                    {
+                                        "path": "set finishOnPhrase",
+                                        "value": "phrase",
                                     },
                                 ],
                                 "input": "open guess the price",
@@ -733,7 +807,11 @@ configuration:
   virtualDeviceToken: myToken
 ---
 - test : simple test
-- hello : "welcome"
+- hello :
+  - prompt : "welcome"
+  - set finishOnPhrase :
+    - "calling about"
+    - "repeat please"
 - open guess the price :
   - prompt :
     - "how many"
@@ -741,6 +819,8 @@ configuration:
   - prompt ==
     - "guess"
     - "the"
+  - set listeningTimeout : 10
+  - set finishOnPhrase : "phrase"
 - one : "please tell"
 `);
 
@@ -886,7 +966,8 @@ configuration:
 - $123: are you
         `);
             try {
-                parser.parse();
+                const suite = parser.parse();
+                parser.validateIvrTests(suite);
             } catch (e) {
                 expect(e.name).toEqual("Test Syntax Error");
                 expect(e.message).toContain("missing required parameter 'finishOnPhrase' or 'listeningTimeout'");

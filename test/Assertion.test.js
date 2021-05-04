@@ -18,7 +18,7 @@ describe("assertion", () => {
         expect(assertionString).toContain("\tHere it will fail\n");
 
         obj = new MockResponse({ val: "Here-.  i's a,   test!?" });
-        assertion = new Assertion(undefined, "val", "==", "Here is a test", [], "==", true);
+        assertion = new Assertion(undefined, "val", "==", "Here i s a test", [], "==", true);
         expect(assertion.evaluate(obj)).toBe(true);
 
         assertion = new Assertion(undefined, "val", "==", "Here is a test");
@@ -135,6 +135,13 @@ describe("assertion", () => {
 
         assertion = new Assertion(undefined, "val", "==", "Here $ is *?");
         expect(assertion.evaluate(obj)).toBe(true);
+    });
+
+    test("evaluate line breaks", () => {
+        const obj = new MockResponse({ val: "this is line1\n\nthis is line2" });
+        let assertion = new Assertion(undefined, "val", "==", "line1*line2");
+        expect(assertion.evaluate(obj)).toBe(true);
+
     });
 
     test("evaluate == undefined", () => {

@@ -1,6 +1,6 @@
 {
   "name": "skill-testing-ml",
-  "version": "1.2.48",
+  "version": "1.2.65",
   "description": "Skill Testing Markup Language",
   "main": "dist/lib/Index.js",
   "bin": {
@@ -69,7 +69,7 @@
   "author": "John Kelvie",
   "license": "ISC",
   "dependencies": {
-    "bespoken-jest-stare": "^1.0.19",
+    "bespoken-jest-stare": "^1.0.20",
     "chalk": "^2.4.2",
     "cosmiconfig": "^5.2.0",
     "debug": "^4.1.1",
