@@ -509,7 +509,7 @@ configuration:
             Configuration.singleton = undefined;
         });
 
-        test("replace values", () => {
+        test.only("replace values", () => {
             Configuration.configure({
                 findReplace: {
                     INVOCATION_NAME: "my skill",
