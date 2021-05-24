@@ -1,6 +1,6 @@
 {
   "name": "skill-testing-ml",
-  "version": "1.2.66",
+  "version": "1.2.67",
   "description": "Skill Testing Markup Language",
   "main": "dist/lib/Index.js",
   "bin": {
@@ -58,7 +58,7 @@
     "lint": "eslint --config .eslintrc.json bin lib test",
     "lint.fix": "eslint --config .eslintrc.json --fix bin lib test",
     "pretest": "npm run lint",
-    "preversion": "npm run docs",
+    "preversion": "npm test && npm run test.babel && npm run docs",
     "test": "jest",
     "test.babel": "npm run babel && jest --config jest-config-babel.json",
     "test.smapi.1": "jest --runInBand test/SMAPI.test.js",
