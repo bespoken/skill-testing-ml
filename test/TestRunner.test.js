@@ -499,6 +499,22 @@ describe("test runner", () => {
         expect(responseFilterCalled).toBe(true);
     });
 
+    test("multiple filters", async () => {
+        const runner = new TestRunner({
+            context: ".",
+            filter: ["test/FactSkill/filter-1.js", "test/FactSkill/filter-2.js"],
+            handler: "test/FactSkill/index.handler",
+            interactionModel: "test/FactSkill/models/en-US.json",
+            locale: "en-US",
+        });
+
+        const results = await runner.run("test/FactSkill/fact-skill-filters.yml");
+
+        expect(results.length).toEqual(1);
+        expect(results[0].interactionResults[0].error).toBeUndefined();
+        expect(results[0].interactionResults[1].error).toBeUndefined();
+    });
+
     test("Filter for test suite start and stop", async () => {
         let testSuiteStart = false;
         let testSuiteEnd = false;
