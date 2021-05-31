@@ -1,0 +1,12 @@
+# A simple example of skill test suite
+--- # Configuration YAML document
+configuration:
+  locale: en-US
+
+--- # The --- indicates the start of a new test, which is a self-contained YAML document
+- test: "Launches successfully" # Optional info about the test
+- LaunchRequest: # LaunchRequest is "reserved" - it is not an utterance but a request type
+  - filter1: "assigned on filter 1"
+  - filter2: "assigned on filter 2"
+- Help:
+  - customPath: "assigned on filter 1 onValue"
