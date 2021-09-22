@@ -401,7 +401,7 @@ configuration:
     test("parses file with tag tests", () => {
         const parser = new TestParser("test/TestFiles/tag-tests.yml");
         const testSuite = parser.parse();
-        expect(testSuite.tests[0].tags).toBe(undefined);
+        expect(testSuite.tests[0].tags).toEqual([]);
 
         expect(testSuite.tests[1].tags).toEqual(["alexa"]);
         expect(testSuite.tests[1].description).toEqual("Test 2");
@@ -409,7 +409,7 @@ configuration:
         expect(testSuite.tests[2].tags).toEqual(["alexa", "broken"]);
         expect(testSuite.tests[2].description).toEqual("Test 3");
 
-        expect(testSuite.tests[3].tags).toBe(undefined);
+        expect(testSuite.tests[3].tags).toEqual([]);
     });
 
     test("parses file with operators short syntax", () => {
