@@ -6,9 +6,19 @@ const mockRunCLI = jest.fn(() => {
 
 let type;
 let defaultValue = true;
+let runInBand = true;
 const mockConfiguration = jest.fn(() => ({
     jestConfig: jest.fn(() => ({ collectCoverage: true })),
-    value: jest.fn((first, second, third) => third? defaultValue : type),
+    value: jest.fn((first, second, third) => {
+        switch (first) {
+        case "type":
+            return third ? defaultValue : type;
+        case "runInBand":
+            return runInBand;
+        default:
+            return defaultValue;
+        }
+    }),
 }));
 
 const mockConfigure = jest.fn();
@@ -107,7 +117,7 @@ describe("CLI", () => {
     test("cli runs with runInBand setting", async () => {
         type = undefined;
         // This will return false for runInBand
-        defaultValue = false;
+        runInBand = false;
         const cli = new CLI();
         const success = await cli.run([]);
         expect(success).toBe(true);
@@ -115,8 +125,8 @@ describe("CLI", () => {
 
         const configString = mockRunCLI.mock.calls[0][0].config;
         expect(configString).toBeDefined();
-        const runInBand = mockRunCLI.mock.calls[0][0].runInBand;
-        expect(runInBand).toBe(false);
+        const runInBandCall = mockRunCLI.mock.calls[0][0].runInBand;
+        expect(runInBandCall).toBe(false);
     });
 
     test("cli runs with path to test", async () => {
@@ -133,7 +143,7 @@ describe("CLI", () => {
 
     test("cli runs with env override", async () => {
         const cli = new CLI();
-        const success = await cli.run(["argument1", "argument2", "models"], { env: "somewhere/.env"});
+        const success = await cli.run(["argument1", "argument2", "models"], { env: "somewhere/.env" });
         expect(success).toBe(true);
         expect(mockRunCLI).toHaveBeenCalledTimes(1);
         expect(mockChangeEnvironmentFileLocation).toHaveBeenCalledTimes(1);
