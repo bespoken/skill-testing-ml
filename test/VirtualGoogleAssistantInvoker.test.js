@@ -81,7 +81,7 @@ describe("virtual google assistant runner", () => {
         });
     });
 
-    describe("Google Assistant with .https.onRequest tests", () => {
+    describe.skip("Google Assistant with .https.onRequest tests", () => {
         beforeEach(async () => {
             process.chdir("test/FirebaseFunctionAndGoogleAssistant");
             await Configuration.configure({
