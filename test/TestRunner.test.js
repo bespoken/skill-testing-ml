@@ -39,9 +39,9 @@ describe("test runner", () => {
             const resultCallbackMock = jest.fn(resultCallback);
             runner.subscribe("message", messageCallbackMock);
             runner.subscribe("result", resultCallbackMock);
-      
+
             await runner.run("test/FactSkill/fact-skill-tests.yml");
-            
+
             expect(messageCallbackMock).toHaveBeenCalledTimes(6);
             expect(resultCallbackMock).toHaveBeenCalledTimes(6);
             expect(resultCallbackMock.mock.calls[1][1]).toBeDefined();
@@ -282,9 +282,9 @@ describe("test runner", () => {
         runner.subscribe("result", resultCallbackMock);
         runner.unsubscribe("message");
         runner.unsubscribe("result");
-  
+
         await runner.run("test/FactSkill/fact-skill-tests.yml");
-        
+
         expect(messageCallbackMock).toHaveBeenCalledTimes(0);
         expect(resultCallbackMock).toHaveBeenCalledTimes(0);
     });
@@ -303,7 +303,7 @@ describe("test runner", () => {
         const resultCallbackMock = jest.fn(resultCallback);
         runner.subscribe("message", messageCallbackMock);
         runner.subscribe("result", resultCallbackMock);
-        const loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
+        const loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => { });
 
         try {
             await runner.run("test/FactSkill/fact-skill-tests.yml");
@@ -353,7 +353,7 @@ describe("test runner", () => {
         parser.load(yamlString);
         const testSuite = parser.parse();
         testSuite._fileName = " ";
-    
+
         const results = await runnerError.runSuite(testSuite);
         expect(results[0].interactionResults[0].errorOnProcess).toContain("Error from virtual device");
     });
@@ -363,7 +363,7 @@ describe("test runner", () => {
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "123",
         });
-  
+
         await runner.run("test/FactSkill/fact-skill-tests.yml");
         expect(mockMessage.mock.calls.length).toBe(3);
         expect(process.env.JEST_STARE_COVERAGE_LINK).toBeUndefined();
@@ -402,12 +402,12 @@ describe("test runner", () => {
         });
 
         const mockReturn = [{}, {}, {}];
-        for (let i=0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             // Usual behavior, first result is empty and arrays with results appear then
             mockGetConversationResults
-                .mockReturnValueOnce({results: [], status: "IN-PROGRESS"})
-                .mockReturnValueOnce({results: mockReturn, status: "IN-PROGRESS"})
-                .mockReturnValueOnce({results: mockReturn, status: "COMPLETED"});
+                .mockReturnValueOnce({ results: [], status: "IN-PROGRESS" })
+                .mockReturnValueOnce({ results: mockReturn, status: "IN-PROGRESS" })
+                .mockReturnValueOnce({ results: mockReturn, status: "COMPLETED" });
         }
 
         await runner.run("test/FactSkill/fact-skill-tests.yml");
@@ -426,25 +426,25 @@ describe("test runner", () => {
         });
 
         const mockReturn = [{}, {}, {}];
-        for (let i=0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             // Usual behavior, first result is empty and arrays with results appear then
             mockGetConversationResults
-                .mockReturnValueOnce({results: [], status: "IN-PROGRESS"})
-                .mockReturnValueOnce({results: mockReturn, status: "IN-PROGRESS"})
-                .mockReturnValueOnce({results: mockReturn, status: "COMPLETED"});
+                .mockReturnValueOnce({ results: [], status: "IN-PROGRESS" })
+                .mockReturnValueOnce({ results: mockReturn, status: "IN-PROGRESS" })
+                .mockReturnValueOnce({ results: mockReturn, status: "COMPLETED" });
         }
 
         await runner.run("test/FactSkill/fact-skill-tests.goto.yml");
         // each of the three interactions have two utterances, plus the call that comes with an empty array
         expect(mockGetConversationResults.mock.calls.length).toBe(5);
-    });    
+    });
 
     test("getInvoker default value", async () => {
         Configuration.configure({});
 
         const testSuite = new TestSuite();
         const runner = new TestRunner();
-        
+
         expect(runner.getInvoker(testSuite)).toBe("VirtualAlexaInvoker");
     });
 
@@ -455,7 +455,7 @@ describe("test runner", () => {
 
         const testSuite = new TestSuite();
         const runner = new TestRunner();
-        
+
         expect(runner.getInvoker(testSuite)).toBe("VirtualDeviceInvoker");
     });
 
@@ -554,7 +554,7 @@ describe("test runner", () => {
                     expect(testResult).toBeDefined();
                     testEnd = true;
                 },
-                onTestStart:(test) => {
+                onTestStart: (test) => {
                     expect(test).toBeDefined();
                     testStart = true;
                 },
@@ -585,7 +585,7 @@ describe("test runner", () => {
                     expect(test.interactions[2].assertions[0].value).toBe("nothing at all");
                     testEnd = true;
                 },
-                onTestStart:(test) => {
+                onTestStart: (test) => {
                     expect(test).toBeDefined();
                     testStart = true;
                 },
@@ -625,7 +625,7 @@ describe("test runner", () => {
 
                     testEnd = true;
                 },
-                onTestStart:(test) => {
+                onTestStart: (test) => {
                     expect(test).toBeDefined();
                     testStart = true;
                 },
@@ -687,13 +687,13 @@ describe("test runner", () => {
 `;
 
         await Promise.all(["A", "B", "C"].map(async (token) => {
-            const configurationOverride = { locale: "en-US", type: CONSTANTS.TYPE.e2e, virtualDeviceToken: "token"+token};
+            const configurationOverride = { locale: "en-US", type: CONSTANTS.TYPE.e2e, virtualDeviceToken: "token" + token };
             const parser = new TestParser();
             parser.load(script);
-            
+
             const testSuite = parser.parse(configurationOverride);
             testSuite._fileName = "test";
-    
+
             const runner = new TestRunner();
             return await runner.runSuite(testSuite);
         }));
@@ -713,7 +713,7 @@ describe("test runner", () => {
 
     });
 
-    test("operator on test", async() => {
+    test("operator on test", async () => {
         const runner = new TestRunner({
             exclude: "broken",
             handler: "test/FactSkill/index.handler",
@@ -722,7 +722,7 @@ describe("test runner", () => {
         });
 
         const results = await runner.run("test/FactSkill/fact-skill-operators.yml");
-        
+
         expect(results.length).toEqual(1);
         expect(results[0].test.description).toEqual("Gets a new fact intent");
 
@@ -803,7 +803,7 @@ describe("test runner", () => {
         process.chdir("../..");
     });
 
-    test("stop execution when error on async mode", async() => {
+    test("stop execution when error on async mode", async () => {
         mockGetConversationResults.mockReset();
         const runner = new TestRunner({
             asyncE2EWaitInterval: 1,
@@ -831,7 +831,7 @@ describe("test runner", () => {
         expect(results[1].interactionResults[0].errorOnProcess).toContain("Async error");
     });
 
-    test("stop execution when status is completed on async mode", async() => {
+    test("stop execution when status is completed on async mode", async () => {
         mockGetConversationResults.mockReset();
         const runner = new TestRunner({
             asyncE2EWaitInterval: 1,
@@ -845,8 +845,8 @@ describe("test runner", () => {
 
         mockGetConversationResults.mockReturnValue({
             results: [
-                { message: "Hi", transcript: "hi result"},
-                { message: "Hi", transcript: "hi result"},
+                { message: "Hi", transcript: "hi result" },
+                { message: "Hi", transcript: "hi result" },
             ], status: "COMPLETED",
         });
 
@@ -861,258 +861,7 @@ describe("test runner", () => {
         expect(results[1].interactionResults.length).toBe(2);
 
         expect(results[2].skipped).toBe(false);
-        expect(results[2].interactionResults.length).toBe(2); 
-    });
-
-    describe("save test results", () => {
-        test("save test results successfully", async() => {
-            let parsedBody;
-    
-            nock("https://source-api.bespoken.tools")
-                .get("/v1/getSourceExists")
-                .query(() => {
-                    return true;
-                })
-                .reply(200, "true");
-    
-            nock("https://source-api.bespoken.tools")
-                .post("/v2/testResultsHistory", (body) => {
-                    parsedBody = body;
-                    return true;
-                }).reply(200, {
-                    id: "simulationId",
-                    status: "SUCCESSFUL",
-                });
-    
-            Configuration.configure({
-                batchEnabled: false,
-                bespokenProjectId: "testProject",
-                locale: "en-US",
-                type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact",
-            });
-            const runnerError = new TestRunner();
-        
-            const yamlString = `---
-    - test: Simple test
-    - new fact: assertion
-    `;
-            const parser = new TestParser();
-            parser.load(yamlString);
-            const testSuite = parser.parse();
-            testSuite._fileName = " ";
-        
-            await runnerError.runSuite(testSuite);
-            expect(parsedBody.projectId).toBe("testProject");
-            expect(parsedBody.token).toBe("space fact");
-            expect(parsedBody.testResults.length).toBe(1);
-            expect(parsedBody.testResults[0].test.description).toBe("Simple test");
-            expect(parsedBody.testResults[0].test.interactions.length).toBe(1);
-            expect(parsedBody.testResults[0].test.interactions[0].assertions[0].actual).toBe("Here's your fact");
-            expect(parsedBody.testResults[0].test.interactions[0].assertions[0].value).toBe("assertion");
-            nock.cleanAll();
-        });
-    
-        test("not save test results if bespokenProjectId does not match a source id", async() => {
-            let parsedBody;
-    
-            nock("https://source-api.bespoken.tools")
-                .get("/v1/getSourceExists")
-                .query(() => {
-                    return true;
-                }).reply(200, "false");
-    
-            nock("https://source-api.bespoken.tools")
-                .post("/v2/testResultsHistory", (body) => {
-                    parsedBody = body;
-                    return true;
-                }).reply(200, {
-                    id: "simulationId",
-                    status: "SUCCESSFUL",
-                });
-    
-            Configuration.configure({
-                batchEnabled: false,
-                bespokenProjectId: "testProject",
-                locale: "en-US",
-                type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact",
-            });
-            const runnerError = new TestRunner();
-        
-            const yamlString = `---
-    - test: Simple test
-    - new fact: assertion
-    `;
-            const parser = new TestParser();
-            parser.load(yamlString);
-            const testSuite = parser.parse();
-            testSuite._fileName = " ";
-        
-            await runnerError.runSuite(testSuite);
-            expect(parsedBody).toBeUndefined();
-            nock.cleanAll();
-        });
-
-        test("save test results when source api service throws exception on source exists", async() => {
-            let parsedBody;
-    
-            nock("https://source-api.bespoken.tools")
-                .get("/v1/getSourceExists")
-                .query(() => {
-                    return true;
-                })
-                .replyWithError("random error");
-    
-            nock("https://source-api.bespoken.tools")
-                .post("/v2/testResultsHistory", (body) => {
-                    parsedBody = body;
-                    return true;
-                }).reply(200, {
-                    id: "simulationId",
-                    status: "SUCCESSFUL",
-                });
-    
-            Configuration.configure({
-                batchEnabled: false,
-                bespokenProjectId: "testProject",
-                locale: "en-US",
-                type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact",
-            });
-            const runnerError = new TestRunner();
-        
-            const yamlString = `---
-    - test: Simple test
-    - new fact: assertion
-    `;
-            const parser = new TestParser();
-            parser.load(yamlString);
-            const testSuite = parser.parse();
-            testSuite._fileName = " ";
-        
-            await runnerError.runSuite(testSuite);
-            expect(parsedBody).toBeUndefined();
-            nock.cleanAll();
-        });
-
-        test("save test results when source api service throws exception on saving ", async() => {
-            let parsedBody;
-    
-            nock("https://source-api.bespoken.tools")
-                .get("/v1/getSourceExists")
-                .query(() => {
-                    return true;
-                })
-                .reply(200, "true");
-    
-            nock("https://source-api.bespoken.tools")
-                .post("/v2/testResultsHistory", () => {
-                    return true;
-                }).replyWithError("random error");
-    
-            Configuration.configure({
-                batchEnabled: false,
-                bespokenProjectId: "testProject",
-                locale: "en-US",
-                type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact",
-            });
-            const runnerError = new TestRunner();
-        
-            const yamlString = `---
-    - test: Simple test
-    - new fact: assertion
-    `;
-            const parser = new TestParser();
-            parser.load(yamlString);
-            const testSuite = parser.parse();
-            testSuite._fileName = " ";
-        
-            await runnerError.runSuite(testSuite);
-            expect(parsedBody).toBeUndefined();
-            nock.cleanAll();
-        });
-
-        test("save test results when source api service returns 500 error code", async() => {
-            let parsedBody;
-    
-            nock("https://source-api.bespoken.tools")
-                .get("/v1/getSourceExists")
-                .query(() => {
-                    return true;
-                })
-                .reply(500);
-    
-            nock("https://source-api.bespoken.tools")
-                .post("/v2/testResultsHistory", (body) => {
-                    parsedBody = body;
-                    return true;
-                }).reply(200, {
-                    id: "simulationId",
-                    status: "SUCCESSFUL",
-                });
-    
-            Configuration.configure({
-                batchEnabled: false,
-                bespokenProjectId: "testProject",
-                locale: "en-US",
-                type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact",
-            });
-            const runnerError = new TestRunner();
-        
-            const yamlString = `---
-    - test: Simple test
-    - new fact: assertion
-    `;
-            const parser = new TestParser();
-            parser.load(yamlString);
-            const testSuite = parser.parse();
-            testSuite._fileName = " ";
-        
-            await runnerError.runSuite(testSuite);
-            expect(parsedBody).toBeUndefined();
-            nock.cleanAll();
-        });
-
-        test("save test results when source api service returns 500 error code", async() => {
-            let parsedBody;
-    
-            nock("https://source-api.bespoken.tools")
-                .get("/v1/getSourceExists")
-                .query(() => {
-                    return true;
-                })
-                .reply(200, "true");
-    
-            nock("https://source-api.bespoken.tools")
-                .post("/v2/testResultsHistory", () => {
-                    return true;
-                }).reply(500);
-    
-            Configuration.configure({
-                batchEnabled: false,
-                bespokenProjectId: "testProject",
-                locale: "en-US",
-                type: CONSTANTS.TYPE.e2e,
-                virtualDeviceToken: "space fact",
-            });
-            const runnerError = new TestRunner();
-        
-            const yamlString = `---
-    - test: Simple test
-    - new fact: assertion
-    `;
-            const parser = new TestParser();
-            parser.load(yamlString);
-            const testSuite = parser.parse();
-            testSuite._fileName = " ";
-        
-            await runnerError.runSuite(testSuite);
-            expect(parsedBody).toBeUndefined();
-            nock.cleanAll();
-        });
+        expect(results[2].interactionResults.length).toBe(2);
     });
 
 });
