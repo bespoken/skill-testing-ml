@@ -4,8 +4,6 @@ const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const mockGetConversationResults = require("virtual-device-sdk").mockGetConversationResults;
 const mockMessage = require("virtual-device-sdk").mockMessage;
 const mockVirtualDevice = require("virtual-device-sdk").mockVirtualDevice;
-const nock = require("nock");
-
 const TestParser = require("../lib/test/TestParser");
 const TestRunner = require("../lib/runner/TestRunner");
 const TestSuite = require("../lib/test/TestSuite");

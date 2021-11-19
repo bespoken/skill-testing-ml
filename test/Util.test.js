@@ -74,4 +74,21 @@ describe("succinct intent", () => {
         expect(intent).toBeUndefined();
 
     });
+
+    test("clone without circular reference", async () => {
+        const object = { parent: { child: { parent: null, value: 10 } } };
+        object.parent.child.parent = object.parent;
+
+        expect(Util.cloneWithoutCircularReference(object))
+            .toStrictEqual({ parent: { child: { value: 10 } } });
+    });
+
+
+    test("stringify circular reference", async () => {
+        const object = { parent: { child: { parent: null, value: 10 } } };
+        object.parent.child.parent = object.parent;
+
+        expect(JSON.stringify(object, Util.noCircularReplaceHelper()))
+            .toStrictEqual(JSON.stringify({ parent: { child: { value: 10 } } }));
+    });
 });
