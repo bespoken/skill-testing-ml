@@ -8,7 +8,7 @@ describe("StopWatch", () => {
         await new Promise(resolve => setTimeout(resolve, 1000)).then(() => stopWatch.stop());
 
         expect(stopWatch.toDto()).toHaveProperty("elapsedTime");
-        expect(stopWatch.toDto().elapsedTime).toBeGreaterThanOrEqual(1000);
+        expect(stopWatch.toDto().elapsedTime).toBeGreaterThanOrEqual(990);
         expect(stopWatch.toDto()).toHaveProperty("start");
         expect(stopWatch.toDto()).toHaveProperty("end");
     });
