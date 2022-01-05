@@ -954,7 +954,7 @@ configuration:
             Configuration.singleton = undefined;
         });
 
-        test("'finishOnPhrase' or 'listeningTimeout' required", (done) => {
+        test.skip("'finishOnPhrase' or 'listeningTimeout' required", (done) => {
             Configuration.configure({
                 platform: "twilio",
             });
