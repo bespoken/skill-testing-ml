@@ -8,3 +8,5 @@ dist
 .vscode
 .env
 bst-debug.log
+
+.nvmrc
