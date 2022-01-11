@@ -447,7 +447,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(1);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe(
-                "Timeout exceeded while waiting for the interaction response");
+                "Timeout exceeded while waiting for the interaction response. Increase the maxAsyncE2EResponseWaitTime value to fix this issue. More info at: https://read.bespoken.io/end-to-end/guide/.");
         });
 
         test("Test flow with async when getting conversation id throws an exception", async () => {
