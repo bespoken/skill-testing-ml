@@ -8,7 +8,7 @@ const TestSuite = require("../lib/test/TestSuite");
 
 describe("JestAdapter", () => {
     test("Runs a mock test that succeeds with description", async () => {
-        const testSuite = new TestSuite("MyTest.yml", { description: "TestSuite Description"});
+        const testSuite = new TestSuite("MyTest.yml", { description: "TestSuite Description" });
         const test = new Test(testSuite, { description: "Test Description" });
         const testResult = new TestResult(test);
         testResult.locale = "en-US";
@@ -30,7 +30,6 @@ describe("JestAdapter", () => {
         expect(jestResults.numFailingTests).toBe(0);
         expect(jestResults.testResults.length).toBe(2);
         expect(jestResults.testFilePath).toBe("MyTest.yml");
-
         // Check the individual test result
         const jestTestResult = jestResults.testResults[0];
         expect(jestTestResult.ancestorTitles[0]).toBe("TestSuite Description (en-US)");
@@ -261,7 +260,7 @@ class Runtime {
         FakeVirtualAlexaRunner.results = results;
     }
 
-    requireModule () {
+    requireModule() {
         return FakeVirtualAlexaRunner;
     }
 }
