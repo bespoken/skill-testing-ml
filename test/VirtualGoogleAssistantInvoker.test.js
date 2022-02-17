@@ -3,7 +3,7 @@ const CONSTANTS = require("../lib/util/Constants");
 const LoggingErrorHelper = require("../lib/util/LoggingErrorHelper");
 const TestRunner = require("../lib/runner/TestRunner");
 
-describe("virtual google assistant runner", () => {
+xdescribe("virtual google assistant runner", () => {
     describe("basic tests", () => {
         beforeEach(async () => {
             await Configuration.configure({
