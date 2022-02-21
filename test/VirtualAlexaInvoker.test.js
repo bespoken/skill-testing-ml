@@ -381,7 +381,7 @@ describe("virtual alexa runner", () => {
         });
 
         // TODO fix test
-        xtest("skip a test", async () => {
+        test.skip("skip a test", async () => {
             const runner = new TestRunner();
 
             const results = await runner.run("test/TestFiles/skip-tests.yml");
