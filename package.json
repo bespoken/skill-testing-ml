@@ -81,7 +81,7 @@
     "lodash": "^4.17.11",
     "uuid": "^3.3.3",
     "virtual-alexa": "^0.7.7",
-    "virtual-device-sdk": "^1.8.2",
+    "virtual-device-sdk": "^1.9.0",
     "virtual-google-assistant": "^0.3.6",
     "winston": "^3.2.1"
   },
