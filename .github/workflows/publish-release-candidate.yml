@@ -11,5 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - run: npm ci
+      #- run: npm ci
+      - run: npm version
+      - run: npm version $(node -e "require('./publishing-toolkit.js').readPackage().candidate")
       - run: npm version
