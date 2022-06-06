@@ -13,5 +13,5 @@ jobs:
           node-version: '16.x'
       #- run: npm ci
       - run: npm version
-      - run: npm version $(node -e "require('./publishing-toolkit.js').printNextRc()")
+      - run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
       - run: npm version
