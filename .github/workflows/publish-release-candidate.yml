@@ -6,9 +6,12 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v3
-      # Setup .npmrc file to publish to GitHub Packages
+        with:
+          ref: research-githubActionPublish-by_max
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      - run: npm ci
+      #- run: npm ci
+      - run: npm version
+      - run: npm version $(node -e "require('./publishing-toolkit.js').printNextRc()")
       - run: npm version
