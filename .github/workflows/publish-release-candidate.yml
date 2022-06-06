@@ -13,7 +13,7 @@ jobs:
           node-version: '16.x'
       #- run: npm ci
       - run: npm version
-      - run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
+      - run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
       - run: npm version
