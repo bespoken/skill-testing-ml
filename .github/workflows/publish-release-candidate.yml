@@ -11,6 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
       - name: NPM Increment RC version
         run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
       - name: NPM Build
