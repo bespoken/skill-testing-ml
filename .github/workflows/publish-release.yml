@@ -7,8 +7,6 @@ jobs:
     steps:
       - name: Checkout files
         uses: actions/checkout@v3
-        with:
-          ref: research-githubActionPublish-by_max
       - name: Config GIT user and email
         run: |
           git config user.name "$(git log -1 --pretty=format:'%an')"
