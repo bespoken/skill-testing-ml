@@ -21,7 +21,12 @@ jobs:
           node-version: '10.x'
           registry-url: 'https://registry.npmjs.org'
       - name: NPM increment RC version
-        run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
+        run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
+      - name: Commit version changed
+        run: |
+          git add package.json
+          git commit -m "Update version"
+          git push 
       - name: NPM Build
         run: |
           npm ci
@@ -33,8 +38,6 @@ jobs:
           npm publish --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      - name: Push changes
+      - name: Push tags
         run: |
           git push
-  
-  
