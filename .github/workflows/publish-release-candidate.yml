@@ -41,4 +41,4 @@ jobs:
       - name: Push tags
         run: |
           git tag v$(node -e "require('./publishing-toolkit.js').printCurrentVersion()")
-          git push
+          git push --tags
