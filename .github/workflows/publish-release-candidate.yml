@@ -9,6 +9,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: research-githubActionPublish-by_max
+      - name: Config GIT user and email
+        env: 
+          CI_COMMIT_AUTHOR: Maximo Rosales Diaz
+        run: |
+          git config user.name "Maximo Rosales Diaz"
+          git config user.email "max@bespoken.io"
       - name: Setup node version 10.x
         uses: actions/setup-node@v3
         with:
