@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checkout files
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN_WITH_PUSH }}
       - name: Config GIT user and email
         run: |
           git config user.name "$(git log -1 --pretty=format:'%an')"
