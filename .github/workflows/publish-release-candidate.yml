@@ -10,11 +10,9 @@ jobs:
         with:
           ref: research-githubActionPublish-by_max
       - name: Config GIT user and email
-        env: 
-          CI_COMMIT_AUTHOR: Maximo Rosales Diaz
         run: |
-          git config user.name "Maximo Rosales Diaz"
-          git config user.email "max@bespoken.io"
+          git config user.name "$(git log -1 --pretty=format:'%an')"
+          git config user.email "$(git log -1 --pretty=format:'%ae')"
       - name: Setup node version 10.x
         uses: actions/setup-node@v3
         with:
@@ -22,7 +20,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: NPM increment RC version
         run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
-      - name: Commit version changed
+      - name: GIT Pushing changes
         run: |
           git push --tags
       - name: NPM Build
