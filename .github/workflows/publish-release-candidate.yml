@@ -11,12 +11,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-      #- run: npm ci
-      - run: npm version
       - run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
-      - run: npm version
-      #- run: npm ci
-      #- run: npm test.babel
       - name: GIT commit and push version changed
         env: 
           CI_COMMIT_MESSAGE: Continuous Integration Update Version
@@ -27,4 +22,9 @@ jobs:
           git add package.json
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
           git push
+      - run: npm ci
+      - run: npm test.babel
+      - run: npm publish --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
       
