@@ -33,3 +33,8 @@ jobs:
           npm publish --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - name: Push changes
+        run: |
+          git push
+  
+  
