@@ -10,21 +10,18 @@ jobs:
           ref: research-githubActionPublish-by_max
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-      - run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
-      - name: GIT commit and push version changed
-        env: 
-          CI_COMMIT_MESSAGE: Continuous Integration Update Version
-          CI_COMMIT_AUTHOR: Maximo Rosales Diaz
+          node-version: '10.x'
+      - name: NPM Increment RC version
+        run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
+      - name: NPM Build
         run: |
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-          git config --global user.email "max@bespoken.io"
-          git add package.json
-          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
-          git push
-      - run: npm ci
-      - run: npm test.babel
-      - run: npm publish --tag alpha
+          npm ci
+          npm run test.babel
+          npm run test
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      
+      - name: NPM Publish
+        run: |
+          npm publish --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
