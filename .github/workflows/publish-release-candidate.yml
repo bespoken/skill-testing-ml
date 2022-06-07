@@ -16,8 +16,7 @@ jobs:
       - name: NPM Build
         run: |
           npm ci
-          npm run test.babel
-          npm run test
+          npm run babel
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
       - name: NPM Publish
