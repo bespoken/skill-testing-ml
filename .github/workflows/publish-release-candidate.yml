@@ -24,9 +24,7 @@ jobs:
         run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
       - name: Commit version changed
         run: |
-          git add package.json
-          git commit -m "Update version"
-          git push 
+          git push --tags
       - name: NPM Build
         run: |
           npm ci
@@ -38,6 +36,4 @@ jobs:
           npm publish --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-      - name: Push tags
-        run: |
-          git push --tags
+
