@@ -14,6 +14,17 @@ jobs:
       #- run: npm ci
       - run: npm version
       - run: npm version --no-git-tag-version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
       - run: npm version
+      #- run: npm ci
+      #- run: npm test.babel
+      - name: GIT commit and push version changed
+        env: 
+          CI_COMMIT_MESSAGE: Continuous Integration Update Version
+          CI_COMMIT_AUTHOR: Maximo Rosales Diaz
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "max@bespoken.io"
+          git add package.json
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
+        #  git push
+      
