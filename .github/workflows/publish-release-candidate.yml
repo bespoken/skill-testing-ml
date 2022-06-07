@@ -26,5 +26,5 @@ jobs:
           git config --global user.email "max@bespoken.io"
           git add package.json
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
-        #  git push
+          git push
       
