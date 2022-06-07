@@ -1,4 +1,4 @@
-name: Publish RC into NPM registry
+name: Publish ALPHA into NPM registry
 on:
   workflow_dispatch
 jobs:
@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: '10.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: NPM increment RC version
-        run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
+      - name: NPM increment version for alpha
+        run: npm version $(node -e "require('./publishing-toolkit.js').printNextAlphaVersion()")
       - name: GIT Pushing changes
         run: |
           git push

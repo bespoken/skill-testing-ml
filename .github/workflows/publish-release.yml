@@ -1,4 +1,4 @@
-name: Publish RC into NPM registry
+name: Publish RELEASE into NPM registry
 on:
   workflow_dispatch
 jobs:
@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: '10.x'
           registry-url: 'https://registry.npmjs.org'
-      - name: NPM increment RC version
-        run: npm version $(node -e "require('./publishing-toolkit.js').printNextReleaseVersion()")
+      - name: NPM increment version for release
+        run: npm version $(node -e "require('./publishing-toolkit.js').printReleaseVersion()")
       - name: GIT Pushing changes
         run: |
           git push

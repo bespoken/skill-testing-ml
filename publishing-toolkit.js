@@ -4,21 +4,21 @@ const parseVersion = (version) => {
   const versionParts = version.split(/[\.]/ig)
   const major = parseInt(versionParts[0])
   const minor = parseInt(versionParts[1])
-  const patchParts = versionParts.slice(2).join(".").split(/\-RC\./ig)
+  const patchParts = versionParts.slice(2).join(".").split(/\-alpha\./ig)
   const patch = parseInt(patchParts[0])
-  const rc = patchParts.length > 1 ? parseInt(patchParts[1]) : null
+  const alpha = patchParts.length > 1 ? parseInt(patchParts[1]) : null
 
-  const release = `${major}.${minor}.${Math.max(patch, 0)}`
-  const newRelease = `${major}.${minor}.${Math.max(patch, 0) + 1}`
-  const candidate = `${major}.${minor}.${patch}-RC.${Math.max(rc, 0) + 1}`
-  return { release, newRelease, candidate, currentVersion: version }
+  const current = `${major}.${minor}.${Math.max(patch, 0)}`
+
+  const alphaIncrement = (!!alpha ? 1 : 0)
+  const patchIncrement = (!!alpha ? 0 : 1)
+
+  const release = `${major}.${minor}.${Math.max(patch, 0) + patchIncrement}`
+  const newAlpha = `${major}.${minor}.${Math.max(patch, 0) + patchIncrement}-alpha.${Math.max(alpha, 1) + alphaIncrement}`
+  return { current, newAlpha, release }
 }
 
-const printNextRcVersion = () => console.log(readPackage().candidate)
-const printNextReleaseVersion = () => console.log(readPackage().newRelease)
+const printNextAlphaVersion = () => console.log(readPackage().newAlpha)
 const printReleaseVersion = () => console.log(readPackage().release)
-const printCurrentVersion = () => console.log(readPackage().currentVersion)
 
-
-
-module.exports = { parseVersion, readPackage, printNextRcVersion, printReleaseVersion, printCurrentVersion, printNextReleaseVersion }
+module.exports = { parseVersion, readPackage, printNextAlphaVersion, printReleaseVersion }
