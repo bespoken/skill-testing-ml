@@ -10,12 +10,13 @@ const parseVersion = (version) => {
 
   const release = `${major}.${minor}.${patch}`
   const candidate = `${major}.${minor}.${patch}-RC.${Math.max(rc, 0) + 1}`
-  return { release, candidate }
+  return { release, candidate, currentVersion: version }
 }
 
 const printNextRcVersion = () => console.log(readPackage().candidate)
 const printReleaseVersion = () => console.log(readPackage().candidate)
+const printCurrentVersion = () => console.log(readPackage().currentVersion)
 
 
 
-module.exports = { parseVersion, readPackage, printNextRcVersion, printReleaseVersion }
+module.exports = { parseVersion, readPackage, printNextRcVersion, printReleaseVersion, printCurrentVersion }
