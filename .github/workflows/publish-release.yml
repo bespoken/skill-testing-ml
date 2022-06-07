@@ -19,7 +19,7 @@ jobs:
           node-version: '10.x'
           registry-url: 'https://registry.npmjs.org'
       - name: NPM increment RC version
-        run: npm version $(node -e "require('./publishing-toolkit.js').printNextRcVersion()")
+        run: npm version $(node -e "require('./publishing-toolkit.js').printNextReleaseVersion()")
       - name: GIT Pushing changes
         run: |
           git push
