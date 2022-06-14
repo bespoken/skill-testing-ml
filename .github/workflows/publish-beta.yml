@@ -1,4 +1,4 @@
-name: Publish RELEASE into NPM registry
+name: Publish BETA into NPM registry
 on:
   workflow_dispatch
 jobs:
