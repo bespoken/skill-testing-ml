@@ -1,6 +1,6 @@
 {
   "name": "skill-testing-ml",
-  "version": "1.4.2-alpha.1",
+  "version": "1.4.2-alpha.2",
   "description": "Skill Testing Markup Language",
   "main": "dist/lib/Index.js",
   "bin": {
