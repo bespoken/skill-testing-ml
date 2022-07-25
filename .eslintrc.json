@@ -113,7 +113,9 @@
                     "twilio",
                     "todo",
                     "ivr",
-                    "whatsapp"
+                    "whatsapp",
+                    "req",
+                    "res"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
