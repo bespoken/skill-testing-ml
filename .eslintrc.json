@@ -115,7 +115,9 @@
                     "ivr",
                     "whatsapp",
                     "req",
-                    "res"
+                    "res",
+                    "webchat",
+                    "Webchat"
                 ],
                 "skipIfMatch": [
                     "http://[^s]*",
