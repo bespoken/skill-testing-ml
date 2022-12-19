@@ -1,6 +1,8 @@
 ---
 configuration:
   locale: en-US
+  asyncMode: false
+
 ---
 - test: "Goes to successfully"
 - LaunchRequest:

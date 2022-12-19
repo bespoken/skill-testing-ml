@@ -802,6 +802,7 @@ describe("virtual device runner", () => {
             loggerSpy = jest.spyOn(LoggingErrorHelper, "error").mockImplementation(() => {});
 
             return Configuration.configure({
+                asyncMode: false,
                 handler: "test/ExceptionSkill/index.handler",
                 interactionModel: "test/ExceptionSkill/en-US.json",
                 locale: "en-US",
@@ -824,10 +825,11 @@ describe("virtual device runner", () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
+                asyncMode: false,
                 platform: CONSTANTS.PLATFORM.google,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
-            });            
+            });
             const runner = new TestRunner();
 
             const results = await runner.run("test/FactSkill/fact-skill-with-card-type.yml");
@@ -840,6 +842,7 @@ describe("virtual device runner", () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
+                asyncMode: false,
                 ignoreExternalErrors: true,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
@@ -865,6 +868,7 @@ describe("virtual device runner", () => {
             Configuration.singleton = undefined;
 
             Configuration.configure({
+                asyncMode: false,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
@@ -895,6 +899,7 @@ describe("virtual device runner", () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
+                asyncMode: false,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "space fact",
             });
@@ -926,6 +931,7 @@ describe("virtual device runner", () => {
             Configuration.singleton = undefined;
             
             Configuration.configure({
+                asyncMode: false,
                 ignoreProperties: {
                     google: {
                         paths: "streamURL, display.array[0].url",
@@ -948,6 +954,7 @@ describe("virtual device runner", () => {
     describe("operators", () =>{
         beforeEach(() => {
             Configuration.configure({
+                asyncMode: false,
                 invocationName: "space fact",
                 locale: "en-US",
                 type: CONSTANTS.TYPE.e2e,

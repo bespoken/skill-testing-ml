@@ -613,6 +613,7 @@ describe("test runner", () => {
         let testEnd = false;
 
         const runner = new TestRunner({
+            asyncMode: false,
             filter: {
                 onTestEnd: (test, testResult) => {
                     expect(test).toBeDefined();
