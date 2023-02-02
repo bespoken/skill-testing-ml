@@ -532,11 +532,11 @@ class TestSuite {
      * Indicates what is the maximum time e2e test can wait for a single utterance response to come back
      * @return {number} max wait time for a single utterance
      */
-    get maxAsyncE2EResponseWaitTime() {
+    get maxResponseWaitTime() {
         const defaultValue = ["phone", "twilio", "sms", "whatsapp"].includes(this.platform)
             ? 60000
             : 15000;
-        return Configuration.instance().value("maxAsyncE2EResponseWaitTime", this.configuration, defaultValue);
+        return Configuration.instance().value("maxResponseWaitTime", this.configuration, defaultValue);
     }
 
     /**

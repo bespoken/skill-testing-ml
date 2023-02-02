@@ -394,7 +394,7 @@ describe("test runner", () => {
             asyncE2EWaitInterval: 1,
             asyncMode: true,
             batchEnabled: true,
-            maxAsyncE2EResponseWaitTime: 3,
+            maxResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "async token",
         });
@@ -418,7 +418,7 @@ describe("test runner", () => {
             asyncE2EWaitInterval: 1,
             asyncMode: true,
             batchEnabled: true,
-            maxAsyncE2EResponseWaitTime: 3,
+            maxResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "async token",
         });
@@ -809,7 +809,7 @@ describe("test runner", () => {
             asyncMode: true,
             batchEnabled: true,
             configurationPath: "./testing.json",
-            maxAsyncE2EResponseWaitTime: 3,
+            maxResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "async token",
         });
@@ -837,7 +837,7 @@ describe("test runner", () => {
             asyncMode: true,
             batchEnabled: true,
             configurationPath: "./testing.json",
-            maxAsyncE2EResponseWaitTime: 3,
+            maxResponseWaitTime: 3,
             type: CONSTANTS.TYPE.e2e,
             virtualDeviceToken: "async token",
         });
