@@ -74,4 +74,10 @@ describe("succinct intent", () => {
         expect(intent).toBeUndefined();
 
     });
+
+    test("format timestamp", ()=>{
+        const date = new Date(1999, 1, 2);
+        const stringFormat = Util.formatTimeStamp(date);
+        expect(stringFormat).toBe("19990202_000000");
+    });
 });
