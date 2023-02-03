@@ -2,9 +2,9 @@
   "name": "skill-testing-ml",
   "version": "1.4.7",
   "description": "Skill Testing Markup Language",
-  "main": "dist/lib/Index.js",
+  "main": "lib/Index.js",
   "bin": {
-    "skill-tester": "dist/bin/SkillTester.js"
+    "skill-tester": "bin/SkillTester.js"
   },
   "engines": {
     "node": ">=12"
@@ -96,6 +96,7 @@
     "ask-sdk-model": "^1.0.0",
     "body-parser": "^1.18.3",
     "codecov": "^3.0.2",
+    "debug": "^4.3.4",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.12.0",
     "eslint-config-standard": "^12.0.0",
