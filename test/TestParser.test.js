@@ -615,6 +615,81 @@ configuration:
             expect(secondTest.description).toEqual("simple test (2)");
 
         });
+
+        test("maxResponseWaitTime gets from config", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+  maxResponseWaitTime: 1000
+
+--- 
+- LaunchRequest: welcome
+- Hello: word
+            `);
+            const testSuite = parser.parse();
+
+            expect(testSuite.maxResponseWaitTime).toEqual(1000);
+        });
+        
+        test("maxResponseWaitTime defaults to maxAsyncE2EResponseWaitTime", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+  maxAsyncE2EResponseWaitTime: 1000
+
+--- 
+- LaunchRequest: welcome
+- Hello: word
+            `);
+            const testSuite = parser.parse();
+
+            const waitTime = testSuite.maxResponseWaitTime;
+            expect(waitTime).toEqual(1000);
+        });
+        
+        test("maxResponseWaitTime gets its default", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+  hello: 1000
+
+--- 
+- LaunchRequest: welcome
+- Hello: word
+            `);
+            const testSuite = parser.parse();
+
+            const waitTime = testSuite.maxResponseWaitTime;
+            expect(waitTime).toEqual(15000);
+        });
+
+        test("virtualDeviceConfig over extraParameters", () => {
+            const parser = new TestParser();
+            parser.load(`
+---
+configuration:
+  extraParameters:
+    param1: 1
+    param2: 2 
+  virtualDeviceConfig:
+    param2: 22
+    param3: 3    
+
+--- 
+- LaunchRequest: welcome
+- Hello: word
+            `);
+            const testSuite = parser.parse();
+
+            const extraParameters = testSuite.extraParameters;
+            expect(extraParameters.param1).toEqual(1);
+            expect(extraParameters.param2).toEqual(22);
+            expect(extraParameters.param3).toEqual(3);
+        });
+
     });
 
     describe("parse yaml object", () => {

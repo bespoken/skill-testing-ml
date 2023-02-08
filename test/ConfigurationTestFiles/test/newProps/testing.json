@@ -1,0 +1,23 @@
+{
+    "platform": "webchat",
+    "type": "e2e",
+    "locale": "en-US",
+    "virtualDeviceToken": "webchat-5a256ef8-9f5e-4d85-959c-c3116622ec4f",
+    "voiceId": "Joey",
+    "projectId": "10481d7e-6a4e-4481-81bd-ccfa11ed49ea",
+    "trace": true,
+    "asyncMode": true,
+    "extraParameters": {
+      "url": "https://www.google.com",
+      "timeoutOnReply": null,
+      "openSelectors": [],
+      "timeoutOnLoad": null,
+      "timeoutOnInitialize": null
+    },
+    "virtualDeviceBaseURL": "https://virtual-device-web.bespoken.io/",
+    "maxAsyncE2EResponseWaitTime": 30000,
+    "virtualDeviceConfig": {
+      "repeatOnPhrase": []
+    },
+    "homophones": {}
+  }

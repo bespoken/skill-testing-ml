@@ -309,13 +309,13 @@ describe("virtual device runner", () => {
             }
         });
 
-        test("replyTimeout is greater than maxAsyncE2EResponseWaitTime", async () => {
+        test("replyTimeout is greater than maxResponseWaitTime", async () => {
             config.replyTimeout = 65;
             Configuration.configure(config);
             const runner = new TestRunner();
             await expect(runner.run("test/FactSkill/fact-skill-test.common.yml"))
                 .rejects
-                .toThrow("The replyTimeout property must be less than or equal to the maxAsyncE2EResponseWaitTime property in the " +
+                .toThrow("The replyTimeout property must be less than or equal to the maxResponseWaitTime property in the " +
                 "testing.json or the YML test file under the config element");
         });
 
@@ -402,7 +402,7 @@ describe("virtual device runner", () => {
                 batchEnabled: true,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token",
             });
@@ -447,7 +447,7 @@ describe("virtual device runner", () => {
             expect(results[0].interactionResults.length).toBe(1);
             expect(results[0].interactionResults[0].errorOnProcess).toBeDefined();
             expect(results[0].interactionResults[0].errorOnProcess).toBe(
-                "Timeout exceeded while waiting for the interaction response. Increase the maxAsyncE2EResponseWaitTime value to fix this issue. " +
+                "Timeout exceeded while waiting for the interaction response. Increase the maxResponseWaitTime value to fix this issue. " +
                 "More info at: https://read.bespoken.io/end-to-end/guide/."
             );
         });
@@ -460,7 +460,7 @@ describe("virtual device runner", () => {
                 batchEnabled: true,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token throws",
             });
@@ -601,7 +601,7 @@ describe("virtual device runner", () => {
                 batchEnabled: true,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 retryNumber: 3,
                 retryOn: [],
                 type: CONSTANTS.TYPE.e2e,
@@ -626,7 +626,7 @@ describe("virtual device runner", () => {
                 batchEnabled: true,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 retryNumber: 3,
                 retryOn: [554],
                 type: CONSTANTS.TYPE.e2e,
@@ -651,7 +651,7 @@ describe("virtual device runner", () => {
                 batchEnabled: true,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 retryNumber: "invalid",
                 retryOn: [554],
                 type: CONSTANTS.TYPE.e2e,
@@ -676,7 +676,7 @@ describe("virtual device runner", () => {
                 batchEnabled: true,
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 retryNumber: 10,
                 retryOn: [554],
                 type: CONSTANTS.TYPE.e2e,
@@ -741,7 +741,7 @@ describe("virtual device runner", () => {
                 },
                 invocationName: "space fact",
                 locale: "en-US",
-                maxAsyncE2EResponseWaitTime: 3,
+                maxResponseWaitTime: 3,
                 type: CONSTANTS.TYPE.e2e,
                 virtualDeviceToken: "async token throws",
 
